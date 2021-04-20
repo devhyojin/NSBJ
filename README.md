@@ -1,4 +1,10 @@
-# 낮새밤쥐 🌞🐦🌜🐭 기획안
+### 🔍About 낮새밤쥐(🌞🐦🌜🐭 )
+
+---
+
+> **[프로젝트 계획서](https://docs.google.com/document/d/1nJE_xpgAIqYM9a2PyHXUDOIZL4N8Kgb7Acfo5ANFWFk/edit?usp=sharing)**
+
+<br/>
 
 **카테고리**
 
@@ -14,7 +20,6 @@
 - 시간을 때우고 싶은 사람
 - 누군가와 대화하고 싶은(외로운) 사람장난치고 싶을 때
 - 익명으로 신세한탄하고 싶은 사람
-- 
 
 **주제 선정 배경**
 
@@ -56,3 +61,14 @@
 
   - 지역 이름 재지정
   - 찍찍짹짹
+
+<br/>
+
+## 📝 프로젝트 산출물
+
+- **[프로토타입](https://www.figma.com/file/7OSnFK4fTyXHkj1PvQl0O5/%EC%9E%90%EC%9C%A8-A406-%EB%82%AE%EC%83%88%EB%B0%A4%EC%A5%90?node-id=0%3A1)**
+
+- **[낮새밤쥐 캐릭터 - 짹짹이 & 찍찍이](https://drive.google.com/file/d/1HxhHflmrP2GNRO5EA7lmTSvwAm2acotS/view?usp=sharing)**
+
+  
+
