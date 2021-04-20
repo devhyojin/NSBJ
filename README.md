@@ -66,7 +66,7 @@
 
 ## 📝 프로젝트 산출물
 
-- **[프로토타입](https://www.figma.com/file/7OSnFK4fTyXHkj1PvQl0O5/%EC%9E%90%EC%9C%A8-A406-%EB%82%AE%EC%83%88%EB%B0%A4%EC%A5%90?node-id=0%3A1)**
+- **[프로토타입](https://www.figma.com/proto/7OSnFK4fTyXHkj1PvQl0O5/%EC%9E%90%EC%9C%A8-A406-%EB%82%AE%EC%83%88%EB%B0%A4%EC%A5%90?node-id=110%3A344&scaling=min-zoom&page-id=0%3A1)**
 
 - **[낮새밤쥐 캐릭터 - 짹짹이 & 찍찍이](https://drive.google.com/file/d/1HxhHflmrP2GNRO5EA7lmTSvwAm2acotS/view?usp=sharing)**
 
