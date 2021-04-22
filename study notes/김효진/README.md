@@ -10,10 +10,21 @@
 
 
 
-## 2021-04-20 TUE
+## 2021-04-21 WED
 
 - 와이어프레임 제작 완료
+
 - 프로토타입 제작 완료
+
 - 기능명세서 수정
-- React - 코딩애플 Part1: 블로그 제작 & 기초 문법
+
+- Git Convention 세우기
+
+- 간트 차트 생성
+
+- React - 코딩애플 Part1: 블로그 제작 & 기초 문법 
+
+  [link](https://github.com/devhyojin/React/tree/main/Practice/blog)
+
+
 
