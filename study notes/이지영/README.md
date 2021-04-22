@@ -29,3 +29,10 @@ Spring Boot와 WebSocket을 이용한 기본적인 채팅 서버 예제 구현
       - 받은 메세지를 채팅방 내 모든 세션에 발송
       - `new TextMessage(objectMapper.writeValueAsString(message))` 를 통해 메세지 생성 후 각 세션에게 보내줌
   - 기억할 것) WebSocketSession = 채팅방에 등록된 클라이언트
+
+## 2021-04-22
+
+- 할당된 서버 접근 시도 => 집에 있는 네트워크 문제라는 걸 깨달음
+  - 22번 포트 열어달라고 요청 필요
+- 발표 준비
+
