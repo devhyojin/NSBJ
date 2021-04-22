@@ -28,3 +28,15 @@
 
 
 
+## 2021-04-22
+
+- README.md 내용 정리
+
+- README.md에 들어갈 썸네일 제작
+
+- 피피티 제작 회의
+
+- React - NomadCoder Movie Service
+
+  [link](https://github.com/devhyojin/React/tree/main/Practice/movie_app)
+
