@@ -1,4 +1,4 @@
-![썸네일](C:\Users\multicampus\Desktop\project\A406\images\낮새밤쥐 썸네일.png)
+![썸네일](images/낮새밤쥐 썸네일.png)
 
 <p align="center">📆 2021.04.12 ~ </p>
 
