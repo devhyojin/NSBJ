@@ -15,3 +15,16 @@
 - 프로토타입 제작 완료
 - React 학습 - ToDoList(CRUD) Clone Coding
 
+
+
+## 0422
+
+- React 학습(완료) - TodoList clone coding [link](https://github.com/Donghee-L/react-todo-list)
+- React 학습 - movie-service clone coding [link](https://github.com/Donghee-L/react-movie-service)
+
+
+
+## Reference
+
+[React Hook](https://ko.reactjs.org/docs/hooks-reference.html#usestate)
+
