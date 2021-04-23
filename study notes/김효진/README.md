@@ -28,7 +28,7 @@
 
 
 
-## 2021-04-22
+## 2021-04-22 THU
 
 - README.md 내용 정리
 
@@ -40,3 +40,10 @@
 
   [link](https://github.com/devhyojin/React/tree/main/Practice/movie_app)
 
+
+
+## 2021-04-23 FRI
+
+- 피피티 피드백 
+- 기능명세서 보완
+- React Hook 학습
