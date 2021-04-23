@@ -7,7 +7,7 @@
 - 와이어프레임 제작
 - 프로토타입 제작
 
-
+​     
 
 ## 0421
 
@@ -21,6 +21,17 @@
 
 - React 학습(완료) - TodoList clone coding [link](https://github.com/Donghee-L/react-todo-list)
 - React 학습 - movie-service clone coding [link](https://github.com/Donghee-L/react-movie-service)
+
+
+
+## 0423
+
+- React 학습 - movie-service clone coding 
+- React 학습 - 노마드코더 수업
+
+
+
+
 
 
 
