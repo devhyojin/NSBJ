@@ -31,7 +31,10 @@
 
 
 
+## 0426
 
+- 주말간 React학습 - Movie-service clone coding 완료
+- Typescript 학습 - TypeChain [link](https://github.com/Donghee-L/typescript-typechain)
 
 
 
