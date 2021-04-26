@@ -47,3 +47,14 @@
 - 피피티 피드백 
 - 기능명세서 보완
 - React Hook 학습
+
+
+
+## 2021-04-26 MON
+
+- 주말 간 리액트, 타입스크립트 학습
+
+- 제로초 - 슬랙 클론코딩 학습
+
+  [link](https://github.com/devhyojin/React/tree/main/Practice/sleact)
+
