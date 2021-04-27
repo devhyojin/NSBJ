@@ -58,3 +58,10 @@
 
   [link](https://github.com/devhyojin/React/tree/main/Practice/sleact)
 
+
+
+## 2021-04-27 TUE
+
+- 프론트엔드 파일 초기 셋팅
+- 프론트엔드 업무 분장 및 간트 차트 생성
+- 리덕스 공부
