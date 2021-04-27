@@ -38,6 +38,13 @@
 
 
 
+## 0427
+
+- Frontend 프로젝트 초기 설정
+- Redux 학습
+
+
+
 ## Reference
 
 [React Hook](https://ko.reactjs.org/docs/hooks-reference.html#usestate)
