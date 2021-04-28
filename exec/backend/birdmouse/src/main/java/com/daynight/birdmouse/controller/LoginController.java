@@ -1,24 +1,17 @@
 package com.daynight.birdmouse.controller;
 
-import com.daynight.birdmouse.domain.User;
-import com.daynight.birdmouse.dto.KakaoProfileDto;
-import com.daynight.birdmouse.dto.KakaoTokenDto;
 import com.daynight.birdmouse.dto.Response;
-import com.google.gson.Gson;
+import com.daynight.birdmouse.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
+
 
 @RequiredArgsConstructor
 @Controller
@@ -26,21 +19,14 @@ import org.springframework.web.client.RestTemplate;
 @Api(value = "소셜 로그인 관리")
 public class LoginController {
 
-    private final Environment env;
-    private final RestTemplate restTemplate;
-    private final Gson gson;
+    private final LoginService loginService;
 
-    @Value("${spring.url.base}")
-    private String baseUrl;
-
-    @Value("${spring.social.kakao.client_id}")
-    private String clientId;
-
-    @Value("${spring.social.kakao.redirect}")
-    private String redirect;
+    /*
+    프론트에서 로그인 요청 - 코드 전달은 해줄 예정
+    https://kauth.kakao.com/oauth/authorize?client_id=c4e62099f8bdb6b35e2bee0fa3114ed7&redirect_uri=http://localhost:8080/login/kakao/callback&response_type=code
 
     @GetMapping("/kakao")
-    @ApiOperation(value = "authorization code 요청")
+    @ApiOperation(value = "카카오 로그인 요청")
     public Object connectKakao() {
         String url = env.getProperty("spring.social.kakao.url.login") +
                 "?client_id=" + clientId +
@@ -54,11 +40,10 @@ public class LoginController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
+    */
     @GetMapping(value = "/kakao/callback")
+    @ApiOperation(value = "(0) 로그인 후 코드 받기. 리다이렉트를 통해 자동 실행됨")
     public Object redirectKakaoLogin(@RequestParam String code) {
-        System.out.println("kakao code: "+code);
-
         Response result = Response.builder()
                 .status(true)
                 .message("카카오 로그인 코드")
@@ -68,52 +53,23 @@ public class LoginController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+
     @GetMapping(value = "/token")
-    public Object getKakaoAccessToken(String code) {
-        // Header
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        // Parameters
-        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
-        parameters.add("grant_type", "authorization_code");
-        parameters.add("client_id", clientId);
-        parameters.add("redirect_uri", baseUrl + redirect);
-        parameters.add("code", code);
-
-        // HttpEntity
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(parameters, headers);
-
-        ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.token"), request, String.class);
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return new ResponseEntity<>(gson.fromJson(response.getBody(), KakaoTokenDto.class), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-
+    @ApiOperation(value = "(1) 코드 입력 후 accessToken 발급")
+    public Object getKakaoAccessToken(@ApiParam(value = "카카오에서 발급받은 코드", required = true)
+                                          @RequestParam String code) {
+        Response result = loginService.getAccessToken(code);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping(value = "/info")
-    public Object getKakaoProfile(String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", "Bearer " + accessToken);
+    @ApiOperation(value = "(2) 유저의 카카오 정보 가져오기")
+    public Object getKakaoProfile(@ApiParam(value = "발급받은 AccessToken", required = true)
+                                      @RequestParam String accessToken) {
 
-        System.out.println(headers.toString());
+        Response result = loginService.getKakaoProfile(accessToken);
+        return new ResponseEntity<>(result, HttpStatus.OK);
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(null, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(env.getProperty("spring.social.kakao.url.profile"), request, String.class);
-        if (response.getStatusCode() == HttpStatus.OK) {
-            return new ResponseEntity<>(gson.fromJson(response.getBody(), KakaoProfileDto.class), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
     }
-
-//    @PostMapping(value = "/signup")
-//    public Object enrollUser(@RequestParam String accessToken) {
-//        User user = new User();
-//        user.se
-//    }
 
 }

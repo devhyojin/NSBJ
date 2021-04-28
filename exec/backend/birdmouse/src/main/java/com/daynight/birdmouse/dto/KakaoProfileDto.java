@@ -2,14 +2,16 @@ package com.daynight.birdmouse.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import java.util.HashMap;
 
-import java.util.Properties;
 
 @Getter
 @Setter
+@ToString
 public class KakaoProfileDto {
 
     private long id;
-    private String email;
+    private HashMap<String, Object> kakao_account;
 
 }
