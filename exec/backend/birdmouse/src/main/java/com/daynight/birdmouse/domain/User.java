@@ -14,9 +14,7 @@ import javax.persistence.Id;
 public class User {
 
     @Id
-    @GeneratedValue
-    @Column
-    private long id;
+    private long id;    // 카카오 회원번호를 PK로 쓰기 때문에 Generated Value 설정 X
 
     private String token;
     private String nickname;
