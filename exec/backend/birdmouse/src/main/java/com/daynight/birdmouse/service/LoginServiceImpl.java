@@ -4,6 +4,7 @@ import com.daynight.birdmouse.domain.User;
 import com.daynight.birdmouse.dto.KakaoProfileDto;
 import com.daynight.birdmouse.dto.KakaoTokenDto;
 import com.daynight.birdmouse.dto.Response;
+import com.daynight.birdmouse.repository.AnimalRepository;
 import com.daynight.birdmouse.repository.UserRepository;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class LoginServiceImpl implements LoginService{
     private final RestTemplate restTemplate;
     private final Gson gson;                // json 변환용
     private final UserRepository userRepository;
+    private final AnimalRepository animalRepository;
 
     // application.yml에서 가져올 값들 설정
     @Value("${spring.url.base}")
@@ -42,6 +45,7 @@ public class LoginServiceImpl implements LoginService{
      */
     @Override
     public Response getAccessToken(String code) {
+
         // Header
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -66,6 +70,11 @@ public class LoginServiceImpl implements LoginService{
         return Response.builder().status(false).message("토큰 발급 실패").data(null).build();
     }
 
+    /**
+     * 사용자의 카카오 계정 정보를 가져오는 메서드
+     * @param accessToken 발급받은 accessToken
+     * @return 성공 = 로그인/회원가입 / 실패 = null
+     */
     @Override
     public Response getKakaoProfile(String accessToken) {
 
@@ -97,7 +106,16 @@ public class LoginServiceImpl implements LoginService{
             // 없는 회원 = 회원가입
             else {
                 User user = new User();
+
+                // 사용자의 카카오 회원정보를 id로 받아준다
                 user.setId(user_info.getId());
+                // 받은 토큰 저장 (만료되면 서비스 사용 불가)
+                user.setToken(accessToken);
+
+                // 초기 랜덤 닉네임 생성 로직
+//                List<Long> longs = animalRepository.findAllIdsByIs_usedIsFalse();
+//                System.out.println(longs.size());
+
                 userRepository.save(user);
 
                 return Response.builder().status(true).message("신규 회원은 회원가입 진행")
