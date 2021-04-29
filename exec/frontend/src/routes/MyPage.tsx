@@ -1,25 +1,34 @@
 import React from 'react';
-import '../styles/_mypage.scss';
+
 import arrow from '../assets/flaticon/left-arrow.png';
 import megaphone from '../assets/flaticon/megaphone.png';
 import angelCnt from '../assets/flaticon/angel_cnt.png';
 import heartCnt from '../assets/flaticon/heart_cnt.png';
-import justiceCnt from '../assets/flaticon/justice_cnt.png';
+import judgeCnt from '../assets/flaticon/judge_cnt.png';
 import angel1 from '../assets/flaticon/angel1.png';
 import angel2 from '../assets/flaticon/angel2.png';
 import angel3 from '../assets/flaticon/angel3.png';
 import heart1 from '../assets/flaticon/heart1.png';
 import heart2 from '../assets/flaticon/heart2.png';
 import heart3 from '../assets/flaticon/heart3.png';
-import justice1 from '../assets/flaticon/justice1.png';
-import justice2 from '../assets/flaticon/justice2.png';
-import justice3 from '../assets/flaticon/justice3.png';
+import judge1 from '../assets/flaticon/judge1.png';
+import judge2 from '../assets/flaticon/judge2.png';
+import judge3 from '../assets/flaticon/judge3.png';
+import '../styles/_mypage.scss';
 
 export default function MyPage() {
-  const zones = ['angel', 'heart', 'justice'];
-  const cntNames = ['angelCnt', 'heartCnt', 'justiceCnt'];
-  const nums = [1, 2, 3];
-
+  const cntNames: Array<any> = [angelCnt, heartCnt, judgeCnt];
+  const badges: Array<any> = [
+    [angel1, '천사 컴퍼니 인턴'],
+    [angel2, '마상 전용 마데카솔'],
+    [angel3, '하늘을 울린 마음씨'],
+    [heart1, '마음 온도 100도씨'],
+    [heart2, '당신의 마음 10초 컷'],
+    [heart3, '마음 절도 전과 9범'],
+    [judge1, '법 없어도 잘 살아요'],
+    [judge2, '고민 해결 마하의 속도'],
+    [judge3, '솔로몬 직계 혈통'],
+  ];
   return (
     <div className="container">
       {/* 뒤로 가기, 탈퇴하기  */}
@@ -54,41 +63,23 @@ export default function MyPage() {
           </div>
           {cntNames.map((cntName) => (
             <div key={cntName} className="cnt-zone">
-              <img className="icon cnt-icon" src={cntNames} alt={cntName} />
-              <p className="cnt cnt_num">1회</p>
+              <img className="icon cnt-icon" src={cntName} alt={cntName} />
+              <p className="cnt">1회</p>
             </div>
           ))}
         </div>
         <hr />
         <div className="bottom">
-          {/* 업적 존 */}
-          {zones.map((zone) => (
-            <div key={zone} className="badges-zone">
-              {nums.map((num) => (
-                <div key={num} className="badge-zone">
-                  <div className="badge">⛏</div>
-                  <p className="badge-name">
-                    {zone}
-                    {num}
-                  </p>
-                </div>
-              ))}
-            </div>
-          ))}
+          <div className="badge-container">
+            {badges.map((badge) => (
+              <div className="badge-item" key={badge}>
+                <img className="badge-icon" src={badge[0]} alt={badge[1]} />
+                <p className="badge-name">{badge[1]}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
-    // <div className="badges-zone">
-    //   <div className="badge-zone">
-    //     <div className="badge">⛏</div>
-    //     <p className="badge-name">최고의 사랑꾼</p>
-    //   </div>
-    // </div>
-    // <div className="badges-zone">
-    //   <div className="badge-zone">
-    //     <div className="badge">⛏</div>
-    //     <p className="badge-name">최고의 사랑꾼</p>
-    //   </div>
-    // </div>
   );
 }
