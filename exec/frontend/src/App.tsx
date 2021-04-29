@@ -1,9 +1,14 @@
 import React from 'react';
+import { Route } from "react-router-dom";
+import LandingPage from "./routes/LandingPage"
+import MainPage from "./routes/MainPage"
+
 
 function App() {
   return (
-    <div className="App">
-      낮새밤쥐
+    <div>
+      <Route path="/" exact component={LandingPage} />
+      <Route path="/main" component={MainPage} />
     </div>
   );
 }
