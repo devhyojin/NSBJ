@@ -1,4 +1,3 @@
-import { useHistory } from 'react-router-dom'
 // import axios from 'axios'
 import '../styles/_landing.scss'
 import kakaoBtn from '../assets/kakao/kakao_login_medium_narrow.png'
@@ -20,16 +19,15 @@ interface response {
 
 
 const { Kakao } = window;
-export default function KakaoLogin() {
-  const history = useHistory()
+export default function KakaoLogin({ login }: any) {
+
 
   const kakaoLoginClickHandler = () => {
     Kakao.Auth.login({
       success: (response: response) => {
-        console.log(response)
-        history.push('/main');
+        login(response)
       },
-      fail: (err: any) => console.log(err)
+      fail: (err: any) => alert(err)
     })
   }
 

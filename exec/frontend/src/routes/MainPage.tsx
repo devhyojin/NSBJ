@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios'
 import ModeCheck from '../ModeCheck'
-import MainTop from '../components/MainTop'
-import MainBody from '../components/MainBody'
-import MainMessage from '../components/MainMessage'
+import MainTop from '../components/Main/MainTop'
+import MainBody from '../components/Main/MainBody'
+import MainMessage from '../components/Main/MainMessage'
+import MainBottom from '../components/Main/MainBottom'
 import '../styles/_main.scss'
 
 
-const KAKAO_SERVER_URL = "https://dapi.kakao.com/v2/local/geo/coord2regioncode"
-const KAKAO_API_KEY = "c4e62099f8bdb6b35e2bee0fa3114ed7"
-
+const KAKAO_SERVER_URL = process.env.REACT_APP_KAKAO_SERVER_URL
+const KAKAO_API_KEY = process.env.REACT_APP_KAKAO_API_KEY
 
 
 export default function MainPage() {
@@ -40,7 +40,7 @@ export default function MainPage() {
         longitude = res.coords.longitude
       })
 
-    axios.get(`${KAKAO_SERVER_URL}.json?x=${longitude}&y=${latitude}}`, {
+    axios.get(`${KAKAO_SERVER_URL}.json?x=${longitude}&y=${latitude}`, {
       headers: {
         'Authorization': `KakaoAK ${KAKAO_API_KEY}`
       }
@@ -56,6 +56,7 @@ export default function MainPage() {
       <MainTop mode={MODE} activate={activate} neighborCnt={neighborCnt} />
       <MainBody btnActivate={btnActivate} mode={MODE} />
       <MainMessage activate={activate} mode={MODE} />
+      <MainBottom mode={MODE} />
     </div>
   )
 }

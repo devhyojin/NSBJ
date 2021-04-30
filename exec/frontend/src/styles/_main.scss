@@ -37,6 +37,7 @@ $dark_btn : #7613C5;
 .bg {
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 .main__top {
@@ -68,7 +69,7 @@ $dark_btn : #7613C5;
   position: absolute;
   top: 50%; 
   left:50%;
-  z-index: 1;
+  z-index: 2;
   transform:translate(-50%,-150%)
 } 
 
@@ -101,11 +102,12 @@ $dark_btn : #7613C5;
 
 .main__message {
   position:fixed;
-  bottom: 5vw;
+  bottom: 15vw;
   right: 5vw;
   width: 12vw;
   height: 12vw;
   border-radius: 50%; 
+  z-index:2;
 }
 
 .light__btn {
@@ -123,3 +125,5 @@ $dark_btn : #7613C5;
   background-position:center;
   background-size:60%;
 }
+
+
