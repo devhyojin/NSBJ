@@ -3,10 +3,7 @@ package com.daynight.birdmouse.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -33,9 +30,19 @@ public class User {
     private int justice_count;
     @Column(columnDefinition = "boolean default false")
     private boolean has_left;
+
     @Column(columnDefinition = "integer default 0")
     private int region_id;
+
     @Column(columnDefinition = "integer default 0")
-    private long animal_id;
+    private int animal_id;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
+    private Food food;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(referencedColumnName = "id")
+    private Color color;
 
 }

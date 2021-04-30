@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class Mouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     private String mouse_name;
 

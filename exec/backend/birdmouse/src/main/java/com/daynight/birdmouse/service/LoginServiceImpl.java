@@ -1,11 +1,13 @@
 package com.daynight.birdmouse.service;
 
+import com.daynight.birdmouse.domain.Color;
+import com.daynight.birdmouse.domain.Food;
+import com.daynight.birdmouse.domain.Mouse;
 import com.daynight.birdmouse.domain.User;
 import com.daynight.birdmouse.dto.KakaoProfileDto;
 import com.daynight.birdmouse.dto.KakaoTokenDto;
 import com.daynight.birdmouse.dto.Response;
-import com.daynight.birdmouse.repository.AnimalRepository;
-import com.daynight.birdmouse.repository.UserRepository;
+import com.daynight.birdmouse.repository.*;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,8 +19,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
@@ -28,7 +30,12 @@ public class LoginServiceImpl implements LoginService{
     private final RestTemplate restTemplate;
     private final Gson gson;                // json 변환용
     private final UserRepository userRepository;
-    private final AnimalRepository animalRepository;
+    private final MouseRepository mouseRepository;
+    private final BirdRepository birdRepository;
+    private final ColorRepository colorRepository;
+    private final FoodRepository foodRepository;
+    private final UserService userService;
+
 
     // application.yml에서 가져올 값들 설정
     @Value("${spring.url.base}")
@@ -105,16 +112,14 @@ public class LoginServiceImpl implements LoginService{
 
             // 없는 회원 = 회원가입
             else {
-                User user = new User();
+                User user = (User) userService.getRandonNickname();
 
                 // 사용자의 카카오 회원정보를 id로 받아준다
                 user.setId(user_info.getId());
                 // 받은 토큰 저장 (만료되면 서비스 사용 불가)
                 user.setToken(accessToken);
-
-                // 초기 랜덤 닉네임 생성 로직
-//                List<Long> longs = animalRepository.findAllIdsByIs_usedIsFalse();
-//                System.out.println(longs.size());
+                // 확성기는 기본값이 2
+                user.setMegaphone_count(2);
 
                 userRepository.save(user);
 
@@ -127,4 +132,6 @@ public class LoginServiceImpl implements LoginService{
             return Response.builder().status(false).message("카카오 정보 가져오기 실패").data(null).build();
         }
     }
+
+
 }

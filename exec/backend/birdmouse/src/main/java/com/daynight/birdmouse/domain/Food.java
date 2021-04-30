@@ -12,10 +12,13 @@ import javax.persistence.*;
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     private String food_name;
 
     @Column(columnDefinition = "boolean default false")
     private boolean is_used;
+
+    @OneToOne(mappedBy = "food", optional = false)
+    private User user;
 }
