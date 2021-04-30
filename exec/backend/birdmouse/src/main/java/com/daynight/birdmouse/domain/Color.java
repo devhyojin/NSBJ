@@ -18,7 +18,4 @@ public class Color {
 
     @Column(columnDefinition = "boolean default false")
     private boolean is_used;
-
-    @OneToOne(mappedBy = "food", optional = false)
-    private User user;
 }

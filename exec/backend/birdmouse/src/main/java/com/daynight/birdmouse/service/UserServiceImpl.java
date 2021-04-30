@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     @Override
-    public Object getRandonNickname() {
+    public Object getRandonNickname(String mode) {
         User user = new User();
         // 닉네임 생성 로직 = "음식"먹는 "~색" "동물"
         Random random = new Random();
@@ -27,17 +27,22 @@ public class UserServiceImpl implements UserService{
         int COLORS = 125;
         int ANIMALS = 100;
 
+        String nickname = "";
+
         while (true) {
             int foodIdx = random.nextInt(FOODS + 1);
+            System.out.println("foodIdx: "+foodIdx);
             Optional<Food> foundFood = foodRepository.findById(foodIdx);
             if (foundFood.isPresent() && !foundFood.get().is_used()) {
                 Food food = foundFood.get();
                 food.set_used(true);
                 user.setFood(food);
                 foodRepository.save(food);
+                nickname += food.getFood_name() + " 먹는 ";
                 break;
             }
         }
+
         while (true) {
             int colorIdx = random.nextInt(COLORS + 1);
             Optional<Color> foundColor = colorRepository.findById(colorIdx);
@@ -46,6 +51,7 @@ public class UserServiceImpl implements UserService{
                 color.set_used(true);
                 user.setColor(color);
                 colorRepository.save(color);
+                nickname += color.getColor_name();
                 break;
             }
         }
@@ -57,13 +63,20 @@ public class UserServiceImpl implements UserService{
                 bird.set_used(true);
                 Mouse mouse = mouseRepository.findById(animalIdx).get();
                 mouse.set_used(true);
+
                 user.setAnimal_id(animalIdx);
                 birdRepository.save(bird);
                 mouseRepository.save(mouse);
+
+                if (mode.equals("light")) {
+                    nickname += " " + bird.getBird_name();
+                } else {
+                    nickname += " " + mouse.getMouse_name();
+                }
                 break;
             }
         }
-        userRepository.save(user);
+        user.setNickname(nickname);
         return user;
     }
 }

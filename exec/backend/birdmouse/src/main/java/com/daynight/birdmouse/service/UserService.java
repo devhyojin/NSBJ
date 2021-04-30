@@ -1,5 +1,5 @@
 package com.daynight.birdmouse.service;
 
 public interface UserService {
-    public Object getRandonNickname();
+    public Object getRandonNickname(String mode);
 }
