@@ -21,7 +21,7 @@
   .body {
     width: 100%;
     height: 95%;
-    padding: 2.5% 5% 2%;
+    padding: 2.5% 5% 0%;
     .top {
       width: 100%;
       height: 39%;
@@ -76,27 +76,49 @@
     }
     .bottom {
       width: 100%;
-      height: 50%;
-      padding: 0;
-      padding: 1%;
+      height: 49%;
+      .badge-title {
+        display: grid;
+        grid-template-columns: 90% 10%;
+        margin-top: 1.5%;
+        height: 10.5%;
+        p {
+          font-size: 5.7vw;
+          font-weight: bolder;
+          text-align: end;
+          height: 10%;
+        }
+        button {
+          --x: 4vw;
+          width: var(--x);
+          height: var(--x);
+          border-radius: 50%;
+          border: none;
+          background-color: #8ec1f1;
+          font-size: 0.6rem;
+          font-weight: bolder;
+          margin-left: 10%;
+        }
+      }
       .badge-container {
         width: 100%;
+        height: 88%;
         display: grid;
         text-align: center;
-        grid-template-rows: repeat(3, 1fr);
-        grid-template-columns: repeat(3, 1fr);
-        padding: 0.5% 0;
+        grid-template-rows: repeat(3, 33%);
+        grid-template-columns: repeat(3, 33%);
+        margin-top: 1%;
         .badge-item {
           text-align: center;
           vertical-align: center;
-          padding: 6% 1%;
-          margin: 2%;
-          // :active {
-          //   border: solid 4px #cef5dd;
-          // }
+          padding-bottom: 1%;
+          border: solid 6px #ffffff;
+          :active {
+            border: solid 6px #cef5dd;
+          }
           .badge-icon {
-            width: 15vw !important;
-            margin-top: 6% !important;
+            width: 65%;
+            height: 80%;
           }
           .badge-name {
             font-size: 2.6vw;
@@ -111,11 +133,11 @@
 }
 
 .btn {
-  --width: 43vw;
-  --height: calc(var(--width) / 5);
+  --width: 40vw;
+  --height: calc(var(--width) / 4.5);
   width: var(--width);
   height: var(--height);
-  font-size: calc(var(--height) / 2.3);
+  font-size: calc(var(--height) / 2.1);
   cursor: pointer;
   background: #cde8dd;
   font-weight: bolder;

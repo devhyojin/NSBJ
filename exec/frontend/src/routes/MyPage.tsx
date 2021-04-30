@@ -1,5 +1,6 @@
-import React from 'react';
-
+import React, { useState } from 'react';
+import ConfirmModal from '../components/ConfirmModal';
+import InfoModal from '../components/InfoModal';
 import arrow from '../assets/flaticon/left-arrow.png';
 import megaphone from '../assets/flaticon/megaphone.png';
 import angelCnt from '../assets/flaticon/angel_cnt.png';
@@ -14,6 +15,7 @@ import heart3 from '../assets/flaticon/heart3.png';
 import judge1 from '../assets/flaticon/judge1.png';
 import judge2 from '../assets/flaticon/judge2.png';
 import judge3 from '../assets/flaticon/judge3.png';
+
 import '../styles/_mypage.scss';
 
 export default function MyPage() {
@@ -23,12 +25,21 @@ export default function MyPage() {
     [angel2, '마상 전용 마데카솔'],
     [angel3, '하늘을 울린 마음씨'],
     [heart1, '마음 온도 100도씨'],
-    [heart2, '당신의 마음 10초 컷'],
+    [heart2, '심장 마사지 마스터'],
     [heart3, '마음 절도 전과 9범'],
-    [judge1, '법 없어도 잘 살아요'],
-    [judge2, '고민 해결 마하의 속도'],
+    [judge1, '법 없어도 잘 살아'],
+    [judge2, '고민 해결 마스터'],
     [judge3, '솔로몬 직계 혈통'],
   ];
+  const [confirmStatus, setConfirmStatus] = useState<boolean>(false);
+  const [infoStatus, setInfoStatus] = useState<boolean>(false);
+  const changeConfirmStatus = (): void => {
+    setConfirmStatus(!confirmStatus);
+  };
+  const changeInfoStatus = (): void => {
+    setInfoStatus(!infoStatus);
+  };
+
   return (
     <div className="container">
       {/* 뒤로 가기, 탈퇴하기  */}
@@ -48,9 +59,10 @@ export default function MyPage() {
             <p className="aka">하늘을 울린 마음씨</p>
             <p className="nickname">새인 척하는 토끼</p>
             <div>
-              <button type="submit" className="btn">
+              <button onClick={changeConfirmStatus} type="submit" className="btn">
                 닉네임 변경
               </button>
+              {confirmStatus && <ConfirmModal changeConfirmStatus={changeConfirmStatus} />}
             </div>
           </div>
         </div>
@@ -70,6 +82,14 @@ export default function MyPage() {
         </div>
         <hr />
         <div className="bottom">
+          <div className="badge-title">
+            <p>당신의 칭호를 골라보세요!</p>
+            <button onClick={changeInfoStatus} type="submit">
+              <span>?</span>
+            </button>
+            {infoStatus && <InfoModal changeInfoStatus={changeInfoStatus} />}
+          </div>
+
           <div className="badge-container">
             {badges.map((badge) => (
               <div className="badge-item" key={badge}>
