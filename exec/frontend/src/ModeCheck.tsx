@@ -3,7 +3,7 @@
 export default function ModeCheck(): string {
 
   const date = new Date()
-  if (date.getHours() <= 11) {
+  if (date.getHours() <= 10) {
     return 'light'
   }
 

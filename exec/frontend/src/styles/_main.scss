@@ -1,14 +1,24 @@
-// $dark_mode: {
-//   font_color: #FFFFFF,
-//   bg_color: #323232,
-//   effect_color: #C377FF
-// }
+$main_light_basic_img: url(../assets/characters/bird/bird_basic.gif);
+// $main_light_heart_img: url(../assets/characters/bird/bird_basic.gif)
+// $main_light__img: url(../assets/characters/bird/bird_basic.gif)
+// $main_light__img: url(../assets/characters/bird/bird_basic.gif)
+$main_dark_basic_img: url(../assets/characters/mouse/mouse_basic.gif);
 
-// $light_mode: {
-//   font_color: #000000,
-//   bg_color: #FFFFFF,
-//   effect_color: #1A7BD6 6%
-// }
+
+@keyframes waveEffect {
+  0%{
+    opacity:1;
+    width:0.5em; height:0.5em;
+    margin: -0.25em;
+    border-width: 0.5em;
+  }
+  100%{
+    opacity:0.1;
+    width:40em; height:40em;
+    margin: -20em;
+    border-width: 20em;
+  }
+}
 
 
 .light__mode {
@@ -28,6 +38,52 @@
 }
 
 .main__top {
-  height: 25%;  
-  vertical-align: bottom;
+  height: 20%;      
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items:center;
+  
+  h2,h5 {
+    margin-bottom: 0;
+  }
+}
+
+.main__body {
+  position:relative;
+  height: 80%;
+  .my__icon {  
+    width: 20vw;
+    height: 20vw;      
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+  
+}
+
+.absolute__center {
+  position: absolute;
+  top: 50%; 
+  left:50%;
+  z-index: 1;
+  transform:translate(-50%,-150%)
+} 
+
+.light__basic__img {
+  background-image: $main_light_basic_img;
+}
+.dark__basic__img {
+  background-image: $main_dark_basic_img;
+}
+
+
+.waveEffect {
+  position:fixed;
+  box-sizing: border-box;
+  border-style: solid;
+  border-color: #A045E7;
+  border-radius: 50%;
+  animation:waveEffect 1s ease-out;
+  z-index:0;
 }
