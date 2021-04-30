@@ -62,8 +62,8 @@ public class LoginController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/info")
-    @ApiOperation(value = "(2) 유저의 카카오 정보 가져오기")
+    @GetMapping(value = "/kakao")
+    @ApiOperation(value = "(2) AccessToken을 통해 유저의 카카오 정보 가져오기")
     public Object getKakaoProfile(@ApiParam(value = "발급받은 AccessToken", required = true)
                                       @RequestParam String accessToken) {
 

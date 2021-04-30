@@ -1,10 +1,13 @@
 package com.daynight.birdmouse.service;
 
+import com.daynight.birdmouse.domain.Color;
+import com.daynight.birdmouse.domain.Food;
+import com.daynight.birdmouse.domain.Mouse;
 import com.daynight.birdmouse.domain.User;
 import com.daynight.birdmouse.dto.KakaoProfileDto;
 import com.daynight.birdmouse.dto.KakaoTokenDto;
 import com.daynight.birdmouse.dto.Response;
-import com.daynight.birdmouse.repository.UserRepository;
+import com.daynight.birdmouse.repository.*;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
@@ -26,6 +30,12 @@ public class LoginServiceImpl implements LoginService{
     private final RestTemplate restTemplate;
     private final Gson gson;                // json 변환용
     private final UserRepository userRepository;
+    private final MouseRepository mouseRepository;
+    private final BirdRepository birdRepository;
+    private final ColorRepository colorRepository;
+    private final FoodRepository foodRepository;
+    private final UserService userService;
+
 
     // application.yml에서 가져올 값들 설정
     @Value("${spring.url.base}")
@@ -42,6 +52,7 @@ public class LoginServiceImpl implements LoginService{
      */
     @Override
     public Response getAccessToken(String code) {
+
         // Header
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -66,6 +77,11 @@ public class LoginServiceImpl implements LoginService{
         return Response.builder().status(false).message("토큰 발급 실패").data(null).build();
     }
 
+    /**
+     * 사용자의 카카오 계정 정보를 가져오는 메서드
+     * @param accessToken 발급받은 accessToken
+     * @return 성공 = 로그인/회원가입 / 실패 = null
+     */
     @Override
     public Response getKakaoProfile(String accessToken) {
 
@@ -96,8 +112,15 @@ public class LoginServiceImpl implements LoginService{
 
             // 없는 회원 = 회원가입
             else {
-                User user = new User();
+                User user = (User) userService.getRandonNickname();
+
+                // 사용자의 카카오 회원정보를 id로 받아준다
                 user.setId(user_info.getId());
+                // 받은 토큰 저장 (만료되면 서비스 사용 불가)
+                user.setToken(accessToken);
+                // 확성기는 기본값이 2
+                user.setMegaphone_count(2);
+
                 userRepository.save(user);
 
                 return Response.builder().status(true).message("신규 회원은 회원가입 진행")
@@ -109,4 +132,6 @@ public class LoginServiceImpl implements LoginService{
             return Response.builder().status(false).message("카카오 정보 가져오기 실패").data(null).build();
         }
     }
+
+
 }

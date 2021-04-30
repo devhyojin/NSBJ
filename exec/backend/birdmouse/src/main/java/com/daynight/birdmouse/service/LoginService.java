@@ -9,4 +9,5 @@ public interface LoginService {
     
     // 유저의 카카오 정보 수집
     public Response getKakaoProfile(String accessToken);
+
 }
