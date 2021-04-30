@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react'
-import { create } from 'node:domain';
-import { createStore } from 'redux';
+// import { create } from 'node:domain';
+// import { createStore } from 'redux';
 import '../styles/_main.scss';
 
 interface MainTopProps {
@@ -26,7 +26,7 @@ export default function MainTop({ mode, activate, neighborCnt }: MainTopProps) {
     }
   }
 
-  const watchActivate = useMemo(() => {
+  useMemo(() => {
     return changeActivate()
   }, [activate])
 

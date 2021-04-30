@@ -3,6 +3,8 @@ $main_light_basic_img: url(../assets/characters/bird/bird_basic.gif);
 // $main_light__img: url(../assets/characters/bird/bird_basic.gif)
 // $main_light__img: url(../assets/characters/bird/bird_basic.gif)
 $main_dark_basic_img: url(../assets/characters/mouse/mouse_basic.gif);
+$light_btn : #133AC5;
+$dark_btn : #7613C5;
 
 
 @keyframes waveEffect {
@@ -78,12 +80,46 @@ $main_dark_basic_img: url(../assets/characters/mouse/mouse_basic.gif);
 }
 
 
-.waveEffect {
+.wave__effect {
   position:fixed;
   box-sizing: border-box;
   border-style: solid;
-  border-color: #A045E7;
   border-radius: 50%;
   animation:waveEffect 1s ease-out;
   z-index:0;
+}
+
+.light__effect {
+  border-color: #1A7BD6;
+}
+
+.dark__effect {
+  border-color: #A045E7;
+}
+
+
+
+.main__message {
+  position:fixed;
+  bottom: 5vw;
+  right: 5vw;
+  width: 12vw;
+  height: 12vw;
+  border-radius: 50%; 
+}
+
+.light__btn {
+  background-color: $light_btn;
+  background-image: url('../assets/message/messenger_light.png');
+}
+
+.dark__btn {
+  background-color: $dark_btn;
+  background-image: url('../assets/message/messenger_dark.png');
+}
+
+.bg__fill__img {
+  background-repeat: no-repeat;  
+  background-position:center;
+  background-size:60%;
 }

@@ -2,13 +2,17 @@ import './styles/_main.scss'
 
 
 
-export default function WaveEffect(x: number, y: number): void {
-
+export default function WaveEffect(x: number, y: number, mode: string): void {
   const makeWave = () => {
     const wave = document.createElement('div');
     wave.style.top = `${y}px`
     wave.style.left = `${x}px`
-    wave.className = 'waveEffect'
+
+    if (mode === 'light') {
+      wave.className = 'wave__effect light__effect'
+    } else {
+      wave.className = 'wave__effect dark__effect'
+    }
     wave.addEventListener('animationend', function () {
       document.body.removeChild(wave)
     })
@@ -18,14 +22,8 @@ export default function WaveEffect(x: number, y: number): void {
   for (let i = 0; i < 3; i += 1) {
     setTimeout(() => {
       makeWave()
-      console.log('ddddd')
     }, 150 * i);
   }
-
-
-
-
-
 }
 
 
