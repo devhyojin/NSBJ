@@ -29,13 +29,29 @@
       .character-zone {
         width: 100%;
         height: 50%;
-        // margin-top: 3%;
-        .circle {
+        .character-circle {
+          position: relative;
           width: 30vw;
           height: 30vw;
-          border-radius: 50%;
           margin: 0 auto;
           background-color: #cde8dd;
+          .my-character {
+            width: 30vw;
+            margin-left: 3%;
+          }
+        }
+        .character-change {
+          position: relative;
+          z-index: 10;
+          bottom: 30%;
+          left: 58%;
+          width: 10vw;
+          height: 10vw;
+          background-color: #61acf1;
+          font-size: 6vw;
+          color: white;
+          border: none;
+          z-index: 10;
         }
       }
       .nickname-zone {
@@ -44,7 +60,6 @@
         margin-top: 1%;
         * {
           text-align: center;
-          margin: 0;
         }
         .location {
           margin-bottom: 1.5%;
@@ -77,12 +92,12 @@
     .bottom {
       width: 100%;
       height: 49%;
-      .badge-title {
+      .badge-title-zone {
         display: grid;
         grid-template-columns: 90% 10%;
         margin-top: 1.5%;
         height: 10.5%;
-        p {
+        .badge-title {
           font-size: 5.7vw;
           font-weight: bolder;
           text-align: end;
@@ -112,10 +127,11 @@
           text-align: center;
           vertical-align: center;
           padding-bottom: 1%;
-          border: solid 6px #ffffff;
-          :active {
-            border: solid 6px #cef5dd;
-          }
+          border: solid 7px #ffffff;
+          border-radius: 1rem;
+          // & :active {
+          //   border: solid 8px #cef5dd;
+          // }
           .badge-icon {
             width: 65%;
             height: 80%;
@@ -155,4 +171,8 @@
 }
 hr {
   margin: 0;
+}
+
+.circle {
+  border-radius: 50%;
 }
