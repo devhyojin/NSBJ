@@ -22,8 +22,6 @@ public class UserServiceImpl implements UserService{
     private final MouseRepository mouseRepository;
     private final UserRepository userRepository;
 
-    private final UserService userService;
-
     @Override
     public Object getRandonNickname(String mode) {
         User user = new User();
@@ -176,7 +174,7 @@ public class UserServiceImpl implements UserService{
                 Optional<Bird> originalBird = birdRepository.findById(user.getAnimal_id());
                 Optional<Mouse> originalMouse = mouseRepository.findById(user.getAnimal_id());
 
-                User newNickname = (User) userService.getRandonNickname(mode);
+                User newNickname = (User) getRandonNickname(mode);
                 user.setNickname(newNickname.getNickname());
                 user.setFood(newNickname.getFood());
                 user.setColor(newNickname.getColor());
@@ -186,22 +184,22 @@ public class UserServiceImpl implements UserService{
 
                 if (originalFood.isPresent()) {
                     Food food = originalFood.get();
-                    food.set_used(true);
+                    food.set_used(false);
                     foodRepository.save(food);
                 }
                 if (originalColor.isPresent()) {
                     Color color = originalColor.get();
-                    color.set_used(true);
+                    color.set_used(false);
                     colorRepository.save(color);
                 }
                 if (originalBird.isPresent()){
                     Bird bird = originalBird.get();
-                    bird.set_used(true);
+                    bird.set_used(false);
                     birdRepository.save(bird);
                 }
                 if (originalMouse.isPresent()) {
                     Mouse mouse = originalMouse.get();
-                    mouse.set_used(true);
+                    mouse.set_used(false);
                     mouseRepository.save(mouse);
                 }
 
