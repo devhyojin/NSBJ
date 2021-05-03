@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/login")
-@Api(value = "소셜 로그인 관리")
+@Api(value = "Login with Kakao")
 public class LoginController {
 
     private final LoginService loginService;
@@ -40,7 +40,9 @@ public class LoginController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    */
+     */
+
+
     @GetMapping(value = "/kakao/callback")
     @ApiOperation(value = "(0) 로그인 후 코드 받기. 리다이렉트를 통해 자동 실행됨")
     public Object redirectKakaoLogin(@RequestParam String code) {
@@ -62,12 +64,14 @@ public class LoginController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/info")
-    @ApiOperation(value = "(2) 유저의 카카오 정보 가져오기")
-    public Object getKakaoProfile(@ApiParam(value = "발급받은 AccessToken", required = true)
-                                      @RequestParam String accessToken) {
 
-        Response result = loginService.getKakaoProfile(accessToken);
+    @GetMapping(value = "/kakao")
+    @ApiOperation(value = "GET user data from kakao")
+    public Object getKakaoProfile(
+            @ApiParam(value = "AccessToken from Kakao", required = true) @RequestParam String accessToken,
+            @ApiParam(value = "Light/Dark", required = true) @RequestParam String mode) {
+
+        Response result = loginService.getKakaoProfile(accessToken, mode);
         return new ResponseEntity<>(result, HttpStatus.OK);
 
     }

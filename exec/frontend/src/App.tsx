@@ -4,6 +4,7 @@ import { hot } from 'react-hot-loader';
 import LandingPage from './routes/LandingPage';
 import MainPage from './routes/MainPage';
 import MyPage from './routes/MyPage';
+import Chat from './routes/Chat';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path="/" exact component={LandingPage} />
       <Route path="/main" component={MainPage} />
       <Route path="/mypage" component={MyPage} />
+      <Route path="/chat" component={Chat} />
     </div>
   );
 }
