@@ -1,0 +1,129 @@
+$main_light_basic_img: url(../assets/characters/bird/bird_basic.gif);
+// $main_light_heart_img: url(../assets/characters/bird/bird_basic.gif)
+// $main_light__img: url(../assets/characters/bird/bird_basic.gif)
+// $main_light__img: url(../assets/characters/bird/bird_basic.gif)
+$main_dark_basic_img: url(../assets/characters/mouse/mouse_basic.gif);
+$light_btn : #133AC5;
+$dark_btn : #7613C5;
+
+
+@keyframes waveEffect {
+  0%{
+    opacity:1;
+    width:0.5em; height:0.5em;
+    margin: -0.25em;
+    border-width: 0.5em;
+  }
+  100%{
+    opacity:0.1;
+    width:40em; height:40em;
+    margin: -20em;
+    border-width: 20em;
+  }
+}
+
+
+.light__mode {
+  color: #000000;
+  background-color:#FFFFFF;
+  
+}
+
+.dark__mode {
+  color: #FFFFFF;
+  background-color:#323232;
+}
+
+.bg {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main__top {
+  height: 20%;      
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items:center;
+  
+  h2,h5 {
+    margin-bottom: 0;
+  }
+}
+
+.main__body {
+  position:relative;
+  height: 80%;
+  .my__icon {  
+    width: 20vw;
+    height: 20vw;      
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+  
+}
+
+.absolute__center {
+  position: absolute;
+  top: 50%; 
+  left:50%;
+  z-index: 2;
+  transform:translate(-50%,-150%)
+} 
+
+.light__basic__img {
+  background-image: $main_light_basic_img;
+}
+.dark__basic__img {
+  background-image: $main_dark_basic_img;
+}
+
+
+.wave__effect {
+  position:fixed;
+  box-sizing: border-box;
+  border-style: solid;
+  border-radius: 50%;
+  animation:waveEffect 1s ease-out;
+  z-index:0;
+}
+
+.light__effect {
+  border-color: #1A7BD6;
+}
+
+.dark__effect {
+  border-color: #A045E7;
+}
+
+
+
+.main__message {
+  position:fixed;
+  bottom: 15vw;
+  right: 5vw;
+  width: 12vw;
+  height: 12vw;
+  border-radius: 50%; 
+  z-index:2;
+}
+
+.light__btn {
+  background-color: $light_btn;
+  background-image: url('../assets/message/messenger_light.png');
+}
+
+.dark__btn {
+  background-color: $dark_btn;
+  background-image: url('../assets/message/messenger_dark.png');
+}
+
+.bg__fill__img {
+  background-repeat: no-repeat;  
+  background-position:center;
+  background-size:60%;
+}
+
+

@@ -1,10 +1,12 @@
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import '../styles/_landing.scss';
+import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import ModeCheck from '../ModeCheck'
-import KakaoLogin from '../components/KakaoLogin';
+// import KakaoLogin from '../components/KakaoLogin';
 import birdBasic from '../assets/characters/bird/bird_basic.gif';
 import mouseBasic from '../assets/characters/mouse/mouse_basic.gif';
+
 
 
 interface response {
@@ -37,6 +39,17 @@ export default function LadingPage() {
     history.push('/main');
   }
 
+  const responseGoogle = (res) => {
+    console.log(res)
+    history.push('/main')
+  }
+
+  const logoutGoogle = (res) => { console.log(res) }
+
+  const responseFail = (err) => {
+    console.log(err)
+  }
+
 
 
   if (MODE === 'light') { landingBgMode = 'bg landing__light__bg'; }
@@ -52,7 +65,22 @@ export default function LadingPage() {
         <img className="landing__img top__img" src={birdBasic} alt="bird_basic" />
         <img className="landing__img bottom__img" src={mouseBasic} alt="mouse_basic" />
       </div>
-      <KakaoLogin login={login} />
+      {/* <KakaoLogin login={login} /> */}
+      <GoogleLogin
+        clientId='672570245160-k8uq3hgr1b0v873m4dp2pjck18il3re0.apps.googleusercontent.com'
+        buttonText='Login with Google'
+        onSuccess={responseGoogle}
+        onFailure={responseFail}
+        className='google__login__btn'
+      />
+      <br />
+      <GoogleLogout
+        clientId='672570245160-k8uq3hgr1b0v873m4dp2pjck18il3re0.apps.googleusercontent.com'
+        buttonText='logout'
+        onLogoutSuccess={logoutGoogle}
+        onFailure={responseFail}
+      />
+
     </div>
   );
 }
