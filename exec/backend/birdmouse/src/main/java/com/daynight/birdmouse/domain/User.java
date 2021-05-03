@@ -14,8 +14,9 @@ public class User {
     private long id;    // 카카오 회원번호를 PK로 쓰기 때문에 Generated Value 설정 X
     private String token;
     private String nickname;
-    private String badge;
 
+    @Column(columnDefinition = "integer default 0")
+    private int badge;
     @Column(columnDefinition = "boolean default false")
     private boolean changed_nickname;
     @Column(columnDefinition = "integer default 0")
@@ -25,9 +26,9 @@ public class User {
     @Column(columnDefinition = "integer default 0")
     private int heart_count;
     @Column(columnDefinition = "integer default 0")
-    private int clap_count;
+    private int angle_count;
     @Column(columnDefinition = "integer default 0")
-    private int justice_count;
+    private int judge_count;
     @Column(columnDefinition = "boolean default false")
     private boolean has_left;
 
