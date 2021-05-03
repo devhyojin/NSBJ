@@ -1,0 +1,178 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  padding: 2%;
+  .header {
+    width: 100%;
+    height: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3%;
+    button {
+      img {
+        width: 3vw;
+      }
+      .withdrawl {
+        color: #79b7f1;
+        font-size: 3.2vw;
+        font-weight: bolder;
+      }
+    }
+  }
+  .body {
+    width: 100%;
+    height: 95%;
+    padding: 2.5% 5% 0%;
+    .top {
+      width: 100%;
+      height: 39%;
+      margin-bottom: 1%;
+      .character-zone {
+        width: 100%;
+        height: 50%;
+        .character-circle {
+          position: relative;
+          width: 30vw;
+          height: 30vw;
+          margin: 0 auto;
+          background-color: #cde8dd;
+          .my-character {
+            width: 30vw;
+            margin-left: 3%;
+          }
+        }
+        .character-change {
+          position: relative;
+          z-index: 10;
+          bottom: 30%;
+          left: 58%;
+          width: 10vw;
+          height: 10vw;
+          background-color: #61acf1;
+          font-size: 6vw;
+          color: white;
+          border: none;
+          z-index: 10;
+        }
+      }
+      .nickname-zone {
+        width: 100%;
+        height: 44%;
+        margin-top: 1%;
+        * {
+          text-align: center;
+        }
+        .location {
+          height: 25%;
+          font-weight: bold;
+          font-size: 4vw;
+          color: #93c9c7;
+        }
+        .aka {
+          font-size: 3.5vw;
+          font-weight: bolder;
+          color: #aca9a9;
+        }
+        .nickname {
+          font-size: 5vw;
+          font-weight: bolder;
+          margin-bottom: 2%;
+        }
+      }
+    }
+    .middle {
+      width: 100%;
+      height: 10%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      img {
+        width: 50%;
+      }
+    }
+    .bottom {
+      width: 100%;
+      height: 49%;
+      .badge-title-zone {
+        display: grid;
+        grid-template-columns: 90% 10%;
+        margin-top: 1.5%;
+        height: 10.5%;
+        .badge-title {
+          font-size: 5.7vw;
+          font-weight: bolder;
+          text-align: end;
+          height: 10%;
+        }
+        button {
+          --x: 4vw;
+          width: var(--x);
+          height: var(--x);
+          border-radius: 50%;
+          background-color: #8ec1f1;
+          font-size: 0.6rem;
+          font-weight: bolder;
+          margin-left: 10%;
+        }
+      }
+      .badge-container {
+        width: 100%;
+        height: 88%;
+        display: grid;
+        text-align: center;
+        grid-template-rows: repeat(3, 33%);
+        grid-template-columns: repeat(3, 33%);
+        margin-top: 1%;
+        .badge-item {
+          text-align: center;
+          vertical-align: center;
+          padding-bottom: 1%;
+          border: solid 7px #ffffff;
+          border-radius: 1rem;
+          // & :active {
+          //   border: solid 8px #cef5dd;
+          // }
+          .badge-icon {
+            width: 65%;
+            height: 80%;
+          }
+          .badge-name {
+            font-size: 2.6vw;
+            text-align: center;
+            font-weight: bolder;
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.btn {
+  --width: 40vw;
+  --height: calc(var(--width) / 4.5);
+  width: var(--width);
+  height: var(--height);
+  font-size: calc(var(--height) / 2.1);
+  cursor: pointer;
+  background: #cde8dd;
+  font-weight: bolder;
+  border-radius: 0.6em;
+}
+
+.icon {
+  width: 8.5vw !important;
+}
+
+.cnt {
+  text-align: center;
+  font-weight: bolder;
+}
+hr {
+  margin: 0;
+}
+
+.circle {
+  border-radius: 50%;
+}
