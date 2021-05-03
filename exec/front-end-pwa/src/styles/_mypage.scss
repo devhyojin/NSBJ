@@ -1,0 +1,115 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  padding: 2%;
+  .header {
+    width: 100%;
+    height: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3%;
+    img {
+      width: 3vw;
+    }
+    // .back {
+    //   font-size: 4vw;
+    //   font-weight: bolder;
+    // }
+    .withdrawl {
+      color: #79b7f1;
+      font-size: 3.2vw;
+      font-weight: bolder;
+    }
+  }
+  .body {
+    width: 100%;
+    height: 95%;
+    padding: 2.5% 5%;
+    .top {
+      width: 100%;
+      height: 42%;
+      .character-zone {
+        width: 100%;
+        height: 50%;
+        margin-top: 5%;
+        .circle {
+          width: 31vw;
+          height: 31vw;
+          border-radius: 50%;
+          margin: 0 auto;
+          background-color: #cde8dd;
+        }
+      }
+      .nickname-zone {
+        width: 100%;
+        height: 44%;
+        margin-top: 1%;
+        * {
+          text-align: center;
+          margin: 0;
+        }
+        .location {
+          margin-bottom: 1.5%;
+          font-weight: bold;
+          font-size: 4.3vw;
+          color: #93c9c7;
+        }
+        .aka {
+          font-size: 4vw;
+          font-weight: bolder;
+          color: #aca9a9;
+        }
+        .nickname {
+          font-size: 5.5vw;
+          font-weight: bolder;
+          margin-bottom: 1%;
+        }
+        button {
+          margin-top: 2%;
+        }
+      }
+    }
+    .middle {
+      width: 100%;
+      height: 8%;
+      background-color: pink;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      img {
+        width: 50%;
+      }
+    }
+    .bottom {
+      width: 100%;
+      height: 42%;
+      background-color: lightgray;
+      .badges-zone {
+        height: 33%;
+        display: flex;
+        justify-content: space-evenly;
+      }
+    }
+  }
+}
+
+.btn {
+  --width: 45vw;
+  --height: calc(var(--width) / 4.8);
+  width: var(--width);
+  height: var(--height);
+  font-size: calc(var(--height) / 2.3);
+  cursor: pointer;
+  background: #cde8dd;
+  font-weight: bolder;
+  border: none;
+  border-radius: 0.8em;
+}
+
+.icon {
+  width: 3vw;
+}
+hr {
+  margin: 1%;
+}
