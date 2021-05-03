@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/_characterModal.scss';
 
-export default function CharacterModal({ characters, changeCharacter, changeCharacterStatus }) {
+export default function CharacterModal({ characters, changeCharacterStatus, changeCharacter }) {
   return (
     <div className="character-modal-mask">
       <div className="character-modal-container">

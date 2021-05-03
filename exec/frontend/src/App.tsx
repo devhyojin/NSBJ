@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { hot } from 'react-hot-loader';
 import LandingPage from './routes/LandingPage';
 import MainPage from './routes/MainPage';
 import MyPage from './routes/MyPage';
@@ -14,4 +15,4 @@ function App() {
   );
 }
 
-export default App;
+export default hot(module)(App);

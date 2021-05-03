@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import ConfirmModal from '../components/ConfirmModal';
 import InfoModal from '../components/InfoModal';
 import CharacterModal from '../components/CharacterModal';
@@ -27,11 +28,21 @@ import mouseJudge from '../assets/characters/mouse/mouse_judge.gif';
 import '../styles/_mypage.scss';
 
 export default function MyPage() {
-  const stat: Array<any> = [
-    { path: angelCnt, title: '리액션 포인트' },
-    { path: heartCnt, title: '마음 포인트' },
-    { path: judgeCnt, title: '해결 포인트' },
-  ];
+  useEffect(() => {
+    const fetchUsers = () => {
+      axios
+        .get('http://localhost:8080/mypage')
+        .then((res) => {
+          console.log('성공');
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log('실패');
+          console.log(err);
+        });
+    };
+  });
+
   const badges: Array<any> = [
     {
       cntPath: angelCnt,
@@ -107,10 +118,18 @@ export default function MyPage() {
     // { characterPath: mouseHeart, characterTitle: '큐피찍' },
     // { characterPath: mouseJudge, characterTitle: '엘맅찍' },
   ];
+  const stat: Array<any> = [
+    { path: angelCnt, title: '리액션 포인트', angel_count: 0 },
+    { path: heartCnt, title: '마음 포인트', heart_count: 0 },
+    { path: judgeCnt, title: '해결 포인트', justice_count: 0 },
+  ];
   const [confirmStatus, setConfirmStatus] = useState<boolean>(false);
   const [infoStatus, setInfoStatus] = useState<boolean>(false);
   const [characterStatus, setCharacterStatus] = useState<boolean>(false);
+  const [megaphoneStat, setMegaphoneStat] = useState<number>(0);
+  const [myStat, setMyStat] = useState<any>(stat);
   const [myCharacter, setMyCharacter] = useState(birdBasic);
+  const [myAKA, setMyAKA] = useState<string>('.');
   const changeConfirmStatus = (): void => {
     setConfirmStatus(!confirmStatus);
   };
@@ -123,24 +142,17 @@ export default function MyPage() {
   const changeCharacter = (characterTitle: any): void => {
     setMyCharacter(characterTitle);
   };
-  // const changeCharacter = (id: number): void => {
-  //   if (id === 1) {
-  //     setMyCharacter(birdBasic);
-  //   } else if (id === 2) {
-  //     setMyCharacter(birdAngel);
-  //   } else if (id === 3) {
-  //     setMyCharacter(birdHeart);
-  //   } else {
-  //     setMyCharacter(birdJudge);
-  //   }
-  // };
 
   return (
     <div className="container">
       {/* 뒤로 가기, 탈퇴하기  */}
       <div className="header">
-        <img src={arrow} alt="arrow" />
-        <p className="withdrawl">탈퇴하기</p>
+        <button type="submit">
+          <img src={arrow} alt="arrow" />
+        </button>
+        <button type="submit">
+          <p className="withdrawl">탈퇴하기</p>
+        </button>
       </div>
       <div className="body">
         <div className="top">
@@ -150,7 +162,7 @@ export default function MyPage() {
               <img className="my-character" src={myCharacter} alt="character" />
             </div>
             <button
-              onClick={changeCharacterStatus}
+              onClick={() => changeCharacterStatus}
               type="submit"
               className="circle character-change"
             >
@@ -167,10 +179,10 @@ export default function MyPage() {
           {/* 닉네임 존 */}
           <div className="nickname-zone">
             <p className="location">안암동</p>
-            <p className="aka">하늘을 울린 마음씨</p>
+            <p className="aka">{myAKA}</p>
             <p className="nickname">곶감 먹는 감청색 딱따구리</p>
             <div>
-              <button onClick={changeConfirmStatus} type="submit" className="btn">
+              <button onClick={() => changeConfirmStatus} type="submit" className="btn">
                 닉네임 변경
               </button>
               {confirmStatus && <ConfirmModal changeConfirmStatus={changeConfirmStatus} />}
@@ -195,7 +207,7 @@ export default function MyPage() {
         <div className="bottom">
           <div className="badge-title-zone">
             <p className="badge-title">당신의 칭호를 골라보세요!</p>
-            <button onClick={changeInfoStatus} type="submit">
+            <button onClick={() => changeInfoStatus} type="submit">
               <span>?</span>
             </button>
             {infoStatus && <InfoModal badges={badges} />}
@@ -203,10 +215,15 @@ export default function MyPage() {
 
           <div className="badge-container">
             {badges.map((badge) => (
-              <div className="badge-item" key={badge.badgeTitle}>
+              <button
+                onClick={() => setMyAKA(badge.badgeTitle)}
+                type="submit"
+                className="badge-item"
+                key={badge.badgeTitle}
+              >
                 <img className="badge-icon" src={badge.badgePath} alt={badge.badgeTitle} />
                 <p className="badge-name">{badge.badgeTitle}</p>
-              </div>
+              </button>
             ))}
           </div>
         </div>

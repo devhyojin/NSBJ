@@ -9,13 +9,15 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 3%;
-    img {
-      width: 3vw;
-    }
-    .withdrawl {
-      color: #79b7f1;
-      font-size: 3.2vw;
-      font-weight: bolder;
+    button {
+      img {
+        width: 3vw;
+      }
+      .withdrawl {
+        color: #79b7f1;
+        font-size: 3.2vw;
+        font-weight: bolder;
+      }
     }
   }
   .body {
@@ -62,7 +64,7 @@
           text-align: center;
         }
         .location {
-          margin-bottom: 1.5%;
+          height: 25%;
           font-weight: bold;
           font-size: 4vw;
           color: #93c9c7;
@@ -108,7 +110,6 @@
           width: var(--x);
           height: var(--x);
           border-radius: 50%;
-          border: none;
           background-color: #8ec1f1;
           font-size: 0.6rem;
           font-weight: bolder;
@@ -157,7 +158,6 @@
   cursor: pointer;
   background: #cde8dd;
   font-weight: bolder;
-  border: none;
   border-radius: 0.6em;
 }
 
