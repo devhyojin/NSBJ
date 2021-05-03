@@ -22,6 +22,8 @@ public class UserServiceImpl implements UserService{
     private final MouseRepository mouseRepository;
     private final UserRepository userRepository;
 
+    private final UserService userService;
+
     @Override
     public Object getRandonNickname(String mode) {
         User user = new User();
@@ -83,7 +85,6 @@ public class UserServiceImpl implements UserService{
         user.setNickname(nickname);
         return user;
     }
-
 
     @Transactional(readOnly = true)
     public Response getMypage(Long id) {
@@ -158,6 +159,70 @@ public class UserServiceImpl implements UserService{
             return Response.builder()
                     .status(false)
                     .message("프로필 캐릭터 변경 실패")
+                    .data(null).build();
+        }
+    }
+
+
+    @Override
+    public Response modifiedNickname(Long id, String mode) {
+        Optional<User> user_db = userRepository.findById(id);
+        HashMap<String, Object> changed_nickname = new HashMap<>();
+        if (user_db.isPresent()) {
+            User user = user_db.get();
+            if (!user.isChanged_nickname()) {
+                Optional<Food> originalFood = foodRepository.findById(user.getFood().getId());
+                Optional<Color> originalColor = colorRepository.findById(user.getColor().getId());
+                Optional<Bird> originalBird = birdRepository.findById(user.getAnimal_id());
+                Optional<Mouse> originalMouse = mouseRepository.findById(user.getAnimal_id());
+
+                User newNickname = (User) userService.getRandonNickname(mode);
+                user.setNickname(newNickname.getNickname());
+                user.setFood(newNickname.getFood());
+                user.setColor(newNickname.getColor());
+                user.setAnimal_id(newNickname.getAnimal_id());
+                user.setChanged_nickname(true);
+                userRepository.save(user);
+
+                if (originalFood.isPresent()) {
+                    Food food = originalFood.get();
+                    food.set_used(true);
+                    foodRepository.save(food);
+                }
+                if (originalColor.isPresent()) {
+                    Color color = originalColor.get();
+                    color.set_used(true);
+                    colorRepository.save(color);
+                }
+                if (originalBird.isPresent()){
+                    Bird bird = originalBird.get();
+                    bird.set_used(true);
+                    birdRepository.save(bird);
+                }
+                if (originalMouse.isPresent()) {
+                    Mouse mouse = originalMouse.get();
+                    mouse.set_used(true);
+                    mouseRepository.save(mouse);
+                }
+
+                changed_nickname.put("id", id);
+                changed_nickname.put("changed_nickname", user.isChanged_nickname());
+                changed_nickname.put("nickname", user.getNickname());
+
+                return Response.builder()
+                        .status(true)
+                        .message("닉네임 변경 성공")
+                        .data(changed_nickname).build();
+            } else {
+                return Response.builder()
+                        .status(false)
+                        .message("닉네임 횟수 초과")
+                        .data(null).build();
+            }
+        } else {
+            return Response.builder()
+                    .status(false)
+                    .message("닉네임 사용자 정보 조회 실패")
                     .data(null).build();
         }
     }
