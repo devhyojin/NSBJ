@@ -29,44 +29,43 @@ export default function LadingPage() {
   const login = (googleId: string, MODE: string, accessToken: string) => {
     axios.get(`${SERVER_URL}/login/google`, {
       params: {
-        'id': 1,
+        'id': googleId,
         'mode': MODE,
         'token': accessToken
       }
     })
       .then(res => {
-        const { data { user }
-      } = res
-        console.log(user)
+        const { data: { data: { user } } } = res
+        localStorage.setItem('userInfo', JSON.stringify(user))
         history.push('/main')
       })
-      .catch (err => alert(err))
-};
+      .catch(err => alert(err))
+  };
 
 
 
-if (MODE === 'light') { landingBgMode = 'bg landing__light__bg'; };
+  if (MODE === 'light') { landingBgMode = 'bg landing__light__bg'; };
 
-return (
-  <div className={landingBgMode}>
-    <span className='bg__title'>
-      낮새
+  return (
+    <div className={landingBgMode}>
+      <span className='bg__title'>
+        낮새
         <br />
         밤쥐
       </span>
-    <div className="landing__img__cover">
-      <img className="landing__img top__img" src={birdBasic} alt="bird_basic" />
-      <img className="landing__img bottom__img" src={mouseBasic} alt="mouse_basic" />
-    </div>
-    <div className='google__login__btn__cover'>
-      <GoogleLogin
-        clientId={GOOGLE_CLIENT_ID}
-        buttonText='Sign in with Google'
-        onSuccess={responseGoogle}
-        onFailure={responseFail}
-        className='google__login__btn'
-      />
-    </div>
-  </div >
-);
+      <div className="landing__img__cover">
+        <img className="landing__img top__img" src={birdBasic} alt="bird_basic" />
+        <img className="landing__img bottom__img" src={mouseBasic} alt="mouse_basic" />
+      </div>
+      <div className='google__login__btn__cover'>
+        <GoogleLogin
+          clientId={GOOGLE_CLIENT_ID}
+          buttonText='Sign in with Google'
+          onSuccess={responseGoogle}
+          onFailure={responseFail}
+          className='google__login__btn'
+        />
+      </div>
+    </div >
+  );
 }
