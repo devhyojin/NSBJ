@@ -26,7 +26,7 @@ public class User {
     @Column(columnDefinition = "integer default 0")
     private int heart_count;
     @Column(columnDefinition = "integer default 0")
-    private int angle_count;
+    private int angel_count;
     @Column(columnDefinition = "integer default 0")
     private int judge_count;
     @Column(columnDefinition = "boolean default false")
