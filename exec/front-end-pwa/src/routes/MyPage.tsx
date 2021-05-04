@@ -169,7 +169,7 @@ export default function MyPage() {
               +
             </button>
             {characterStatus && (
-              <CharacterModal
+              <ModalCharacter
                 characters={characters}
                 changeCharacterStatus={changeCharacterStatus}
                 changeCharacter={changeCharacter}
@@ -185,7 +185,7 @@ export default function MyPage() {
               <button onClick={() => changeConfirmStatus} type="submit" className="btn">
                 닉네임 변경
               </button>
-              {confirmStatus && <ConfirmModal changeConfirmStatus={changeConfirmStatus} />}
+              {confirmStatus && <ModalConfirm changeConfirmStatus={changeConfirmStatus} />}
             </div>
           </div>
         </div>
@@ -210,7 +210,7 @@ export default function MyPage() {
             <button onClick={() => changeInfoStatus} type="submit">
               <span>?</span>
             </button>
-            {infoStatus && <InfoModal badges={badges} />}
+            {infoStatus && <ModalBadgeInfo badges={badges} />}
           </div>
 
           <div className="badge-container">

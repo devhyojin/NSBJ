@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Transactional(readOnly = true)
-    public Response getMypage(Long id) {
+    public Response getMypage(String id) {
         Optional<User> user_db = userRepository.findById(id);
         HashMap<String, Object> data = new HashMap<>();
         HashMap<String, Integer> feedback = new HashMap<>();
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Response changeBadge(Long id, Integer badge) {
+    public Response changeBadge(String id, Integer badge) {
         Optional<User> user_db = userRepository.findById(id);
         HashMap<String, Integer> changed_badge = new HashMap<>();
         if (user_db.isPresent()) {
@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Response changeProfileImg(Long id, Integer profile_img) {
+    public Response changeProfileImg(String id, Integer profile_img) {
         Optional<User> user_db = userRepository.findById(id);
         HashMap<String, Integer> changed_profile_img = new HashMap<>();
         if (user_db.isPresent()) {
@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public Response modifiedNickname(Long id, String mode) {
+    public Response modifiedNickname(String id, String mode) {
         Optional<User> user_db = userRepository.findById(id);
         HashMap<String, Object> changed_nickname = new HashMap<>();
         if (user_db.isPresent()) {
@@ -226,7 +226,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Response withdrawUser(Long id) {
+    public Response withdrawUser(String id) {
         Optional<User> user_db = userRepository.findById(id);
         if (user_db.isPresent()) {
             User user = user_db.get();
