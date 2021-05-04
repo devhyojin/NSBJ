@@ -20,7 +20,7 @@ export default function MainBottom({ mode }: MainBottomProps) {
 
 
   const arrowHandler = (event) => {
-    if (event.touches[0].clientY < window.screen.height * 0.92) { return null };
+    if (event.touches[0].clientY < window.screen.height * 0.85) { return null };
 
     mouseOvered = true;
     const modal = modalRef.current;

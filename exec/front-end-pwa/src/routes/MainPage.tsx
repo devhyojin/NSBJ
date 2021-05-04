@@ -14,6 +14,7 @@ const KAKAO_API_KEY = process.env.REACT_APP_KAKAO_API_KEY
 
 export default function MainPage() {
   const [activate, setActivate] = useState(false);
+  const [region, setRegion] = useState('');
 
   const MODE = ModeCheck()
 
@@ -45,15 +46,19 @@ export default function MainPage() {
         'Authorization': `KakaoAK ${KAKAO_API_KEY}`
       }
     })
-      .then(res => console.log(res))
+      .then(res => {
+        setRegion(res.data.documents[0].region_3depth_name)
+        setActivate(!activate)
+
+      })
 
 
-    setActivate(!activate)
+
   }
 
   return (
     <div className={modeName}>
-      <MainTop mode={MODE} activate={activate} neighborCnt={neighborCnt} />
+      <MainTop mode={MODE} activate={activate} neighborCnt={neighborCnt} region={region} />
       <MainBody btnActivate={btnActivate} mode={MODE} />
       <MainMessage activate={activate} mode={MODE} />
       <MainBottom mode={MODE} />
