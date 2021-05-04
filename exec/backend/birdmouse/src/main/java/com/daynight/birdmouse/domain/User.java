@@ -13,7 +13,9 @@ public class User {
     @Id
     private String id;    // 카카오 회원번호를 PK로 쓰기 때문에 Generated Value 설정 X
     private String token;
-    private String nickname;
+
+    private String bird_name;
+    private String mouse_name;
 
     @Column(columnDefinition = "integer default 0")
     private int badge;
