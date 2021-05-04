@@ -5,10 +5,9 @@ import com.daynight.birdmouse.dto.Response;
 
 public interface LoginService {
 
-    public Response getAccessToken(String code);
+//    public Response getAccessToken(String code);
+//    public Response getKakaoProfile(String accessToken, String dayNight);
 
-    public Response getKakaoProfile(String accessToken, String dayNight);
-
-    public Response getGoogleProfile(long id, String token, String mode);
+    Response getGoogleProfile(String id, String token, String mode);
 
 }

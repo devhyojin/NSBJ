@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    private long id;    // 카카오 회원번호를 PK로 쓰기 때문에 Generated Value 설정 X
+    private String id;    // 카카오 회원번호를 PK로 쓰기 때문에 Generated Value 설정 X
     private String token;
     private String nickname;
 
@@ -26,7 +26,7 @@ public class User {
     @Column(columnDefinition = "integer default 0")
     private int heart_count;
     @Column(columnDefinition = "integer default 0")
-    private int angle_count;
+    private int angel_count;
     @Column(columnDefinition = "integer default 0")
     private int judge_count;
     @Column(columnDefinition = "boolean default false")
