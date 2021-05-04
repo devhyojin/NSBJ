@@ -1,15 +1,19 @@
 package com.daynight.birdmouse.service;
 
 import com.daynight.birdmouse.domain.*;
+import com.daynight.birdmouse.dto.Response;
 import com.daynight.birdmouse.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.Optional;
 import java.util.Random;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class UserServiceImpl implements UserService{
 
     private final FoodRepository foodRepository;
@@ -79,4 +83,193 @@ public class UserServiceImpl implements UserService{
         user.setNickname(nickname);
         return user;
     }
+
+    @Transactional(readOnly = true)
+    public Response getMypage(Long id) {
+        Optional<User> user_db = userRepository.findById(id);
+        HashMap<String, Object> data = new HashMap<>();
+        HashMap<String, Integer> feedback = new HashMap<>();
+
+        if (user_db.isPresent()) {
+            User user = user_db.get();
+
+            feedback.put("angle_count", user.getAngle_count());
+            feedback.put("heart_count", user.getHeart_count());
+            feedback.put("judge_count", user.getJudge_count());
+
+            data.put("id", user.getId());
+            data.put("nickname", user.getNickname());
+            data.put("changed_nickname", user.isChanged_nickname());
+            data.put("profile_img", user.getProfile_img());
+            data.put("megaphone_count", user.getMegaphone_count());
+            data.put("feedback", feedback);
+            data.put("region_id", user.getRegion_id());
+            data.put("badge", user.getBadge());
+
+            return Response.builder()
+                    .status(true)
+                    .message("마이페이지 조회")
+                    .data(data)
+                    .build();
+        } else {
+            return Response.builder()
+                    .status(false)
+                    .message("마이페이지 조회 실패")
+                    .data(null).build();
+        }
+    }
+
+    @Override
+    public Response changeBadge(Long id, Integer badge) {
+        Optional<User> user_db = userRepository.findById(id);
+        HashMap<String, Integer> changed_badge = new HashMap<>();
+        if (user_db.isPresent()) {
+            User user = user_db.get();
+            user.setBadge(badge);
+            userRepository.save(user);
+            changed_badge.put("badge", badge);
+            return Response.builder()
+                    .status(true)
+                    .message("칭호 변경 성공")
+                    .data(changed_badge).build();
+        } else {
+            return Response.builder()
+                    .status(false)
+                    .message("칭호 변경 실패")
+                    .data(null).build();
+        }
+    }
+
+    @Override
+    public Response changeProfileImg(Long id, Integer profile_img) {
+        Optional<User> user_db = userRepository.findById(id);
+        HashMap<String, Integer> changed_profile_img = new HashMap<>();
+        if (user_db.isPresent()) {
+            User user = user_db.get();
+            user.setBadge(profile_img);
+            userRepository.save(user);
+            changed_profile_img.put("profile_img", profile_img);
+            return Response.builder()
+                    .status(true)
+                    .message("프로필 캐릭터 변경 성공")
+                    .data(changed_profile_img).build();
+        } else {
+            return Response.builder()
+                    .status(false)
+                    .message("프로필 캐릭터 변경 실패")
+                    .data(null).build();
+        }
+    }
+
+
+    @Override
+    public Response modifiedNickname(Long id, String mode) {
+        Optional<User> user_db = userRepository.findById(id);
+        HashMap<String, Object> changed_nickname = new HashMap<>();
+        if (user_db.isPresent()) {
+            User user = user_db.get();
+            if (!user.isChanged_nickname()) {
+                Optional<Food> originalFood = foodRepository.findById(user.getFood().getId());
+                Optional<Color> originalColor = colorRepository.findById(user.getColor().getId());
+                Optional<Bird> originalBird = birdRepository.findById(user.getAnimal_id());
+                Optional<Mouse> originalMouse = mouseRepository.findById(user.getAnimal_id());
+
+                User newNickname = (User) getRandonNickname(mode);
+                user.setNickname(newNickname.getNickname());
+                user.setFood(newNickname.getFood());
+                user.setColor(newNickname.getColor());
+                user.setAnimal_id(newNickname.getAnimal_id());
+                user.setChanged_nickname(true);
+                userRepository.save(user);
+
+                if (originalFood.isPresent()) {
+                    Food food = originalFood.get();
+                    food.set_used(false);
+                    foodRepository.save(food);
+                }
+                if (originalColor.isPresent()) {
+                    Color color = originalColor.get();
+                    color.set_used(false);
+                    colorRepository.save(color);
+                }
+                if (originalBird.isPresent()){
+                    Bird bird = originalBird.get();
+                    bird.set_used(false);
+                    birdRepository.save(bird);
+                }
+                if (originalMouse.isPresent()) {
+                    Mouse mouse = originalMouse.get();
+                    mouse.set_used(false);
+                    mouseRepository.save(mouse);
+                }
+
+                changed_nickname.put("id", id);
+                changed_nickname.put("changed_nickname", user.isChanged_nickname());
+                changed_nickname.put("nickname", user.getNickname());
+
+                return Response.builder()
+                        .status(true)
+                        .message("닉네임 변경 성공")
+                        .data(changed_nickname).build();
+            } else {
+                return Response.builder()
+                        .status(false)
+                        .message("닉네임 횟수 초과")
+                        .data(null).build();
+            }
+        } else {
+            return Response.builder()
+                    .status(false)
+                    .message("닉네임 사용자 정보 조회 실패")
+                    .data(null).build();
+        }
+    }
+
+    @Override
+    public Response withdrawUser(Long id) {
+        Optional<User> user_db = userRepository.findById(id);
+        if (user_db.isPresent()) {
+            User user = user_db.get();
+            user.setHas_left(true);
+            userRepository.save(user);
+
+            Optional<Food> userFood = foodRepository.findById(user.getFood().getId());
+            Optional<Color> userColor = colorRepository.findById(user.getColor().getId());
+            Optional<Bird> userBird = birdRepository.findById(user.getAnimal_id());
+            Optional<Mouse> userMouse = mouseRepository.findById(user.getAnimal_id());
+
+            if (userFood.isPresent()) {
+                Food food = userFood.get();
+                food.set_used(false);
+                foodRepository.save(food);
+            }
+            if (userColor.isPresent()) {
+                Color color = userColor.get();
+                color.set_used(false);
+                colorRepository.save(color);
+            }
+            if (userBird.isPresent()){
+                Bird bird = userBird.get();
+                bird.set_used(false);
+                birdRepository.save(bird);
+            }
+            if (userMouse.isPresent()) {
+                Mouse mouse = userMouse.get();
+                mouse.set_used(false);
+                mouseRepository.save(mouse);
+            }
+
+            return Response.builder()
+                    .status(true)
+                    .message("사용자 탈퇴 성공")
+                    .data(null).build();
+        } else {
+            return Response.builder()
+                    .status(false)
+                    .message("탈퇴를 위한 사용자 조회 실패")
+                    .data(null).build();
+        }
+    }
+
+
 }
