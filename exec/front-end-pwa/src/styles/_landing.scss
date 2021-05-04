@@ -24,9 +24,9 @@ $kakao_btn_symbol_color: #000000 85%;
   background-position:center;
   background-size:cover;
   text-align: center;
-  span {      
+  .bg__title {      
     display:block;
-    margin: 30% 0 5%;
+    margin: 30% 0 10%;
     text-align: center;    
     font-size: 3rem;
     font-weight:bolder;
@@ -64,6 +64,18 @@ $kakao_btn_symbol_color: #000000 85%;
 
 .google__login__btn {
   width: 50%;
-  height: 7%;
-  font-size: small;
+  height: 100%;  
+  font-size: 1px;
+  font-weight: 0;
 }
+
+
+.google__login__btn__cover {
+  position:relative;
+  width: 100%;
+  height: 6%;
+  // overflow: hidden;
+  margin-top: 15%;
+}
+
+
