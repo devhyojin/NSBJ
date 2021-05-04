@@ -32,10 +32,11 @@ public class UserServiceImpl implements UserService{
         int ANIMALS = 100;
 
         String nickname = "";
+        String bird_name = "";
+        String mouse_name = "";
 
         while (true) {
             int foodIdx = random.nextInt(FOODS + 1);
-            System.out.println("foodIdx: "+foodIdx);
             Optional<Food> foundFood = foodRepository.findById(foodIdx);
             if (foundFood.isPresent() && !foundFood.get().is_used()) {
                 Food food = foundFood.get();
@@ -72,15 +73,14 @@ public class UserServiceImpl implements UserService{
                 birdRepository.save(bird);
                 mouseRepository.save(mouse);
 
-                if (mode.equals("light")) {
-                    nickname += " " + bird.getBird_name();
-                } else {
-                    nickname += " " + mouse.getMouse_name();
-                }
+                mouse_name = nickname + " " + mouse.getMouse_name();
+                bird_name = nickname + " " + bird.getBird_name();
                 break;
             }
         }
-        user.setNickname(nickname);
+        user.setBird_name(bird_name);
+        user.setMouse_name(mouse_name);
+//        userRepository.save(user);
         return user;
     }
 
@@ -89,6 +89,7 @@ public class UserServiceImpl implements UserService{
         Optional<User> user_db = userRepository.findById(id);
         HashMap<String, Object> data = new HashMap<>();
         HashMap<String, Integer> feedback = new HashMap<>();
+        HashMap<String, Object> nickname = new HashMap<>();
 
         if (user_db.isPresent()) {
             User user = user_db.get();
@@ -97,8 +98,11 @@ public class UserServiceImpl implements UserService{
             feedback.put("heart_count", user.getHeart_count());
             feedback.put("judge_count", user.getJudge_count());
 
+            nickname.put("light", user.getBird_name());
+            nickname.put("dark", user.getMouse_name());
+
             data.put("id", user.getId());
-            data.put("nickname", user.getNickname());
+            data.put("nickname", nickname);
             data.put("changed_nickname", user.isChanged_nickname());
             data.put("profile_img", user.getProfile_img());
             data.put("megaphone_count", user.getMegaphone_count());
@@ -175,7 +179,7 @@ public class UserServiceImpl implements UserService{
                 Optional<Mouse> originalMouse = mouseRepository.findById(user.getAnimal_id());
 
                 User newNickname = (User) getRandonNickname(mode);
-                user.setNickname(newNickname.getNickname());
+
                 user.setFood(newNickname.getFood());
                 user.setColor(newNickname.getColor());
                 user.setAnimal_id(newNickname.getAnimal_id());
@@ -205,7 +209,12 @@ public class UserServiceImpl implements UserService{
 
                 changed_nickname.put("id", id);
                 changed_nickname.put("changed_nickname", user.isChanged_nickname());
-                changed_nickname.put("nickname", user.getNickname());
+
+                HashMap<String, Object> nickname = new HashMap<>();
+                nickname.put("light", user.getBird_name());
+                nickname.put("dark", user.getMouse_name());
+
+                changed_nickname.put("nickname", nickname);
 
                 return Response.builder()
                         .status(true)
