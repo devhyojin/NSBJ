@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService{
         HashMap<String, Integer> changed_profile_img = new HashMap<>();
         if (user_db.isPresent()) {
             User user = user_db.get();
-            user.setBadge(profile_img);
+            user.setProfile_img(profile_img);
             userRepository.save(user);
             changed_profile_img.put("profile_img", profile_img);
             return Response.builder()
