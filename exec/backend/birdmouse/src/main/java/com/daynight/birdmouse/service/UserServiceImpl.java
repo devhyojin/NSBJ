@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService{
         if (user_db.isPresent()) {
             User user = user_db.get();
 
-            feedback.put("angle_count", user.getAngle_count());
+            feedback.put("angel_count", user.getAngel_count());
             feedback.put("heart_count", user.getHeart_count());
             feedback.put("judge_count", user.getJudge_count());
 
