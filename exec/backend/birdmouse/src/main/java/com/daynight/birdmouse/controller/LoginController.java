@@ -70,7 +70,7 @@ public class LoginController {
     @GetMapping(value = "/google")
     @ApiOperation(value = "GET user data from Google")
     public Object getGoogleProfile(
-            @ApiParam(value = "GoogleID", example = "12345", required = true) @RequestParam long id,
+            @ApiParam(value = "GoogleID", example = "12345", required = true) @RequestParam String id,
             @ApiParam(value = "AccessToken from Google", example = "ab23cd", required = true) @RequestParam String token,
             @ApiParam(value = "Light/Dark", example = "light", required = true) @RequestParam String mode) {
 
