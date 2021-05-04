@@ -9,4 +9,6 @@ public interface LoginService {
 
     public Response getKakaoProfile(String accessToken, String dayNight);
 
+    public Response getGoogleProfile(long id, String token, String mode);
+
 }
