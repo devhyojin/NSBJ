@@ -19,6 +19,7 @@ interface response {
 }
 
 const SERVER_URL = process.env.REACT_APP_URL
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID
 
 export default function LadingPage() {
   let landingBgMode = 'bg landing__dark__bg';
@@ -39,14 +40,14 @@ export default function LadingPage() {
     history.push('/main');
   }
 
-  const responseGoogle = (res) => {
+  const responseGoogle = (res: any) => {
     console.log(res)
     history.push('/main')
   }
 
-  const logoutGoogle = (res) => { console.log(res) }
+  const logoutGoogle = (res: any) => { console.log(res) }
 
-  const responseFail = (err) => {
+  const responseFail = (err: any) => {
     console.log(err)
   }
 
@@ -56,7 +57,7 @@ export default function LadingPage() {
 
   return (
     <div className={landingBgMode}>
-      <span>
+      <span className='bg__title'>
         낮새
         <br />
         밤쥐
@@ -66,21 +67,25 @@ export default function LadingPage() {
         <img className="landing__img bottom__img" src={mouseBasic} alt="mouse_basic" />
       </div>
       {/* <KakaoLogin login={login} /> */}
-      <GoogleLogin
-        clientId='672570245160-k8uq3hgr1b0v873m4dp2pjck18il3re0.apps.googleusercontent.com'
-        buttonText='Login with Google'
-        onSuccess={responseGoogle}
-        onFailure={responseFail}
-        className='google__login__btn'
-      />
-      <br />
-      <GoogleLogout
-        clientId='672570245160-k8uq3hgr1b0v873m4dp2pjck18il3re0.apps.googleusercontent.com'
-        buttonText='logout'
-        onLogoutSuccess={logoutGoogle}
-        onFailure={responseFail}
-      />
 
-    </div>
+      <div className='google__login__btn__cover'>
+        <GoogleLogin
+          clientId={GOOGLE_CLIENT_ID}
+          buttonText='Sign in with Google'
+          onSuccess={responseGoogle}
+          onFailure={responseFail}
+          className='google__login__btn'
+        />
+
+
+      </div>
+      {/* 
+      <button onClick={logoutGoogle} type='button'>
+        logout_test
+      </button> */}
+
+
+
+    </div >
   );
 }
