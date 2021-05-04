@@ -1,0 +1,51 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import megaphone from '../../assets/flaticon/megaphone.png';
+import angelCnt from '../../assets/flaticon/angel_cnt.png';
+import heartCnt from '../../assets/flaticon/heart_cnt.png';
+import judgeCnt from '../../assets/flaticon/judge_cnt.png';
+
+const SERVER_URL = process.env.REACT_APP_URL;
+
+export default function MyStat() {
+  const initStat: Array<any> = [
+    { path: angelCnt, title: '리액션 포인트', cnt: 0 },
+    { path: heartCnt, title: '마음 포인트', cnt: 0 },
+    { path: judgeCnt, title: '해결 포인트', cnt: 0 },
+  ];
+  const [stat, setStat]: Array<any> = useState(initStat);
+  const [megaphoneCnt, setMegaphoneCnt]: number = useState(0);
+
+  useEffect(() => {
+    // 아이디 잡아오고 수정하기
+    const userId = 1234567890;
+    console.log('확인');
+    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
+      console.log('성공', res.data.data);
+      const response = res.data.data;
+      setMegaphoneCnt(response.megaphone_count);
+      console.log('슈퍼챗', megaphoneCnt);
+      const tempStat = [...initStat];
+      tempStat[0].cnt = response.feedback.angel_count;
+      tempStat[1].cnt = response.feedback.heart_count;
+      tempStat[2].cnt = response.feedback.judge_count;
+      setStat(tempStat);
+      console.log('스탯', stat);
+    });
+  }, []);
+
+  return (
+    <div className="my-stat">
+      <div className="cnt-zone">
+        <img className="icon" src={megaphone} alt="확성기" />
+        <p className="cnt">{megaphoneCnt}회</p>
+      </div>
+      {stat.map((s) => (
+        <div key={s.path} className="cnt-zone">
+          <img className="icon cnt-icon" src={s.path} alt={s.title} />
+          <p className="cnt">{s.cnt}회</p>
+        </div>
+      ))}
+    </div>
+  );
+}
