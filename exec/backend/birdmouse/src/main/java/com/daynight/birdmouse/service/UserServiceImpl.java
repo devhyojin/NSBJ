@@ -225,5 +225,51 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    @Override
+    public Response withdrawUser(Long id) {
+        Optional<User> user_db = userRepository.findById(id);
+        if (user_db.isPresent()) {
+            User user = user_db.get();
+            user.setHas_left(true);
+            userRepository.save(user);
+
+            Optional<Food> userFood = foodRepository.findById(user.getFood().getId());
+            Optional<Color> userColor = colorRepository.findById(user.getColor().getId());
+            Optional<Bird> userBird = birdRepository.findById(user.getAnimal_id());
+            Optional<Mouse> userMouse = mouseRepository.findById(user.getAnimal_id());
+
+            if (userFood.isPresent()) {
+                Food food = userFood.get();
+                food.set_used(false);
+                foodRepository.save(food);
+            }
+            if (userColor.isPresent()) {
+                Color color = userColor.get();
+                color.set_used(false);
+                colorRepository.save(color);
+            }
+            if (userBird.isPresent()){
+                Bird bird = userBird.get();
+                bird.set_used(false);
+                birdRepository.save(bird);
+            }
+            if (userMouse.isPresent()) {
+                Mouse mouse = userMouse.get();
+                mouse.set_used(false);
+                mouseRepository.save(mouse);
+            }
+
+            return Response.builder()
+                    .status(true)
+                    .message("사용자 탈퇴 성공")
+                    .data(null).build();
+        } else {
+            return Response.builder()
+                    .status(false)
+                    .message("탈퇴를 위한 사용자 조회 실패")
+                    .data(null).build();
+        }
+    }
+
 
 }

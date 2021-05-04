@@ -58,6 +58,14 @@ public class UserController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PatchMapping(value = "/withdraw")
+    @ApiOperation(value = "사용자 탈퇴하기")
+    public Object changeNickname(@ApiParam(value = "user_id", required = true)
+                                 @RequestParam Long id) {
+        Response result = userService.withdrawUser(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 
 
 

@@ -8,6 +8,7 @@ public interface UserService {
     public Response changeBadge(Long id, Integer badge);
     public Response changeProfileImg(Long id, Integer profile_img);
     public Response modifiedNickname(Long id, String mode);
+    public Response withdrawUser(Long id);
 }
 
 
