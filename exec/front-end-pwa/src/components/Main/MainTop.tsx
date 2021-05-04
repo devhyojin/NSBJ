@@ -6,19 +6,21 @@ import '../../styles/_main.scss';
 interface MainTopProps {
   mode: string,
   activate: boolean,
-  neighborCnt: number
+  neighborCnt: number,
+  region: string
 }
 
 
-export default function MainTop({ mode, activate, neighborCnt }: MainTopProps) {
+export default function MainTop({ mode, activate, neighborCnt, region }: MainTopProps) {
 
   const name = mode === 'light' ? '짹짹이' : '찍찍이';
   const species = mode === 'light' ? '새' : '쥐';
   const deactivateExplain = `중앙의 ${species}를 눌러,상태를 활성화시켜주세요!`
-  const activateExplain = `안양동에 ${neighborCnt}명의 ${name}가 있군요!`
+  const activateExplain = `${region}에 ${neighborCnt}명의 ${name}가 있군요!`
   const [explain, setExplain] = useState(activateExplain)
 
   const changeActivate = () => {
+    console.log(region, 'region')
     if (activate) {
       setExplain(activateExplain)
     } else {
@@ -30,6 +32,9 @@ export default function MainTop({ mode, activate, neighborCnt }: MainTopProps) {
     return changeActivate()
   }, [activate])
 
+  useMemo(() => {
+    console.log(region[Symbol], '바뀀')
+  }, [region])
 
 
   return (

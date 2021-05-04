@@ -8,25 +8,6 @@ interface MainBodyProps {
 }
 
 export default function MainBody({ btnActivate, mode }: MainBodyProps) {
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setIntervalCnt(intervalCnt => intervalCnt + 1)
-  //   }, 1000);
-  //   return () => clearInterval(interval)
-  // }, [])
-
-  // const [intervalCnt, setIntervalCnt] = useState(0)
-  // setIntervalCnt(intervalCnt => intervalCnt + 1)
-
-  // const randomWaveEffect = (): void => {
-  //   const maxY = window.screen.height
-  //   const maxX = window.screen.width
-  //   waveEffect(Math.random() * maxX, Math.random() * maxY)
-  // }
-
-
-
-
   const activateHandler = () => {
 
     const target = myIcon.current

@@ -13,7 +13,7 @@ import mouseJudge from '../../assets/characters/mouse/mouse_judge.gif';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function MyProfile({ MODE, myAKA, setMyAKA }): string {
+export default function MyProfile({ MODE, myAKA }): string {
   const characters: Array<any> = [
     { id: 0, path: birdBasic, title: '노말짹' },
     { id: 1, path: birdAngel, title: '엔젤짹' },

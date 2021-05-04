@@ -8,15 +8,15 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/login")
-@Api(value = "Login with Kakao")
+@Api(value = "Login with Google")
 public class LoginController {
 
     private final LoginService loginService;
@@ -42,13 +42,13 @@ public class LoginController {
     }
      */
 
-
-    @GetMapping(value = "/kakao/callback")
+    /*
+    @GetMapping(value = "/google/callback")
     @ApiOperation(value = "(0) 로그인 후 코드 받기. 리다이렉트를 통해 자동 실행됨")
-    public Object redirectKakaoLogin(@RequestParam String code) {
+    public Object redirectGoogleLogin(@RequestParam String code) {
         Response result = Response.builder()
                 .status(true)
-                .message("카카오 로그인 코드")
+                .message("구글 로그인 코드")
                 .data(code)
                 .build();
 
@@ -58,20 +58,23 @@ public class LoginController {
 
     @GetMapping(value = "/token")
     @ApiOperation(value = "(1) 코드 입력 후 accessToken 발급")
-    public Object getKakaoAccessToken(@ApiParam(value = "카카오에서 발급받은 코드", required = true)
+    public Object getKakaoAccessToken(@ApiParam(value = "구글에서 발급받은 코드", required = true)
                                           @RequestParam String code) {
         Response result = loginService.getAccessToken(code);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    */
 
-    @GetMapping(value = "/kakao")
-    @ApiOperation(value = "GET user data from kakao")
-    public Object getKakaoProfile(
-            @ApiParam(value = "AccessToken from Kakao", required = true) @RequestParam String accessToken,
-            @ApiParam(value = "Light/Dark", required = true) @RequestParam String mode) {
 
-        Response result = loginService.getKakaoProfile(accessToken, mode);
+    @GetMapping(value = "/google")
+    @ApiOperation(value = "GET user data from Google")
+    public Object getGoogleProfile(
+            @ApiParam(value = "GoogleID", example = "12345", required = true) @RequestParam String id,
+            @ApiParam(value = "AccessToken from Google", example = "ab23cd", required = true) @RequestParam String token,
+            @ApiParam(value = "Light/Dark", example = "light", required = true) @RequestParam String mode) {
+  
+        Response result = loginService.getGoogleProfile(id, token, mode);
         return new ResponseEntity<>(result, HttpStatus.OK);
 
     }

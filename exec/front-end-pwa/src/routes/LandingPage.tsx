@@ -1,62 +1,54 @@
-import axios from 'axios'
-import { useHistory } from 'react-router-dom'
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import GoogleLogin from 'react-google-login';
+import ModeCheck from '../ModeCheck';
+
 import '../styles/_landing.scss';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
-import ModeCheck from '../ModeCheck'
-// import KakaoLogin from '../components/KakaoLogin';
+
 import birdBasic from '../assets/characters/bird/bird_basic.gif';
 import mouseBasic from '../assets/characters/mouse/mouse_basic.gif';
 
-
-
-interface response {
-  accessToken: string,
-  expiresIn: number,
-  refreshToken: string,
-  refreshTokenExpiresIn: number,
-  scope: string,
-  tokenType: string,
-}
-
-const SERVER_URL = process.env.REACT_APP_URL
+const SERVER_URL = process.env.REACT_APP_URL;
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
 export default function LadingPage() {
   let landingBgMode = 'bg landing__dark__bg';
-  const MODE = ModeCheck()
+  const MODE = ModeCheck();
   const history = useHistory();
 
 
-  const login = async (response: response) => {
+  const responseGoogle = (res: any) => {
+    const { accessToken, googleId } = res;
+    login(googleId, MODE, accessToken);
+  };
 
-    // const parameters = {
-    //   'accessToken': response.accessToken
-    // }
+  const responseFail = (err: any) => {
+    alert(err);
+  };
 
-    // await axios.get(`${SERVER_URL}/login/kako`, parameters)
-    //   .then(res => console.log(res))
-
-
-    history.push('/main');
-  }
-
-  const responseGoogle = (res) => {
-    console.log(res)
-    history.push('/main')
-  }
-
-  const logoutGoogle = (res) => { console.log(res) }
-
-  const responseFail = (err) => {
-    console.log(err)
-  }
+  const login = (googleId: string, MODE: string, accessToken: string) => {
+    axios.get(`${SERVER_URL}/login/google`, {
+      params: {
+        'id': googleId,
+        'mode': MODE,
+        'token': accessToken
+      }
+    })
+      .then(res => {
+        const { data: { data: { user } } } = res
+        localStorage.setItem('userInfo', JSON.stringify(user))
+        history.push('/main')
+      })
+      .catch(err => alert(err))
+  };
 
 
 
-  if (MODE === 'light') { landingBgMode = 'bg landing__light__bg'; }
+  if (MODE === 'light') { landingBgMode = 'bg landing__light__bg'; };
 
   return (
     <div className={landingBgMode}>
-      <span>
+      <span className='bg__title'>
         낮새
         <br />
         밤쥐
@@ -65,22 +57,15 @@ export default function LadingPage() {
         <img className="landing__img top__img" src={birdBasic} alt="bird_basic" />
         <img className="landing__img bottom__img" src={mouseBasic} alt="mouse_basic" />
       </div>
-      {/* <KakaoLogin login={login} /> */}
-      <GoogleLogin
-        clientId='672570245160-k8uq3hgr1b0v873m4dp2pjck18il3re0.apps.googleusercontent.com'
-        buttonText='Login with Google'
-        onSuccess={responseGoogle}
-        onFailure={responseFail}
-        className='google__login__btn'
-      />
-      <br />
-      <GoogleLogout
-        clientId='672570245160-k8uq3hgr1b0v873m4dp2pjck18il3re0.apps.googleusercontent.com'
-        buttonText='logout'
-        onLogoutSuccess={logoutGoogle}
-        onFailure={responseFail}
-      />
-
-    </div>
+      <div className='google__login__btn__cover'>
+        <GoogleLogin
+          clientId={GOOGLE_CLIENT_ID}
+          buttonText='Sign in with Google'
+          onSuccess={responseGoogle}
+          onFailure={responseFail}
+          className='google__login__btn'
+        />
+      </div>
+    </div >
   );
 }
