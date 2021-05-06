@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
-import ModeCheck from '../ModeCheck';
+import ModeCheck from '../utils/ModeCheck';
 
 import '../styles/_landing.scss';
 
@@ -20,10 +20,12 @@ export default function LadingPage() {
   const responseGoogle = (res: any) => {
     const { accessToken, googleId } = res;
     login(googleId, MODE, accessToken);
+    console.log(res)
   };
 
   const responseFail = (err: any) => {
     alert(err);
+    console.log(err)
   };
 
   const login = (googleId: string, MODE: string, accessToken: string) => {
