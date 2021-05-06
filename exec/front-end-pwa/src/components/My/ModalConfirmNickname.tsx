@@ -1,7 +1,21 @@
 import React from 'react';
 import '../../styles/_modalConfirm.scss';
 
-export default function ModalConfirmNickname({ changeConfirmStatus, changeNickname }) {
+interface ModalConfirmNicknameProps {
+  MODE: string;
+  changeConfirmStatus: () => void;
+  changeNickname: () => void;
+}
+
+export default function ModalConfirmNickname({
+  MODE,
+  changeConfirmStatus,
+  changeNickname,
+}: ModalConfirmNicknameProps) {
+  let modeNicknameModal = 'dark__bg__purple modal-container';
+  if (MODE === 'light') {
+    modeNicknameModal = 'light__bg__blue modal-container';
+  }
   return (
     <div className="modal-mask">
       <div
@@ -9,7 +23,7 @@ export default function ModalConfirmNickname({ changeConfirmStatus, changeNickna
         tabIndex={0}
         onKeyDown={() => null}
         onClick={() => changeConfirmStatus()}
-        className="modal-container"
+        className={modeNicknameModal}
       >
         <div className="modal-header">
           <p>

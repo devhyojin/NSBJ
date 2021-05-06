@@ -1,3 +1,18 @@
+$light_bg: #ffffff;
+$light_blue1: #61acf1;
+$light_blue2: #8ec1f1;
+$light_mint: #cde8dd;
+$light_btn: #b9d3c97a;
+
+$dark_bg: #323232;
+$dark_purple1: #d298ff;
+$dark_purple2: #a574cc;
+$dark_red: #bf5963;
+$dark_btn: #bf596369;
+$dark_btn_text: #dbd4d4;
+
+$aka: #aca9a9;
+
 .container {
   width: 100vw;
   height: 100vh;
@@ -10,13 +25,9 @@
     align-items: center;
     padding: 0 3%;
     button {
-      img {
-        width: 3vw;
-      }
       .withdrawl {
-        color: #79b7f1;
-        font-size: 3.2vw;
-        font-weight: bolder;
+        font-size: 3.3vw;
+        font-weight: bold;
       }
     }
   }
@@ -36,10 +47,9 @@
           width: 30vw;
           height: 30vw;
           margin: 0 auto;
-          background-color: #cde8dd;
           .my-character {
-            width: 30vw;
-            margin-left: 3%;
+            width: 29vw;
+            margin-left: 2.5%;
           }
         }
         .character-change {
@@ -49,7 +59,6 @@
           left: 58%;
           width: 10vw;
           height: 10vw;
-          background-color: #61acf1;
           font-size: 6vw;
           color: white;
           border: none;
@@ -67,7 +76,6 @@
           height: 25%;
           font-weight: bold;
           font-size: 4vw;
-          color: #93c9c7;
         }
         .aka {
           font-size: 3.5vw;
@@ -79,6 +87,18 @@
           font-weight: bolder;
           margin-bottom: 2%;
         }
+        div {
+          .nicknameBtn {
+            --width: 40vw;
+            --height: calc(var(--width) / 4.5);
+            width: var(--width);
+            height: var(--height);
+            font-size: calc(var(--height) / 2.1);
+            cursor: pointer;
+            font-weight: bolder;
+            border-radius: 0.6em;
+          }
+        }
       }
     }
     .my-stat {
@@ -87,8 +107,12 @@
       display: flex;
       justify-content: space-evenly;
       align-items: center;
-      img {
-        width: 50%;
+      .icon {
+        width: 8.5vw;
+      }
+      .cnt {
+        text-align: center;
+        font-weight: bold;
       }
     }
     .my-badge {
@@ -110,7 +134,6 @@
           width: var(--x);
           height: var(--x);
           border-radius: 50%;
-          background-color: #8ec1f1;
           font-size: 0.6rem;
           font-weight: bolder;
           margin-left: 10%;
@@ -128,11 +151,6 @@
           text-align: center;
           vertical-align: center;
           padding-bottom: 1%;
-          border: solid 7px #ffffff;
-          border-radius: 1rem;
-          // & :active {
-          //   border: solid 8px #cef5dd;
-          // }
           .badge-icon {
             width: 65%;
             height: 80%;
@@ -149,34 +167,107 @@
   }
 }
 
-.btn {
-  --width: 40vw;
-  --height: calc(var(--width) / 4.5);
-  width: var(--width);
-  height: var(--height);
-  font-size: calc(var(--height) / 2.1);
-  cursor: pointer;
-  background: #cde8dd;
-  font-weight: bolder;
-  border-radius: 0.6em;
-}
-
-.icon {
-  width: 8.5vw !important;
-}
-
-.cnt {
-  text-align: center;
-  font-weight: bold;
-}
-hr {
-  margin: 0;
-}
-
-.circle {
-  border-radius: 50%;
-}
-
-.deactive {
+.inactive {
   -webkit-filter: grayscale(100%);
+  border: solid 7.5px;
+  border-radius: 1rem;
+  border-color: transparent;
+}
+.active {
+  cursor: pointer;
+  border: solid 7.5px;
+  border-radius: 1rem;
+  border-color: transparent;
+}
+.border {
+  border: solid 7.5px;
+  border-radius: 1rem;
+}
+
+// 모드 별 색상 전환
+.light__withdrawl {
+  color: $light_blue2;
+}
+.dark__withdrawl {
+  color: $dark_purple2;
+}
+
+// .light__profile {
+//   background-color: $light_mint;
+// }
+// .dark__profile {
+//   background-color: $dark_red;
+// }
+
+// .light__ch__btn {
+//   background-color: $light_blue1;
+// }
+// .dark__ch__btn {
+//   background-color: $dark_purple1;
+// }
+
+.light__region {
+  color: $light_mint;
+}
+.dark__region {
+  color: $dark_red;
+}
+
+.light__nn__btn {
+  background-color: $light_btn;
+}
+.dark__nn__btn {
+  background-color: $dark_btn;
+  color: white;
+}
+
+.light__i__btn {
+  background-color: $light_blue2;
+}
+.dark__i__btn {
+  background-color: $dark_purple2;
+}
+
+//(보더 색)
+.light__ch__border {
+  border-color: $light_mint;
+}
+.dark__ch__border {
+  border-color: $dark_red;
+}
+.light__bs__charcter__border {
+  border-color: $light_blue1;
+}
+.dark__bs__character__border {
+  border-color: $dark_purple1;
+}
+.light__bs__badge__border {
+  border-color: $light_bg;
+}
+.dark__bs__badge__border {
+  border-color: $dark_bg;
+}
+
+// (배경 색)
+.light__bg {
+  background: white;
+  color: black;
+}
+.dark__bg {
+  background-color: $dark_bg;
+  color: white;
+}
+
+.light__bg__blue {
+  background-color: $light_blue1;
+}
+.dark__bg__purple {
+  background-color: $dark_purple1;
+}
+
+.light__bg__mint {
+  background-color: $light_mint;
+}
+.dark__bg__red {
+  background-color: $dark_red;
 }

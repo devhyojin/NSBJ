@@ -20,7 +20,6 @@
     margin: 0 auto !important;
     border-radius: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.356);
-    background-color: #61acf1;
     text-align: center;
     color: black;
     .character-modal-header {
@@ -38,10 +37,9 @@
       grid-template-rows: repeat(2, 44%);
       grid-template-columns: repeat(2, 1fr);
       .character-select-zone {
-        border: solid 8px #61acf1;
-        border-radius: 1rem;
         background: none;
         cursor: pointer;
+        z-index: 10;
         img {
           width: 21vw;
           height: 21vw;

@@ -1,20 +1,29 @@
 import React from 'react';
 import '../../styles/_modalBadgeInfo.scss';
 
-export default function CharacterModal({ badges, changeInfoStatus }) {
+interface ModalBadgeInfoProps {
+  MODE: string;
+  badges: Array<any>;
+  changeInfoStatus: () => void;
+}
+export default function CharacterModal({ MODE, badges, changeInfoStatus }: ModalBadgeInfoProps) {
+  let modeInfoModal = 'dark__bg__red info-container';
+  if (MODE === 'light') {
+    modeInfoModal = 'light__bg__mint info-container';
+  }
   return (
     <div
       role="button"
       tabIndex={0}
       onClick={() => changeInfoStatus()}
       onKeyDown={() => null}
-      className="info-container"
+      className={modeInfoModal}
     >
       <div className="info-header">
         <p className="guide-name">뱃지 가이드</p>
       </div>
       <div className="info-body">
-        {badges.map((badge) => (
+        {badges.map((badge: any): any => (
           <div key={badge.badgeTitle} className="info-line">
             <img className="info-icon" src={badge.cntPath} alt={badge.cntTitle} />
             <span>×</span>

@@ -1,24 +1,107 @@
 import React from 'react';
+import axios from 'axios';
 import '../../styles/_modalCharacter.scss';
 
+const SERVER_URL = process.env.REACT_APP_URL;
+
 interface MyProfileProps {
+  MODE: string;
   characters: Array<any>;
+  setCharacters: any;
+  setMyCharacter: any;
   changeCharacterStatus: () => void;
-  changeCharacter: (characterId: number) => void;
 }
 export default function CharacterModal({
-  characters,
-  changeCharacterStatus,
-  changeCharacter,
   MODE,
+  characters,
+  setCharacters,
+  setMyCharacter,
+  changeCharacterStatus,
 }: MyProfileProps) {
-  const modeCharacters = [...characters];
+  let modeCharacterModal = 'dark__bg__purple character-modal-container';
+  let modeCheckedBorder = 'dark__ch__border';
+  let modeBasicBorder = 'dark__bs__character__border';
+
+  const tempCharacters = [...characters];
   if (MODE === 'light') {
-    modeCharacters.splice(4, 4);
+    tempCharacters.splice(4, 4);
+    modeCharacterModal = 'light__bg__blue character-modal-container';
+    modeCheckedBorder = 'light__ch__border';
+    modeBasicBorder = 'light__bs__character__border';
   } else {
-    modeCharacters.splice(0, 4);
+    tempCharacters.splice(0, 4);
   }
-  console.log(modeCharacters);
+
+  const baseClassName = 'character-select-zone ';
+  const inactive = 'inactive';
+  const active = 'active ';
+  const checkBorder = (p: boolean): string => {
+    let classValue = 'border ';
+    if (p) {
+      classValue += modeCheckedBorder;
+    } else {
+      classValue += modeBasicBorder;
+    }
+    return classValue;
+  };
+
+  const ActiveCharacter = (character: any, key: number): any => {
+    const c = character.character;
+    return (
+      <div
+        role="button"
+        tabIndex={0}
+        onKeyDown={() => null}
+        onClick={() => changeCharacter(c.id)}
+        key={key}
+        className={baseClassName + active + checkBorder(c.picked)}
+      >
+        <img src={c.path} alt={c.title} />
+        <p>{c.title}</p>
+      </div>
+    );
+  };
+  const InactiveCharacter = (character: any, key: number): any => {
+    const c = character.character;
+    return (
+      <div key={key} className={baseClassName + inactive}>
+        <img src={c.path} alt={c.title} />
+        <p>{c.title}</p>
+      </div>
+    );
+  };
+
+  const changeCharacter = (characterId: number): void => {
+    // 1. characters 상태 업데이트 해주기, myCharacter 바꿔주기
+    let idx = characterId;
+    let x = 0;
+    if (MODE === 'dark') {
+      idx += 4;
+      x += 4;
+    }
+    setMyCharacter(idx);
+    const tempCharacters = [...characters];
+    for (let i = x; i < x + 4; i += 1) {
+      if (i === idx) {
+        tempCharacters[i].picked = !tempCharacters[i].picked;
+      } else {
+        tempCharacters[i].picked = false;
+      }
+    }
+    setCharacters(tempCharacters);
+
+    // 2. back에 보내주기
+    const userId = 1234567890;
+    axios
+      .patch(
+        `${SERVER_URL}/mypage/img`,
+        {},
+        { params: { profile_img: characterId, user_id: userId } },
+      )
+      .then((res) => {
+        console.log('캐릭터 성공', res);
+      });
+  };
 
   return (
     <div className="character-modal-mask">
@@ -27,25 +110,19 @@ export default function CharacterModal({
         tabIndex={0}
         onClick={() => changeCharacterStatus()}
         onKeyDown={() => null}
-        className="character-modal-container"
+        className={modeCharacterModal}
       >
         <div className="character-modal-header">
           <p>프로필 캐릭터 선택</p>
         </div>
         <div className="character-modal-body">
-          {modeCharacters.map((character: any) => (
-            <div
-              role="button"
-              tabIndex={0}
-              onKeyDown={() => null}
-              onClick={() => changeCharacter(character.id)}
-              key={character.title}
-              className="character-select-zone"
-            >
-              <img src={character.path} alt={character.title} />
-              <p>{character.title}</p>
-            </div>
-          ))}
+          {tempCharacters.map((character: any) => {
+            return character.status ? (
+              <ActiveCharacter character={character} key={character.id} />
+            ) : (
+              <InactiveCharacter character={character} key={character.id} />
+            );
+          })}
         </div>
       </div>
     </div>
