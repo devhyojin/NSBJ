@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService{
             data.put("profile_img", user.getProfile_img());
             data.put("megaphone_count", user.getMegaphone_count());
             data.put("feedback", feedback);
-            data.put("region_id", user.getRegion());
+            data.put("region", user.getRegion());
             data.put("badge", user.getBadge());
 
             return Response.builder()
