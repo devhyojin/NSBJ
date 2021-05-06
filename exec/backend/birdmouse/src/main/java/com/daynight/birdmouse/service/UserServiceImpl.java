@@ -21,8 +21,12 @@ public class UserServiceImpl implements UserService{
     private final BirdRepository birdRepository;
     private final MouseRepository mouseRepository;
     private final UserRepository userRepository;
-    private final BadgeRepository badgeRepository;
 
+    /**
+     * 사용자의 닉네임을 사용되지 않은 음식, 색, 동물 값으로 무작위하게 부여
+     * @param mode light/dark
+     * @return 새 닉네임이 부여된 유저 객체
+     */
     @Override
     public Object getRandonNickname(String mode) {
         User user = new User();
@@ -85,6 +89,11 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
+    /**
+     * 사용자의 마이페이지 정보를 불러옴
+     * @param id 사용자의 id 값
+     * @return 변경된 사용자의 데이터가 담긴 Response 객체 반환
+     */
     @Transactional(readOnly = true)
     public Response getMypage(String id) {
         Optional<User> user_db = userRepository.findById(id);
@@ -124,6 +133,12 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    /**
+     * 사용자의 칭호 변경
+     * @param id 사용자의 id
+     * @param badge 사용자가 선택한 badge int 값
+     * @return badge:{id:, badge_name:}가 담긴 Response 객체 반환
+     */
     @Override
     public Response changeBadge(String id, Badge badge) {
         Optional<User> user_db = userRepository.findById(id);
@@ -145,6 +160,12 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    /**
+     * 사용자의 프로필 이미지 변경
+     * @param id 사용자의 id
+     * @param profile_img 사용자가 선택한 profile_img int 값
+     * @return profile_img가 담긴 Response 객체 반환
+     */
     @Override
     public Response changeProfileImg(String id, Integer profile_img) {
         Optional<User> user_db = userRepository.findById(id);
@@ -166,7 +187,12 @@ public class UserServiceImpl implements UserService{
         }
     }
 
-
+    /**
+     * 사용자가 닉네임을 변경
+     * @param id 사용자의 id 값
+     * @param mode light/dark
+     * @return changed_nickname, nickname:{light: , dark: }가 담긴 Response 객체 반환
+     */
     @Override
     public Response modifiedNickname(String id, String mode) {
         Optional<User> user_db = userRepository.findById(id);
@@ -237,6 +263,11 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    /**
+     * 사용자 탈퇴하기
+     * @param id 사용자의 id 값
+     * @return data에는 null, status에는 true가 담긴 Response 객체 반환
+     */
     @Override
     public Response withdrawUser(String id) {
         Optional<User> user_db = userRepository.findById(id);
