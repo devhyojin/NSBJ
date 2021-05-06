@@ -17,8 +17,11 @@ public class User {
     private String bird_name;
     private String mouse_name;
 
-    @Column(columnDefinition = "integer default 0")
-    private int badge;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(columnDefinition = "integer default 0")
+    private Badge badge;
+
+
     @Column(columnDefinition = "boolean default false")
     private boolean changed_nickname;
     @Column(columnDefinition = "integer default 0")

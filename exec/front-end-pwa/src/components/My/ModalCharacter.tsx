@@ -1,27 +1,50 @@
 import React from 'react';
-import '../../styles/_characterModal.scss';
+import '../../styles/_modalCharacter.scss';
 
-export default function CharacterModal({ characters, changeCharacterStatus, changeCharacter }) {
+interface MyProfileProps {
+  characters: Array<any>;
+  changeCharacterStatus: () => void;
+  changeCharacter: (characterId: number) => void;
+}
+export default function CharacterModal({
+  characters,
+  changeCharacterStatus,
+  changeCharacter,
+  MODE,
+}: MyProfileProps) {
+  const modeCharacters = [...characters];
+  if (MODE === 'light') {
+    modeCharacters.splice(4, 4);
+  } else {
+    modeCharacters.splice(0, 4);
+  }
+  console.log(modeCharacters);
+
   return (
     <div className="character-modal-mask">
-      <div className="character-modal-container">
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => changeCharacterStatus()}
+        onKeyDown={() => null}
+        className="character-modal-container"
+      >
         <div className="character-modal-header">
           <p>프로필 캐릭터 선택</p>
-          <button onClick={changeCharacterStatus} type="submit">
-            X
-          </button>
         </div>
         <div className="character-modal-body">
-          {characters.map((character) => (
-            <button
-              type="submit"
-              onClick={changeCharacter(character.characterPath)}
-              key={character.characterTitle}
+          {modeCharacters.map((character: any) => (
+            <div
+              role="button"
+              tabIndex={0}
+              onKeyDown={() => null}
+              onClick={() => changeCharacter(character.id)}
+              key={character.title}
               className="character-select-zone"
             >
-              <img src={character.characterPath} alt={character.characterTitle} />
-              <p>{character.characterTitle}</p>
-            </button>
+              <img src={character.path} alt={character.title} />
+              <p>{character.title}</p>
+            </div>
           ))}
         </div>
       </div>
