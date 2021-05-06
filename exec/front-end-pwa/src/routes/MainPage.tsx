@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
-import ModeCheck from '../ModeCheck';
+import ModeCheck from '../utils/ModeCheck';
 import MainTop from '../components/Main/MainTop';
 import MainBody from '../components/Main/MainBody';
 import MainMessage from '../components/Main/MainMessage';
 import MainBottom from '../components/Main/MainBottom';
+import waveRandom from '../utils/WaveRandom';
 import '../styles/_main.scss';
+
 
 
 const KAKAO_SERVER_URL = process.env.REACT_APP_KAKAO_SERVER_URL;
@@ -15,8 +17,25 @@ const KAKAO_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
 export default function MainPage() {
   const [activate, setActivate] = useState(false);
   const [region, setRegion] = useState('');
-
+  const [cnt, setCnt] = useState(0)
   const MODE = ModeCheck();
+
+  // 랜덤웨이브 무한 생성
+  useEffect(() => {
+    const randomNum = Math.random()
+    const makeing = setTimeout(() => {
+      if (randomNum > 0.5) {
+        waveRandom(MODE)
+      } else {
+        waveRandom(MODE)
+        waveRandom(MODE)
+      }
+      setCnt(cnt + 1)
+    }, 5000);
+    return () => clearTimeout(makeing)
+  }, [cnt])
+
+
 
   let modeName = 'dark__mode bg';
   let neighborCnt = 0;

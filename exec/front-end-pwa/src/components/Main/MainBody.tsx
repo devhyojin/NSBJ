@@ -1,6 +1,6 @@
-import { useRef } from 'react'
-import '../../styles/_main.scss'
-import waveEffect from '../../WaveEffect'
+import { useRef } from 'react';
+import '../../styles/_main.scss';
+import waveEffect from '../../utils/WaveEffect';
 
 interface MainBodyProps {
   btnActivate: any,

@@ -1,0 +1,35 @@
+
+@keyframes wavesmall {
+  0%{ opacity:0.5; width:0.5em; height:0.5em; margin: -0.25em; border-width: 0.5em; }
+  100%{opacity:0.1; width:10em; height:10em; margin: -5em; border-width: 5em;}
+}
+
+@keyframes wavemiddle {
+  0%{opacity:0.5;width:0.5em; height:0.5em; margin: -0.25em;border-width: 0.5em;}
+  100%{opacity:0.1;width:20em; height:20em;margin: -10em; border-width: 10em;}
+}
+
+@keyframes wavebig {
+  0%{opacity:0.5;width:0.5em; height:0.5em; margin: -0.25em;border-width: 0.5em;}
+  100%{opacity:0.1;width:30em; height:30em;margin: -15em; border-width: 15em;}
+}
+
+.wave__effect {
+  position:fixed;
+  box-sizing: border-box;
+  border-style: solid;
+  border-radius: 50%;  
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  z-index:0;
+}
+
+.wave__small {animation-name: wavesmall;}
+
+.wave__middle { animation-name: wavemiddle;}
+
+.wave__big {animation-name: wavebig;}
+
+.dark__mode {border-color:#a145e771;}
+
+.light__mode {border-color: #1a7bd68f;}
