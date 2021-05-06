@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function Chat() {
-  return <div>{null}</div>;
+  return <div>{start chat page layout}</div>;
 }
