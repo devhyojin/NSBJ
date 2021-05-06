@@ -184,6 +184,8 @@ public class UserServiceImpl implements UserService{
                 user.setFood(newNickname.getFood());
                 user.setColor(newNickname.getColor());
                 user.setAnimal_id(newNickname.getAnimal_id());
+                user.setBird_name(newNickname.getBird_name());
+                user.setMouse_name(newNickname.getMouse_name());
                 user.setChanged_nickname(true);
                 userRepository.save(user);
 
