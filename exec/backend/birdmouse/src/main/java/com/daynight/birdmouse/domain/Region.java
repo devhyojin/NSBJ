@@ -12,6 +12,6 @@ import javax.persistence.Id;
 public class Region {
 
     @Id
-    private String id;
+    private long id;
     private String region_name;
 }

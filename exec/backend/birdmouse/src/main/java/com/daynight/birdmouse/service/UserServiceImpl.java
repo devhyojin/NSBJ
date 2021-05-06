@@ -23,6 +23,11 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final BadgeRepository badgeRepository;
 
+    /**
+     * 닉네임 랜덤 생성
+     * @param mode : light/dark
+     * @return 랜덤 닉네임 값들을 가진 유저 객체
+     */
     @Override
     public Object getRandonNickname(String mode) {
         User user = new User();
@@ -108,7 +113,7 @@ public class UserServiceImpl implements UserService{
             data.put("profile_img", user.getProfile_img());
             data.put("megaphone_count", user.getMegaphone_count());
             data.put("feedback", feedback);
-            data.put("region_id", user.getRegion_id());
+            data.put("region_id", user.getRegion());
             data.put("badge", user.getBadge());
 
             return Response.builder()
