@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import ModeCheck from '../ModeCheck';
+import React, { useState } from 'react';
+import ModeCheck from '../utils/ModeCheck';
 import ModalConfirmWithdrawl from '../components/My/ModalConfirmWithdrawl';
 import MyProfile from '../components/My/MyProfile';
 import MyStat from '../components/My/MyStat';
@@ -10,8 +9,8 @@ import '../styles/_mypage.scss';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function MyPage({ history }) {
-  const MODE = 'dark';
+export default function MyPage({ history }: any) {
+  const MODE = ModeCheck();
   let modeBG = 'dark__bg container';
   let modeWithdraw = 'dark__withdrawl withdrawl';
   if (MODE === 'light') {

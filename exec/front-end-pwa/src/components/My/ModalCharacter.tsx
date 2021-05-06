@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 import '../../styles/_modalCharacter.scss';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
 interface MyProfileProps {
+  MODE: string;
   characters: Array<any>;
-  setCharacters: Array<any>;
-  setMyCharacter: number;
+  setCharacters: any;
+  setMyCharacter: any;
   changeCharacterStatus: () => void;
 }
 export default function CharacterModal({
@@ -34,7 +35,7 @@ export default function CharacterModal({
   const baseClassName = 'character-select-zone ';
   const inactive = 'inactive';
   const active = 'active ';
-  const checkBorder = (p) => {
+  const checkBorder = (p: boolean): string => {
     let classValue = 'border ';
     if (p) {
       classValue += modeCheckedBorder;
@@ -44,7 +45,7 @@ export default function CharacterModal({
     return classValue;
   };
 
-  const ActiveCharacter = (character, key) => {
+  const ActiveCharacter = (character: any, key: number): any => {
     const c = character.character;
     return (
       <div
@@ -60,7 +61,7 @@ export default function CharacterModal({
       </div>
     );
   };
-  const InactiveCharacter = (character, key) => {
+  const InactiveCharacter = (character: any, key: number): any => {
     const c = character.character;
     return (
       <div key={key} className={baseClassName + inactive}>
@@ -74,14 +75,12 @@ export default function CharacterModal({
     // 1. characters 상태 업데이트 해주기, myCharacter 바꿔주기
     let idx = characterId;
     let x = 0;
-    console.log('캐릭터아이디', characterId);
     if (MODE === 'dark') {
       idx += 4;
       x += 4;
     }
     setMyCharacter(idx);
     const tempCharacters = [...characters];
-    console.log('ㅍㅍㅍㅍ', tempCharacters);
     for (let i = x; i < x + 4; i += 1) {
       if (i === idx) {
         tempCharacters[i].picked = !tempCharacters[i].picked;
@@ -93,7 +92,6 @@ export default function CharacterModal({
 
     // 2. back에 보내주기
     const userId = 1234567890;
-    console.log('캐릭터 클릭');
     axios
       .patch(
         `${SERVER_URL}/mypage/img`,
@@ -105,9 +103,6 @@ export default function CharacterModal({
       });
   };
 
-  useEffect(() => {
-    console.log('ffdfhsdfdsfsfsd', tempCharacters);
-  });
   return (
     <div className="character-modal-mask">
       <div

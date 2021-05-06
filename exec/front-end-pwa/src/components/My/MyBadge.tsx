@@ -16,8 +16,12 @@ import judge3 from '../../assets/flaticon/judge3.png';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function MyBadge({ setMyAKA, MODE }) {
-  console.log('커피', MODE);
+interface ModalConfirmWithdrawlProps {
+  MODE: string;
+  setMyAKA: any;
+}
+
+export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) {
   let modeInfoBtn = 'dark__i__btn';
   let modeCheckedBorder = 'dark__ch__border';
   let modeBasicBorder = 'dark__bs__border';
@@ -132,9 +136,7 @@ export default function MyBadge({ setMyAKA, MODE }) {
         console.log('칭호 체인지', res);
       });
     const tempBadges = [...badges];
-    console.log('쳌', idx, tempBadges);
     for (let i = 0; i < 9; i += 1) {
-      console.log(i);
       if (i === idx - 1) {
         tempBadges[i].picked = !tempBadges[i].picked;
       } else {
@@ -148,7 +150,7 @@ export default function MyBadge({ setMyAKA, MODE }) {
   const baseClassName = 'badge-item ';
   const inactive = 'inactive';
   const active = 'active ';
-  const checkBorder = (p) => {
+  const checkBorder = (p: boolean): string => {
     let classValue = '';
     if (p) {
       classValue = 'border ';
@@ -158,7 +160,7 @@ export default function MyBadge({ setMyAKA, MODE }) {
     }
     return classValue;
   };
-  const ActiveBadge = (badge, key) => {
+  const ActiveBadge = (character: any, key: number): any => {
     const b = badge.badge;
     return (
       <div
@@ -174,7 +176,7 @@ export default function MyBadge({ setMyAKA, MODE }) {
       </div>
     );
   };
-  const InactiveBadge = (badge, key) => {
+  const InactiveBadge = (character: any, key: number): any => {
     const b = badge.badge;
     return (
       <div role="button" className={baseClassName + inactive} key={key}>
@@ -183,7 +185,7 @@ export default function MyBadge({ setMyAKA, MODE }) {
       </div>
     );
   };
-  const badgeCalculator = (feedback, feedbackCnt) => {
+  const badgeCalculator = (feedback: string, feedbackCnt: number): void => {
     const tempBadges = [...badges];
     let idx = 0;
     if (feedback === '마음 포인트') {
@@ -210,7 +212,6 @@ export default function MyBadge({ setMyAKA, MODE }) {
     const userId = 1234567890;
 
     axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
-      console.log('성공', res.data.data);
       // 1.버튼 활성화 여부 status에 체크하기 위해 badgeCalculator에 값 넘겨줌.
       const response = res.data.data;
       badgeCalculator('리액션 포인트', response.feedback.angel_count);
@@ -220,7 +221,6 @@ export default function MyBadge({ setMyAKA, MODE }) {
       const tempBadges = [...badges];
       tempBadges[response.badge.id - 1].picked = true;
       setBadges(tempBadges);
-      console.log('요이', tempBadges);
     });
   }, []);
 
@@ -237,7 +237,7 @@ export default function MyBadge({ setMyAKA, MODE }) {
       </div>
 
       <div className="badge-container">
-        {badges.map((badge) => {
+        {badges.map((badge: any): any => {
           return badge.status ? (
             <ActiveBadge badge={badge} key={badge.badgeTitle} />
           ) : (

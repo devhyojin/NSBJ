@@ -13,7 +13,13 @@ import mouseJudge from '../../assets/characters/mouse/mouse_judge.gif';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function MyProfile({ MODE, myAKA, setMyAKA }): string {
+interface MyProfileProps {
+  MODE: string;
+  myAKA: string | undefined;
+  setMyAKA: any;
+}
+
+export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
   let modeProfile = 'dark__bg__red circle character-circle';
   let modeCharacterBtn = 'dark__bg__purple circle character-change';
   let modeRegion = 'dark__region location';
@@ -76,9 +82,7 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }): string {
   useEffect(() => {
     // 아이디 잡아오고 수정하기
     const userId = 1234567890;
-    console.log('확인!dd!!');
     axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
-      console.log('성공', res.data.data);
       const tempCharacters = [...characters];
       const response = res.data.data;
 
