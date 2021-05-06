@@ -20,12 +20,10 @@ export default function LadingPage() {
   const responseGoogle = (res: any) => {
     const { accessToken, googleId } = res;
     login(googleId, MODE, accessToken);
-    console.log(res)
   };
 
   const responseFail = (err: any) => {
     alert(err);
-    console.log(err)
   };
 
   const login = (googleId: string, MODE: string, accessToken: string) => {
