@@ -1,5 +1,7 @@
 package com.daynight.birdmouse.service;
 
+import com.daynight.birdmouse.domain.Badge;
+import com.daynight.birdmouse.domain.Region;
 import com.daynight.birdmouse.domain.User;
 import com.daynight.birdmouse.dto.KakaoProfileDto;
 import com.daynight.birdmouse.dto.KakaoTokenDto;
@@ -26,7 +28,16 @@ public class LoginServiceImpl implements LoginService{
 
     private final UserRepository userRepository;
     private final UserService userService;
+    private final BadgeRepository badgeRepository;
+    private final RegionRepository regionRepository;
 
+    /**
+     * 구글에서 회원정보를 받아서 로그인/회원가입을 하는 메서드
+     * @param id : 사용자의 구글 id
+     * @param token : 구글에서 발급받은 토큰
+     * @param mode : light/dark
+     * @return 있는 유저는 로그인/없는 유저는 회원가입
+     */
     @Override
     public Response getGoogleProfile(String id, String token, String mode) {
 
@@ -55,6 +66,14 @@ public class LoginServiceImpl implements LoginService{
 
             // 확성기의 기본 개수는 2
             user.setMegaphone_count(2);
+
+            // 기본 뱃지 0
+            Badge zeroBadge = badgeRepository.getOne(0);
+            user.setBadge(zeroBadge);
+
+            // 기본 지역 0
+            Region zeroRegion = regionRepository.getOne(0L);
+            user.setRegion(zeroRegion);
 
             // DB에 유저 정보 저장
             userRepository.save(user);
