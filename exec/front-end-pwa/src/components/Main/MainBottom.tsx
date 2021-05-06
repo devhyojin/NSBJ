@@ -73,13 +73,6 @@ export default function MainBottom({ mode }: MainBottomProps) {
 
   }
 
-  // window.removeEventListener('touchstart', arrowHandler)
-  // window.addEventListener('touchstart', arrowHandler)
-  // window.addEventListener('touchend', arrowLeaveHandler)
-
-
-
-
   return (
     <div className='main__bottom__cover'
       onTouchStart={arrowHandler}

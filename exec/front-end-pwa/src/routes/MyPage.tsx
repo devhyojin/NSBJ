@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ModeCheck from '../ModeCheck';
+import ModeCheck from '../utils/ModeCheck';
 import ModalConfirmWithdrawl from '../components/My/ModalConfirmWithdrawl';
 import MyProfile from '../components/My/MyProfile';
 import MyStat from '../components/My/MyStat';

@@ -1,19 +1,26 @@
-import React from 'react'
+// import React from 'react'
+import { v4 as uuidv4 } from 'uuid';
+import Message from './Message';
 
-export default function ChatContent() {
 
-  const array = []
+interface ChatContentProps {
+  data: {
+    chat: Array;
+    count: number;
+    user: Array;
+  };
+  mode: string;
+}
 
-  for (let i = 0; i < 100; i += 1) {
-    array.push(i)
-  }
+export default function ChatContent({ data, mode }: ChatContentProps) {
 
+  const { chat, count, user } = data
 
 
   return (
     <div className='chat__content'>
       Chat Conten part
-      {array.map(int => <div key='1'>{int}</div>)}
+      {chat.map(message => <Message key={uuidv4()} message={message} mode={mode} />)}
     </div>
   )
 }
