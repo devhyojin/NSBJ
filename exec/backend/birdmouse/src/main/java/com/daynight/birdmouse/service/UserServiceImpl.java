@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService{
     private final BirdRepository birdRepository;
     private final MouseRepository mouseRepository;
     private final UserRepository userRepository;
+    private final BadgeRepository badgeRepository;
 
     @Override
     public Object getRandonNickname(String mode) {
@@ -124,9 +125,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Response changeBadge(String id, Integer badge) {
+    public Response changeBadge(String id, Badge badge) {
         Optional<User> user_db = userRepository.findById(id);
-        HashMap<String, Integer> changed_badge = new HashMap<>();
+        HashMap<String, Badge> changed_badge = new HashMap<>();
         if (user_db.isPresent()) {
             User user = user_db.get();
             user.setBadge(badge);

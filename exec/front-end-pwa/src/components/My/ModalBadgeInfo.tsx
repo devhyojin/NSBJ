@@ -1,9 +1,15 @@
 import React from 'react';
-import '../../styles/_infoModal.scss';
+import '../../styles/_modalBadgeInfo.scss';
 
-export default function CharacterModal({ badges }) {
+export default function CharacterModal({ badges, changeInfoStatus }) {
   return (
-    <div className="info-container">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => changeInfoStatus()}
+      onKeyDown={() => null}
+      className="info-container"
+    >
       <div className="info-header">
         <p className="guide-name">뱃지 가이드</p>
       </div>
