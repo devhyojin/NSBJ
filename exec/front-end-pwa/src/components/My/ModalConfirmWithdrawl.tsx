@@ -5,7 +5,12 @@ import '../../styles/_modalConfirm.scss';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function ModalConfirmWithdrawl({ changeWithdrawlConfirmStatus }) {
+export default function ModalConfirmWithdrawl({ MODE, changeWithdrawlConfirmStatus }) {
+  let modeWithdrawlModal = 'dark__bg__purple modal-container';
+  if (MODE === 'light') {
+    modeWithdrawlModal = 'light__bg__blue modal-container';
+  }
+
   const history = useHistory();
 
   const withdrawl = (userId: number): void => {
@@ -24,7 +29,7 @@ export default function ModalConfirmWithdrawl({ changeWithdrawlConfirmStatus }) 
         tabIndex={0}
         onKeyDown={() => null}
         onClick={() => changeWithdrawlConfirmStatus()}
-        className="modal-container"
+        className={modeWithdrawlModal}
       >
         <div className="modal-header">
           <p>정말 탈퇴하시겠습니까?</p>
