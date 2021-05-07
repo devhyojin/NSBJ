@@ -1,7 +1,5 @@
 import '../styles/_main.scss'
 
-
-
 export default function WaveEffect(x: number, y: number, mode: string): void {
   const makeWave = () => {
     const wave = document.createElement('div');
