@@ -14,17 +14,14 @@ export default function MyStat() {
     { path: judgeCnt, title: '해결 포인트', cnt: 0 },
   ];
   const [stat, setStat]: Array<any> = useState(initStat);
-  const [megaphoneCnt, setMegaphoneCnt]: number = useState(0);
+  const [megaphoneCnt, setMegaphoneCnt]: Array<any> = useState(0);
 
   useEffect(() => {
     // 아이디 잡아오고 수정하기
     const userId = 1234567890;
-    console.log('확인');
     axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
-      console.log('성공', res.data.data);
       const response = res.data.data;
       setMegaphoneCnt(response.megaphone_count);
-      console.log('슈퍼챗', megaphoneCnt);
       const tempStat = [...initStat];
       tempStat[0].cnt = response.feedback.angel_count;
       tempStat[1].cnt = response.feedback.heart_count;
@@ -40,7 +37,7 @@ export default function MyStat() {
         <img className="icon" src={megaphone} alt="확성기" />
         <p className="cnt">{megaphoneCnt}회</p>
       </div>
-      {stat.map((s) => (
+      {stat.map((s: any): any => (
         <div key={s.path} className="cnt-zone">
           <img className="icon cnt-icon" src={s.path} alt={s.title} />
           <p className="cnt">{s.cnt}회</p>

@@ -37,8 +37,9 @@ public class User {
     @Column(columnDefinition = "boolean default false")
     private boolean has_left;
 
-    @Column(columnDefinition = "integer default 0")
-    private int region_id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(columnDefinition = "integer default 0")
+    private Region region;
 
     @Column(columnDefinition = "integer default 0")
     private int animal_id;

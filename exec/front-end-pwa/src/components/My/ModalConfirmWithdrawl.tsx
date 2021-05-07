@@ -5,13 +5,25 @@ import '../../styles/_modalConfirm.scss';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function ModalConfirmWithdrawl({ changeWithdrawlConfirmStatus }) {
+interface ModalConfirmWithdrawlProps {
+  MODE: string;
+  changeWithdrawlConfirmStatus: () => void;
+}
+
+export default function ModalConfirmWithdrawl({
+  MODE,
+  changeWithdrawlConfirmStatus,
+}: ModalConfirmWithdrawlProps) {
+  let modeWithdrawlModal = 'dark__bg__purple modal-container';
+  if (MODE === 'light') {
+    modeWithdrawlModal = 'light__bg__blue modal-container';
+  }
+
   const history = useHistory();
 
   const withdrawl = (userId: number): void => {
-    console.log('유우저', userId);
     axios.patch(`${SERVER_URL}/mypage/withdraw`, {}, { params: { id: userId } }).then((res) => {
-      console.log('탈퇴 성공', res);
+      console.log('탈퇴 성공', userId, res);
       setTimeout(() => {
         history.push('/mypage');
       }, 330);
@@ -24,7 +36,7 @@ export default function ModalConfirmWithdrawl({ changeWithdrawlConfirmStatus }) 
         tabIndex={0}
         onKeyDown={() => null}
         onClick={() => changeWithdrawlConfirmStatus()}
-        className="modal-container"
+        className={modeWithdrawlModal}
       >
         <div className="modal-header">
           <p>정말 탈퇴하시겠습니까?</p>
