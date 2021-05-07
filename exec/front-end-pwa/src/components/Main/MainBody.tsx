@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import '../../styles/_main.scss';
 import waveEffect from '../../utils/WaveEffect';
 
@@ -8,8 +8,11 @@ interface MainBodyProps {
 }
 
 export default function MainBody({ btnActivate, mode }: MainBodyProps) {
+
+  const baseClassName = 'my__icon absolute__center ';
+  const myIcon = React.useRef() as React.MutableRefObject<HTMLInputElement>;
+
   const activateHandler = () => {
-    console.log('dd');
     const target = myIcon.current;
     waveEffect(
       target.getBoundingClientRect().x + target.offsetWidth / 2,
@@ -18,9 +21,6 @@ export default function MainBody({ btnActivate, mode }: MainBodyProps) {
     );
     btnActivate();
   };
-
-  const baseClassName = 'my__icon absolute__center ';
-  const myIcon = useRef();
 
   let imgClass = '';
   if (mode === 'light') {

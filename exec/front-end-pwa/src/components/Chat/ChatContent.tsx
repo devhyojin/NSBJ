@@ -1,13 +1,14 @@
 // import React from 'react'
 import { v4 as uuidv4 } from 'uuid';
+
 import Message from './Message';
 
 
 interface ChatContentProps {
   data: {
-    chat: Array;
+    chat: any;
     count: number;
-    user: Array;
+    user: any;
   };
   mode: string;
 }
@@ -20,7 +21,17 @@ export default function ChatContent({ data, mode }: ChatContentProps) {
   return (
     <div className='chat__content'>
       Chat Conten part
-      {chat.map(message => <Message key={uuidv4()} message={message} mode={mode} />)}
+      {chat.map((msg: any[]) => <Message key={uuidv4()} message={msg} mode={mode} />)}
     </div>
   )
 }
+
+// import React from 'react'
+
+// export default function ChatContent() {
+//   return (
+//     <div>
+//       {null}
+//     </div>
+//   )
+// }
