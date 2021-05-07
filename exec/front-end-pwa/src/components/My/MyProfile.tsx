@@ -15,12 +15,11 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 interface MyProfileProps {
   MODE: string;
-  userId: string;
   myAKA: string | undefined;
   setMyAKA: any;
 }
 
-export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfileProps) {
+export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
   // 모드 별 색상 전환
   let modeProfile = 'dark__bg__red circle character-circle';
   let modeCharacterBtn = 'dark__bg__purple circle character-change';
@@ -95,47 +94,16 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
       const tempCharacters = [...characters];
       const response = res.data.data;
 
-      //   return (
-      //     <div className="my-profile">
-      //       {/* 캐릭터 변경 존 */}
-      //       <div className="character-zone">
-      //         <div className={modeProfile}>
-      //           <img className="my-character" src={characters[myCharacter].path} alt="character" />
-      //         </div>
-      //         <button onClick={() => changeCharacterStatus()} type="submit" className={modeCharacterBtn}>
-      //           +
-      //         </button>
-      //         {characterStatus && (
-      //           <ModalCharacter
-      //             MODE={MODE}
-      //             characters={characters}
-      //             setCharacters={setCharacters}
-      //             setMyCharacter={setMyCharacter}
-      //             changeCharacterStatus={changeCharacterStatus}
-      //           />
-      //         )}
-      //       </div>
-      //       {/* 닉네임 존 */}
-      //       <div className="nickname-zone">
-      //         <p className={modeRegion}>{myRegion}</p>
-      //         <p className="aka">{myAKA}</p>
-      //         <p className="nickname">{myNickName}</p>
-      //         <div>
-      //           <button onClick={() => changeConfirmStatus()} type="submit" className={modeNicknameBtn}>
-      //             닉네임 변경
-      //           </button>
-      //           {confirmStatus && (
-      //             <ModalConfirmNickname
-      //               MODE={MODE}
-      //               changeConfirmStatus={changeConfirmStatus}
-      //               changeNickname={changeNickname}
-      //             />
-      //           )}
-      //         </div>
-      //       </div>
-      //     </div>
-      //   );
-      // }
+      let profileIdx = response.profile_img;
+      if (MODE === 'dark') {
+        profileIdx += 4;
+      }
+      tempCharacters[profileIdx].picked = true;
+      setCharacters(tempCharacters);
+      setMyCharacter(profileIdx);
+      setMyRegion(response.region.region_name);
+      setMyAKA(response.badge.badge_name);
+      setNicknameFlag(response.changed_nickname);
 
       if (MODE === 'light') {
         setMyNickName(response.nickname.light);
@@ -149,55 +117,52 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
     });
   }, [MODE]);
 
-  export default function MyProfile() {
-    return (
-      <div className="my-profile">
-        {/* 캐릭터 변경 존 */}
-        <div className="character-zone">
-          <div className={modeProfile}>
-            <img className="my-character" src={characters[myCharacter].path} alt="character" />
-          </div>
+  return (
+    <div className="my-profile">
+      {/* 캐릭터 변경 존 */}
+      <div className="character-zone">
+        <div className={modeProfile}>
+          <img className="my-character" src={characters[myCharacter].path} alt="character" />
+        </div>
+        <button
+          className={modeCharacterBtn}
+          onClick={() => changeCharacterModalStatus()}
+          type="submit"
+        >
+          +
+        </button>
+        {characterModalStatus && (
+          <ModalCharacter
+            MODE={MODE}
+            characters={characters}
+            setCharacters={setCharacters}
+            setMyCharacter={setMyCharacter}
+            changeCharacterModalStatus={changeCharacterModalStatus}
+          />
+        )}
+      </div>
+      {/* 닉네임 존 */}
+      <div className="nickname-zone">
+        <p className={modeRegion}>{myRegion}</p>
+        <p className="aka">{myAKA}</p>
+        <p className="nickname">{myNickName}</p>
+        <div>
           <button
-            className={modeCharacterBtn}
-            onClick={() => changeCharacterModalStatus()}
+            className={modeNicknameBtn}
+            onClick={() => changeNicknameModalStatus()}
             type="submit"
           >
-            +
-        </button>
-          {characterModalStatus && (
-            <ModalCharacter
+            닉네임 변경
+          </button>
+          {nicknameModalStatus && (
+            <ModalConfirmNickname
               MODE={MODE}
-              userId={userId}
-              characters={characters}
-              setCharacters={setCharacters}
-              setMyCharacter={setMyCharacter}
-              changeCharacterModalStatus={changeCharacterModalStatus}
+              changeNickname={changeNickname}
+              changeNicknameModalStatus={changeNicknameModalStatus}
             />
           )}
         </div>
-        {/* 닉네임 존 */}
-        <div className="nickname-zone">
-          <p className={modeRegion}>{myRegion}</p>
-          <p className="aka">{myAKA}</p>
-          <p className="nickname">{myNickName}</p>
-          <div>
-            <button
-              className={modeNicknameBtn}
-              onClick={() => changeNicknameModalStatus()}
-              type="submit"
-            >
-              닉네임 변경
-          </button>
-            {nicknameModalStatus && (
-              <ModalConfirmNickname
-                MODE={MODE}
-                userId={userId}
-                changeNickname={changeNickname}
-                changeNicknameModalStatus={changeNicknameModalStatus}
-              />
-            )}
-          </div>
-        </div>
       </div>
-    )
-  }
+    </div>
+  );
+}
