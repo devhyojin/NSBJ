@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModeCheck from '../utils/ModeCheck';
 import ModalConfirmWithdrawl from '../components/My/ModalConfirmWithdrawl';
 import MyProfile from '../components/My/MyProfile';
@@ -7,9 +7,8 @@ import MyBadge from '../components/My/MyBadge';
 
 import '../styles/_mypage.scss';
 
-const SERVER_URL = process.env.REACT_APP_URL;
-
 export default function MyPage({ history }: any) {
+  // 모드 별 색상 전환
   const MODE = ModeCheck();
   let modeBG = 'dark__bg container';
   let modeWithdraw = 'dark__withdrawl withdrawl';
@@ -17,16 +16,23 @@ export default function MyPage({ history }: any) {
     modeBG = 'light__bg container';
     modeWithdraw = 'light__withdrawl withdrawl';
   }
+
+  const [myAKA, setMyAKA] = useState<string>();
+  const [withdrawlModalStatus, setWithdrawlModalStatus] = useState<boolean>(false);
+
+  const changeWithdrawlModalStatus = (): void => {
+    setWithdrawlModalStatus(!withdrawlModalStatus);
+  };
+
   const goBack = () => {
     history.goBack();
   };
 
-  const [myAKA, setMyAKA] = useState<string>();
-  const [withdrawlConfirmStatus, setWithdrawlConfirmStatus] = useState<boolean>(false);
-
-  const changeWithdrawlConfirmStatus = (): void => {
-    setWithdrawlConfirmStatus(!withdrawlConfirmStatus);
-  };
+  let userId = '';
+  useEffect(() => {
+    const userInfo = localStorage.getItem('userInfo');
+    userId = JSON.parse(userInfo).id;
+  });
 
   return (
     <div className={modeBG}>
@@ -40,22 +46,23 @@ export default function MyPage({ history }: any) {
         >
           {null}
         </i>
-        <button onClick={() => changeWithdrawlConfirmStatus()} type="submit">
+        <button onClick={() => changeWithdrawlModalStatus()} type="submit">
           <p className={modeWithdraw}>탈퇴하기</p>
         </button>
-        {withdrawlConfirmStatus && (
+        {withdrawlModalStatus && (
           <ModalConfirmWithdrawl
             MODE={MODE}
-            changeWithdrawlConfirmStatus={changeWithdrawlConfirmStatus}
+            userId={userId}
+            changeWithdrawlModalStatus={changeWithdrawlModalStatus}
           />
         )}
       </div>
       <div className="body">
-        <MyProfile MODE={MODE} myAKA={myAKA} setMyAKA={setMyAKA} />
+        <MyProfile MODE={MODE} userId={userId} myAKA={myAKA} setMyAKA={setMyAKA} />
         <hr />
-        <MyStat />
+        <MyStat userId={userId} />
         <hr />
-        <MyBadge MODE={MODE} setMyAKA={setMyAKA} />
+        <MyBadge MODE={MODE} userId={userId} setMyAKA={setMyAKA} />
       </div>
     </div>
   );

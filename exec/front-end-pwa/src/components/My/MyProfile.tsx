@@ -15,16 +15,18 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 interface MyProfileProps {
   MODE: string;
+  userId: string;
   myAKA: string | undefined;
   setMyAKA: any;
 }
 
-export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
+export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfileProps) {
+  // 모드 별 색상 전환
   let modeProfile = 'dark__bg__red circle character-circle';
   let modeCharacterBtn = 'dark__bg__purple circle character-change';
   let modeRegion = 'dark__region location';
   let modeNicknameBtn = 'dark__nn__btn nicknameBtn';
-  let initIdx = 4;
+  let initIdx = 4; // 모드 별 기본 캐릭터(노말O) index
   if (MODE === 'light') {
     modeProfile = 'light__bg__mint circle character-circle';
     modeCharacterBtn = 'light__bg__blue circle character-change';
@@ -44,25 +46,30 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
     { id: 3, path: mouseJudge, title: '엘맅찍', status: false, picked: false },
   ];
   const [nicknameFlag, setNicknameFlag] = useState<boolean>(false);
-  const [characterStatus, setCharacterStatus] = useState<boolean>(false);
-  const [confirmStatus, setConfirmStatus] = useState<boolean>(false);
   const [characters, setCharacters] = useState(initCharacters);
   const [myCharacter, setMyCharacter] = useState(initIdx);
   const [myRegion, setMyRegion] = useState();
   const [myNickName, setMyNickName] = useState<string>();
-  const changeCharacterStatus = (): void => {
-    setCharacterStatus(!characterStatus);
+  const [characterModalStatus, setCharacterModalStatus] = useState<boolean>(false);
+  const [nicknameModalStatus, setNicknameModalStatus] = useState<boolean>(false);
+
+  // 모달 여닫기
+  const changeCharacterModalStatus = (): void => {
+    setCharacterModalStatus(!characterModalStatus);
   };
-  const changeConfirmStatus = (): void => {
-    setConfirmStatus(!confirmStatus);
+  const changeNicknameModalStatus = (): void => {
+    setNicknameModalStatus(!nicknameModalStatus);
   };
+
+  // 닉네임 변경
   const changeNickname = (): void => {
-    const userId = 1234567890;
+    // props userId로 바꿔주기
+    const uId = 1234567890;
     if (nicknameFlag) {
       alert('하루에 한 번만 변경 가능합니다.');
     } else {
       axios
-        .patch(`${SERVER_URL}/mypage/nickname`, {}, { params: { mode: MODE, user_id: userId } })
+        .patch(`${SERVER_URL}/mypage/nickname`, {}, { params: { mode: MODE, user_id: uId } })
         .then((res) => {
           console.log('닉네임 성공', res);
         })
@@ -71,7 +78,9 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
         });
     }
   };
-  const characterCalculator = (tempCharacters, idx, feedbackCnt) => {
+
+  // 캐릭터 활성화 판독하기
+  const characterCalculator = (tempCharacters: Array<any>, idx: number, feedbackCnt: number) => {
     if (feedbackCnt >= 50) {
       tempCharacters[idx].status = true;
       tempCharacters[idx + 4].status = true;
@@ -80,9 +89,9 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
   };
 
   useEffect(() => {
-    // 아이디 잡아오고 수정하기
-    const userId = 1234567890;
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
+    // props userId로 바꿔주기
+    const uId = 1234567890;
+    axios.get(`${SERVER_URL}/mypage`, { params: { id: uId } }).then((res) => {
       const tempCharacters = [...characters];
       const response = res.data.data;
 
@@ -102,7 +111,7 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
       } else {
         setMyNickName(response.nickname.dark);
       }
-
+      // 캐릭터 활성화 여부 판독하기
       characterCalculator(tempCharacters, 1, response.feedback.angel_count);
       characterCalculator(tempCharacters, 2, response.feedback.heart_count);
       characterCalculator(tempCharacters, 3, response.feedback.judge_count);
@@ -116,16 +125,21 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
         <div className={modeProfile}>
           <img className="my-character" src={characters[myCharacter].path} alt="character" />
         </div>
-        <button onClick={() => changeCharacterStatus()} type="submit" className={modeCharacterBtn}>
+        <button
+          className={modeCharacterBtn}
+          onClick={() => changeCharacterModalStatus()}
+          type="submit"
+        >
           +
         </button>
-        {characterStatus && (
+        {characterModalStatus && (
           <ModalCharacter
             MODE={MODE}
+            userId={userId}
             characters={characters}
             setCharacters={setCharacters}
             setMyCharacter={setMyCharacter}
-            changeCharacterStatus={changeCharacterStatus}
+            changeCharacterModalStatus={changeCharacterModalStatus}
           />
         )}
       </div>
@@ -135,14 +149,19 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
         <p className="aka">{myAKA}</p>
         <p className="nickname">{myNickName}</p>
         <div>
-          <button onClick={() => changeConfirmStatus()} type="submit" className={modeNicknameBtn}>
+          <button
+            className={modeNicknameBtn}
+            onClick={() => changeNicknameModalStatus()}
+            type="submit"
+          >
             닉네임 변경
           </button>
-          {confirmStatus && (
+          {nicknameModalStatus && (
             <ModalConfirmNickname
               MODE={MODE}
-              changeConfirmStatus={changeConfirmStatus}
+              userId={userId}
               changeNickname={changeNickname}
+              changeNicknameModalStatus={changeNicknameModalStatus}
             />
           )}
         </div>

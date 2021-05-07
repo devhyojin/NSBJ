@@ -7,7 +7,7 @@ import judgeCnt from '../../assets/flaticon/judge_cnt.png';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function MyStat() {
+export default function MyStat({ userId }: string) {
   const initStat: Array<any> = [
     { path: angelCnt, title: '리액션 포인트', cnt: 0 },
     { path: heartCnt, title: '마음 포인트', cnt: 0 },
@@ -17,17 +17,16 @@ export default function MyStat() {
   const [megaphoneCnt, setMegaphoneCnt]: Array<any> = useState(0);
 
   useEffect(() => {
-    // 아이디 잡아오고 수정하기
-    const userId = 1234567890;
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
+    // props userId 사용하기
+    const uId = 1234567890;
+    axios.get(`${SERVER_URL}/mypage`, { params: { id: uId } }).then((res) => {
       const response = res.data.data;
-      setMegaphoneCnt(response.megaphone_count);
       const tempStat = [...initStat];
       tempStat[0].cnt = response.feedback.angel_count;
       tempStat[1].cnt = response.feedback.heart_count;
       tempStat[2].cnt = response.feedback.judge_count;
       setStat(tempStat);
-      console.log('스탯', stat);
+      setMegaphoneCnt(response.megaphone_count);
     });
   }, []);
 

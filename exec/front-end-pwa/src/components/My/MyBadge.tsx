@@ -18,10 +18,12 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 interface ModalConfirmWithdrawlProps {
   MODE: string;
+  userId: string;
   setMyAKA: any;
 }
 
-export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) {
+export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdrawlProps) {
+  // 모드 별 색상 전환
   let modeInfoBtn = 'dark__i__btn';
   let modeCheckedBorder = 'dark__ch__border';
   let modeBasicBorder = 'dark__bs__border';
@@ -123,15 +125,16 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
       picked: false,
     },
   ];
-  const [infoStatus, setInfoStatus] = useState<boolean>(false);
+  const [infoModalStatus, setInfoModalStatus] = useState<boolean>(false);
   const [badges, setBadges] = useState(initBadges);
-  const changeInfoStatus = (): void => {
-    setInfoStatus(!infoStatus);
+  const changeInfoModalStatus = (): void => {
+    setInfoModalStatus(!infoModalStatus);
   };
   const changeAKA = (idx: number, title: string): void => {
-    const userId = 1234567890;
+    // props userId로 변경해주기
+    const uId = 1234567890;
     axios
-      .patch(`${SERVER_URL}/mypage/badge`, {}, { params: { user_id: userId, badge: idx } })
+      .patch(`${SERVER_URL}/mypage/badge`, {}, { params: { user_id: uId, badge: idx } })
       .then((res) => {
         console.log('칭호 체인지', res);
       });
@@ -160,31 +163,35 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
     }
     return classValue;
   };
-  const ActiveBadge = (character: any, key: number): any => {
+
+  // 활성화, 비활성화된 뱃지
+  const ActiveBadge = (key: string, badge: any): any => {
     const b = badge.badge;
     return (
       <div
+        key={key}
         role="button"
         tabIndex={0}
         onKeyDown={() => null}
         onClick={() => changeAKA(b.id, b.badgeTitle)}
         className={baseClassName + active + checkBorder(b.picked)}
-        key={key}
       >
         <img className="badge-icon" src={b.badgePath} alt={b.badgeTitle} />
         <p className="badge-name">{b.badgeTitle}</p>
       </div>
     );
   };
-  const InactiveBadge = (character: any, key: number): any => {
+  const InactiveBadge = (key: string, badge: any): any => {
     const b = badge.badge;
     return (
-      <div role="button" className={baseClassName + inactive} key={key}>
+      <div key={key} className={baseClassName + inactive}>
         <img className="badge-icon" src={b.badgePath} alt={b.badgeTitle} />
         <p className="badge-name">{b.badgeTitle}</p>
       </div>
     );
   };
+
+  // 뱃지 활성화 여부 판독기
   const badgeCalculator = (feedback: string, feedbackCnt: number): void => {
     const tempBadges = [...badges];
     let idx = 0;
@@ -208,10 +215,10 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
     setBadges(tempBadges);
   };
   useEffect(() => {
-    // 아이디 잡아오고 수정하기
-    const userId = 1234567890;
+    // props userId로 바꿔주기
+    const uId = 1234567890;
 
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
+    axios.get(`${SERVER_URL}/mypage`, { params: { id: uId } }).then((res) => {
       // 1.버튼 활성화 여부 status에 체크하기 위해 badgeCalculator에 값 넘겨줌.
       const response = res.data.data;
       badgeCalculator('리액션 포인트', response.feedback.angel_count);
@@ -228,20 +235,24 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
     <div className="my-badge">
       <div className="badge-title-zone">
         <p className="badge-title">당신의 칭호를 골라보세요!</p>
-        <button onClick={() => changeInfoStatus()} className={modeInfoBtn} type="submit">
+        <button onClick={() => changeInfoModalStatus()} className={modeInfoBtn} type="submit">
           <span>?</span>
         </button>
-        {infoStatus && (
-          <ModalBadgeInfo MODE={MODE} badges={badges} changeInfoStatus={changeInfoStatus} />
+        {infoModalStatus && (
+          <ModalBadgeInfo
+            MODE={MODE}
+            badges={badges}
+            changeInfoModalStatus={changeInfoModalStatus}
+          />
         )}
       </div>
 
       <div className="badge-container">
         {badges.map((badge: any): any => {
           return badge.status ? (
-            <ActiveBadge badge={badge} key={badge.badgeTitle} />
+            <ActiveBadge key={badge.badgeTitle} badge={badge} />
           ) : (
-            <InactiveBadge badge={badge} key={badge.badgeTitle} />
+            <InactiveBadge key={badge.badgeTitle} badge={badge} />
           );
         })}
       </div>
