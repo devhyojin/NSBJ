@@ -19,7 +19,6 @@ export default function MainPage() {
   const [region, setRegion] = useState('');
   const [cnt, setCnt] = useState(0)
   const MODE = ModeCheck();
-
   // 랜덤웨이브 무한 생성
   useEffect(() => {
     const randomNum = Math.random()
