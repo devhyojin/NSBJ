@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import '../../styles/_modalCharacter.scss';
 
@@ -6,6 +6,7 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 interface MyProfileProps {
   MODE: string;
+  userId: string | undefined;
   characters: Array<any>;
   setCharacters: any;
   setMyCharacter: any;
@@ -13,6 +14,7 @@ interface MyProfileProps {
 }
 export default function CharacterModal({
   MODE,
+  userId,
   characters,
   setCharacters,
   setMyCharacter,
@@ -94,14 +96,20 @@ export default function CharacterModal({
     setCharacters(tempCharacters);
 
     // 2. back에 보내주기
-    // props userId로 변경해주기
-    const uId = 1234567890;
     axios
-      .patch(`${SERVER_URL}/mypage/img`, {}, { params: { profile_img: characterId, user_id: uId } })
+      .patch(
+        `${SERVER_URL}/mypage/img`,
+        {},
+        { params: { profile_img: characterId, user_id: userId } },
+      )
       .then((res) => {
         console.log('캐릭터 성공', res);
       });
   };
+
+  useEffect(() => {
+    console.log('dd');
+  }, [characters]);
 
   return (
     <div className="character-modal-mask">

@@ -7,7 +7,10 @@ import judgeCnt from '../../assets/flaticon/judge_cnt.png';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function MyStat() {
+interface MyStatProps {
+  userId: string | undefined;
+}
+export default function MyStat({ userId }: MyStatProps) {
   const initStat: Array<any> = [
     { path: angelCnt, title: '리액션 포인트', cnt: 0 },
     { path: heartCnt, title: '마음 포인트', cnt: 0 },
@@ -17,9 +20,7 @@ export default function MyStat() {
   const [megaphoneCnt, setMegaphoneCnt] = useState(0);
 
   useEffect(() => {
-    // props userId 사용하기
-    const uId = 1234567890;
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: uId } }).then((res) => {
+    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
       const response = res.data.data;
       const tempStat = [...initStat];
       tempStat[0].cnt = response.feedback.angel_count;
@@ -28,7 +29,7 @@ export default function MyStat() {
       setStat(tempStat);
       setMegaphoneCnt(response.megaphone_count);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <div className="my-stat">

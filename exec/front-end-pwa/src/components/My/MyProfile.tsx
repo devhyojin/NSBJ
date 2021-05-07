@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import ModalConfirmNickname from './ModalConfirmNickname';
 import ModalCharacter from './ModalCharacter';
@@ -15,11 +15,12 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 interface MyProfileProps {
   MODE: string;
+  userId: string | undefined;
   myAKA: string | undefined;
   setMyAKA: any;
 }
 
-export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
+export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfileProps) {
   // 모드 별 색상 전환
   let modeProfile = 'dark__bg__red circle character-circle';
   let modeCharacterBtn = 'dark__bg__purple circle character-change';
@@ -60,24 +61,6 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
     setNicknameModalStatus(!nicknameModalStatus);
   };
 
-  // 닉네임 변경
-  const changeNickname = (): void => {
-    // props userId로 바꿔주기
-    const uId = 1234567890;
-    if (nicknameFlag) {
-      alert('하루에 한 번만 변경 가능합니다.');
-    } else {
-      axios
-        .patch(`${SERVER_URL}/mypage/nickname`, {}, { params: { mode: MODE, user_id: uId } })
-        .then((res) => {
-          console.log('닉네임 성공', res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
-
   // 캐릭터 활성화 판독하기
   const characterCalculator = (tempCharacters: Array<any>, idx: number, feedbackCnt: number) => {
     if (feedbackCnt >= 50) {
@@ -87,10 +70,24 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
     setCharacters(tempCharacters);
   };
 
+  // 닉네임 변경
+  const changeNickname = (): void => {
+    if (nicknameFlag) {
+      alert('하루에 한 번만 변경 가능합니다.');
+    } else {
+      axios
+        .patch(`${SERVER_URL}/mypage/nickname`, {}, { params: { mode: MODE, user_id: userId } })
+        .then((res) => {
+          console.log('닉네임 성공', res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   useEffect(() => {
-    // props userId로 바꿔주기
-    const uId = 1234567890;
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: uId } }).then((res) => {
+    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
       const tempCharacters = [...characters];
       const response = res.data.data;
 
@@ -104,6 +101,7 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
       setMyRegion(response.region.region_name);
       setMyAKA(response.badge.badge_name);
       setNicknameFlag(response.changed_nickname);
+      console.log('바꿨니?', nicknameFlag);
 
       if (MODE === 'light') {
         setMyNickName(response.nickname.light);
@@ -115,7 +113,7 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
       characterCalculator(tempCharacters, 2, response.feedback.heart_count);
       characterCalculator(tempCharacters, 3, response.feedback.judge_count);
     });
-  }, [MODE]);
+  }, [myNickName, MODE, userId, myCharacter, myRegion, myAKA, nicknameFlag]);
 
   return (
     <div className="my-profile">
@@ -134,6 +132,7 @@ export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
         {characterModalStatus && (
           <ModalCharacter
             MODE={MODE}
+            userId={userId}
             characters={characters}
             setCharacters={setCharacters}
             setMyCharacter={setMyCharacter}
