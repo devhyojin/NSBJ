@@ -1,4 +1,3 @@
-import React from 'react';
 import '../../styles/_modalBadgeInfo.scss';
 
 interface ModalBadgeInfoProps {
@@ -6,6 +5,7 @@ interface ModalBadgeInfoProps {
   badges: Array<any>;
   changeInfoModalStatus: () => void;
 }
+
 export default function CharacterModal({
   MODE,
   badges,
@@ -29,7 +29,7 @@ export default function CharacterModal({
         <p className="guide-name">뱃지 가이드</p>
       </div>
       <div className="info-body">
-        {badges.map((badge: any): any => (
+        {badges.map((badge) => (
           <div key={badge.badgeTitle} className="info-line">
             <img className="info-icon" src={badge.cntPath} alt={badge.cntTitle} />
             <span>×</span>

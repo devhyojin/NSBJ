@@ -13,8 +13,8 @@ export default function MyStat() {
     { path: heartCnt, title: '마음 포인트', cnt: 0 },
     { path: judgeCnt, title: '해결 포인트', cnt: 0 },
   ];
-  const [stat, setStat]: Array<any> = useState(initStat);
-  const [megaphoneCnt, setMegaphoneCnt]: Array<any> = useState(0);
+  const [stat, setStat] = useState(initStat);
+  const [megaphoneCnt, setMegaphoneCnt] = useState(0);
 
   useEffect(() => {
     // props userId 사용하기
@@ -36,7 +36,7 @@ export default function MyStat() {
         <img className="icon" src={megaphone} alt="확성기" />
         <p className="cnt">{megaphoneCnt}회</p>
       </div>
-      {stat.map((s: any): any => (
+      {stat.map((s) => (
         <div key={s.path} className="cnt-zone">
           <img className="icon cnt-icon" src={s.path} alt={s.title} />
           <p className="cnt">{s.cnt}회</p>

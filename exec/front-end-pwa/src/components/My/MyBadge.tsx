@@ -144,7 +144,6 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
       } else {
         tempBadges[i].picked = false;
       }
-      console.log(i, tempBadges[i].picked);
     }
     setBadges(tempBadges);
     setMyAKA(title);
@@ -163,9 +162,9 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
     return classValue;
   };
 
-  // 활성화, 비활성화된 뱃지 
+  // 활성화, 비활성화된 뱃지
 
-  const ActiveBadge = (key: any, badge: any): any => {
+  const ActiveBadge = (badge: any, key: number) => {
     const b = badge.badge;
     return (
       <div
@@ -181,7 +180,7 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
       </div>
     );
   };
-  const InactiveBadge = (key: any, badge: any): any => {
+  const InactiveBadge = (badge: any, key: number) => {
     const b = badge.badge;
     return (
       <div key={key} className={baseClassName + inactive}>
@@ -248,11 +247,11 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
       </div>
 
       <div className="badge-container">
-        {badges.map((badge: any): any => {
+        {badges.map((badge) => {
           return badge.status ? (
-            <ActiveBadge key={badge.badgeTitle} badge={badge} />
+            <ActiveBadge key={badge.id} badge={badge} />
           ) : (
-            <InactiveBadge key={badge.badgeTitle} badge={badge} />
+            <InactiveBadge key={badge.id} badge={badge} />
           );
         })}
       </div>
