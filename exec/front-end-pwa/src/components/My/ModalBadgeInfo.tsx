@@ -4,19 +4,25 @@ import '../../styles/_modalBadgeInfo.scss';
 interface ModalBadgeInfoProps {
   MODE: string;
   badges: Array<any>;
-  changeInfoStatus: () => void;
+  changeInfoModalStatus: () => void;
 }
-export default function CharacterModal({ MODE, badges, changeInfoStatus }: ModalBadgeInfoProps) {
+export default function CharacterModal({
+  MODE,
+  badges,
+  changeInfoModalStatus,
+}: ModalBadgeInfoProps) {
+  // 모드 별 색상 전환
   let modeInfoModal = 'dark__bg__red info-container';
   if (MODE === 'light') {
     modeInfoModal = 'light__bg__mint info-container';
   }
+
   return (
     <div
       role="button"
       tabIndex={0}
-      onClick={() => changeInfoStatus()}
       onKeyDown={() => null}
+      onClick={() => changeInfoModalStatus()}
       className={modeInfoModal}
     >
       <div className="info-header">
