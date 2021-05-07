@@ -24,6 +24,7 @@
     "redux": "^4.1.0",
     "sass-loader": "^11.0.1",
     "styled-components": "^5.2.3",
+    "ts-react-google-login-component": "^1.1.8",
     "typescript": "^4.0.3",
     "uuid": "^8.3.2",
     "web-vitals": "^0.2.4",
