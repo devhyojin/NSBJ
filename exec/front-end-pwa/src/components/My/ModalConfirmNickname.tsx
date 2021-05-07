@@ -3,26 +3,30 @@ import '../../styles/_modalConfirm.scss';
 
 interface ModalConfirmNicknameProps {
   MODE: string;
-  changeConfirmStatus: () => void;
+  userId: string;
   changeNickname: () => void;
+  changeNicknameModalStatus: () => void;
 }
 
 export default function ModalConfirmNickname({
   MODE,
-  changeConfirmStatus,
+  userId,
   changeNickname,
+  changeNicknameModalStatus,
 }: ModalConfirmNicknameProps) {
+  // 모드 별 색상 전환
   let modeNicknameModal = 'dark__bg__purple modal-container';
   if (MODE === 'light') {
     modeNicknameModal = 'light__bg__blue modal-container';
   }
+
   return (
     <div className="modal-mask">
       <div
         role="button"
         tabIndex={0}
         onKeyDown={() => null}
-        onClick={() => changeConfirmStatus()}
+        onClick={() => changeNicknameModalStatus()}
         className={modeNicknameModal}
       >
         <div className="modal-header">
@@ -36,7 +40,7 @@ export default function ModalConfirmNickname({
             YES
           </button>
           <button
-            onClick={() => changeConfirmStatus()}
+            onClick={() => changeNicknameModalStatus()}
             className="confirmBtn btnBlue"
             type="submit"
           >
