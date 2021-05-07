@@ -1,5 +1,5 @@
 import { check } from 'prettier';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import '../../styles/_mainBottom.scss';
 
@@ -8,9 +8,8 @@ interface MainBottomProps {
 }
 
 export default function MainBottom({ mode }: MainBottomProps) {
-
-  const modalRef = useRef()
-  const coverRef = useRef()
+  const modalRef = React.useRef() as React.MutableRefObject<HTMLInputElement>;
+  const coverRef = React.useRef() as React.MutableRefObject<HTMLInputElement>;
   const minMoveLength = window.screen.height * 0.1
   const history = useHistory()
 
@@ -19,7 +18,7 @@ export default function MainBottom({ mode }: MainBottomProps) {
   let mouseMovedY = 0
 
 
-  const arrowHandler = (event) => {
+  const arrowHandler = (event: any) => {
     if (event.touches[0].clientY < window.screen.height * 0.85) { return null };
 
     mouseOvered = true;
@@ -32,12 +31,11 @@ export default function MainBottom({ mode }: MainBottomProps) {
   }
 
 
-  const moveArrowHandler = (event) => {
+  const moveArrowHandler = (event: any) => {
     if (!mouseOvered) { return; };
 
     const modal = modalRef.current;
     const cover = coverRef.current;
-
     cover.style.zIndex = '3'
     modal.style.transition = '0s';
     mouseMovedY = event.touches[0].clientY
@@ -48,7 +46,7 @@ export default function MainBottom({ mode }: MainBottomProps) {
   const arrowLeaveHandler = () => {
     const modal = modalRef.current;
     const cover = coverRef.current;
-
+    if (!modal || !cover) { return; }
     mouseOvered = false;
     modal.style.transition = '0.3s';
 
@@ -64,21 +62,8 @@ export default function MainBottom({ mode }: MainBottomProps) {
       cover.style.zIndex = '1'
       modal.style.width = '80%';
       modal.style.bottom = '-80%';
-
     }
-
-
-
-
-
   }
-
-  // window.removeEventListener('touchstart', arrowHandler)
-  // window.addEventListener('touchstart', arrowHandler)
-  // window.addEventListener('touchend', arrowLeaveHandler)
-
-
-
 
   return (
     <div className='main__bottom__cover'

@@ -6,7 +6,6 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 interface MyProfileProps {
   MODE: string;
-  userId: string;
   characters: Array<any>;
   setCharacters: any;
   setMyCharacter: any;
@@ -14,7 +13,6 @@ interface MyProfileProps {
 }
 export default function CharacterModal({
   MODE,
-  userId,
   characters,
   setCharacters,
   setMyCharacter,

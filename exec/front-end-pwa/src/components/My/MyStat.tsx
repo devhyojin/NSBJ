@@ -7,7 +7,7 @@ import judgeCnt from '../../assets/flaticon/judge_cnt.png';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function MyStat({ userId }: string) {
+export default function MyStat() {
   const initStat: Array<any> = [
     { path: angelCnt, title: '리액션 포인트', cnt: 0 },
     { path: heartCnt, title: '마음 포인트', cnt: 0 },

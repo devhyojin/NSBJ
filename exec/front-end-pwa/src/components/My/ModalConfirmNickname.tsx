@@ -3,14 +3,12 @@ import '../../styles/_modalConfirm.scss';
 
 interface ModalConfirmNicknameProps {
   MODE: string;
-  userId: string;
   changeNickname: () => void;
   changeNicknameModalStatus: () => void;
 }
 
 export default function ModalConfirmNickname({
   MODE,
-  userId,
   changeNickname,
   changeNicknameModalStatus,
 }: ModalConfirmNicknameProps) {

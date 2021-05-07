@@ -28,11 +28,11 @@ export default function MyPage({ history }: any) {
     history.goBack();
   };
 
-  let userId = '';
-  useEffect(() => {
-    const userInfo = localStorage.getItem('userInfo');
-    userId = JSON.parse(userInfo).id;
-  });
+  // let userId = '';
+  // useEffect(() => {
+  //   const userInfo = localStorage.getItem('userInfo');
+  //   userId = JSON.parse(userInfo).id;
+  // });
 
   return (
     <div className={modeBG}>
@@ -52,17 +52,16 @@ export default function MyPage({ history }: any) {
         {withdrawlModalStatus && (
           <ModalConfirmWithdrawl
             MODE={MODE}
-            userId={userId}
             changeWithdrawlModalStatus={changeWithdrawlModalStatus}
           />
         )}
       </div>
       <div className="body">
-        <MyProfile MODE={MODE} userId={userId} myAKA={myAKA} setMyAKA={setMyAKA} />
+        <MyProfile MODE={MODE} myAKA={myAKA} setMyAKA={setMyAKA} />
         <hr />
-        <MyStat userId={userId} />
+        <MyStat />
         <hr />
-        <MyBadge MODE={MODE} userId={userId} setMyAKA={setMyAKA} />
+        <MyBadge MODE={MODE} setMyAKA={setMyAKA} />
       </div>
     </div>
   );

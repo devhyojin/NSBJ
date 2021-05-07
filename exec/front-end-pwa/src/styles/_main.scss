@@ -1,8 +1,6 @@
 $main_light_basic_img: url(../assets/characters/bird/bird_basic.gif);
-// $main_light_heart_img: url(../assets/characters/bird/bird_basic.gif)
-// $main_light__img: url(../assets/characters/bird/bird_basic.gif)
-// $main_light__img: url(../assets/characters/bird/bird_basic.gif)
 $main_dark_basic_img: url(../assets/characters/mouse/mouse_basic.gif);
+
 $light_btn : #133AC5;
 $dark_btn : #7613C5;
 
@@ -20,6 +18,11 @@ $dark_btn : #7613C5;
     margin: -20em;
     border-width: 20em;
   }
+}
+
+@keyframes btnActivateEffect {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
 }
 
 
@@ -124,6 +127,7 @@ $dark_btn : #7613C5;
   background-repeat: no-repeat;  
   background-position:center;
   background-size:60%;
+  animation: 1s btnActivateEffect ease-in;
 }
 
 

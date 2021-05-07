@@ -7,13 +7,11 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 interface ModalConfirmWithdrawlProps {
   MODE: string;
-  userId: string;
   changeWithdrawlModalStatus: () => void;
 }
 
 export default function ModalConfirmWithdrawl({
   MODE,
-  userId,
   changeWithdrawlModalStatus,
 }: ModalConfirmWithdrawlProps) {
   // 모드 별 색상 전환

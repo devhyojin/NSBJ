@@ -18,11 +18,10 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 interface ModalConfirmWithdrawlProps {
   MODE: string;
-  userId: string;
   setMyAKA: any;
 }
 
-export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdrawlProps) {
+export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) {
   // 모드 별 색상 전환
   let modeInfoBtn = 'dark__i__btn';
   let modeCheckedBorder = 'dark__ch__border';
@@ -164,8 +163,9 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
     return classValue;
   };
 
-  // 활성화, 비활성화된 뱃지
-  const ActiveBadge = (key: string, badge: any): any => {
+  // 활성화, 비활성화된 뱃지 
+
+  const ActiveBadge = (key: any, badge: any): any => {
     const b = badge.badge;
     return (
       <div
@@ -181,7 +181,7 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
       </div>
     );
   };
-  const InactiveBadge = (key: string, badge: any): any => {
+  const InactiveBadge = (key: any, badge: any): any => {
     const b = badge.badge;
     return (
       <div key={key} className={baseClassName + inactive}>

@@ -15,12 +15,11 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 interface MyProfileProps {
   MODE: string;
-  userId: string;
   myAKA: string | undefined;
   setMyAKA: any;
 }
 
-export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfileProps) {
+export default function MyProfile({ MODE, myAKA, setMyAKA }: MyProfileProps) {
   // 모드 별 색상 전환
   let modeProfile = 'dark__bg__red circle character-circle';
   let modeCharacterBtn = 'dark__bg__purple circle character-change';
@@ -135,7 +134,6 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
         {characterModalStatus && (
           <ModalCharacter
             MODE={MODE}
-            userId={userId}
             characters={characters}
             setCharacters={setCharacters}
             setMyCharacter={setMyCharacter}
@@ -159,7 +157,6 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
           {nicknameModalStatus && (
             <ModalConfirmNickname
               MODE={MODE}
-              userId={userId}
               changeNickname={changeNickname}
               changeNicknameModalStatus={changeNicknameModalStatus}
             />

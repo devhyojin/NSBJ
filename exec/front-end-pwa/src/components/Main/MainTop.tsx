@@ -20,7 +20,6 @@ export default function MainTop({ mode, activate, neighborCnt, region }: MainTop
   const [explain, setExplain] = useState(activateExplain)
 
   const changeActivate = () => {
-    console.log(region, 'region')
     if (activate) {
       setExplain(activateExplain)
     } else {
@@ -31,11 +30,6 @@ export default function MainTop({ mode, activate, neighborCnt, region }: MainTop
   useMemo(() => {
     return changeActivate()
   }, [activate])
-
-  useMemo(() => {
-    console.log(region[Symbol], '바뀀')
-  }, [region])
-
 
   return (
     <div className='main__top'>
