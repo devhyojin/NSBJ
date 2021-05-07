@@ -25,13 +25,3 @@ export default function ChatContent({ data, mode }: ChatContentProps) {
     </div>
   )
 }
-
-// import React from 'react'
-
-// export default function ChatContent() {
-//   return (
-//     <div>
-//       {null}
-//     </div>
-//   )
-// }
