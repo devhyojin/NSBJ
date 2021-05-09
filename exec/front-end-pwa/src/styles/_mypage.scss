@@ -20,12 +20,12 @@ $aka: #aca9a9;
   .header {
     width: 100%;
     height: 5%;
+    padding: 0 3%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 3%;
     button {
-      .withdrawl {
+      .withdraw {
         font-size: 3.3vw;
         font-weight: bold;
       }
@@ -43,26 +43,25 @@ $aka: #aca9a9;
         width: 100%;
         height: 50%;
         .character-circle {
-          position: relative;
           width: 30vw;
           height: 30vw;
           margin: 0 auto;
+          position: relative;
           .my-character {
             width: 29vw;
             margin-left: 2.5%;
           }
         }
         .character-change {
+          width: 10vw;
+          height: 10vw;
           position: relative;
           z-index: 10;
           bottom: 30%;
           left: 58%;
-          width: 10vw;
-          height: 10vw;
           font-size: 6vw;
           color: white;
           border: none;
-          z-index: 10;
         }
       }
       .nickname-zone {
@@ -74,8 +73,8 @@ $aka: #aca9a9;
         }
         .location {
           height: 25%;
-          font-weight: bold;
           font-size: 4vw;
+          font-weight: bold;
         }
         .aka {
           font-size: 3.5vw;
@@ -83,9 +82,9 @@ $aka: #aca9a9;
           color: #aca9a9;
         }
         .nickname {
+          margin-bottom: 2%;
           font-size: 5vw;
           font-weight: bolder;
-          margin-bottom: 2%;
         }
         div {
           .nicknameBtn {
@@ -94,7 +93,6 @@ $aka: #aca9a9;
             width: var(--width);
             height: var(--height);
             font-size: calc(var(--height) / 2.1);
-            cursor: pointer;
             font-weight: bolder;
             border-radius: 0.6em;
           }
@@ -119,34 +117,33 @@ $aka: #aca9a9;
       width: 100%;
       height: 49%;
       .badge-title-zone {
+        height: 10.5%;
+        margin-top: 1.5%;
         display: grid;
         grid-template-columns: 90% 10%;
-        margin-top: 1.5%;
-        height: 10.5%;
         .badge-title {
+          height: 10%;
+          text-align: end;
           font-size: 5.7vw;
           font-weight: bolder;
-          text-align: end;
-          height: 10%;
         }
         button {
           --x: 4vw;
           width: var(--x);
           height: var(--x);
-          border-radius: 50%;
+          margin-left: 10%;
           font-size: 0.6rem;
           font-weight: bolder;
-          margin-left: 10%;
         }
       }
       .badge-container {
         width: 100%;
         height: 88%;
+        margin-top: 1%;
         display: grid;
-        text-align: center;
         grid-template-rows: repeat(3, 33%);
         grid-template-columns: repeat(3, 33%);
-        margin-top: 1%;
+        text-align: center;
         .badge-item {
           text-align: center;
           vertical-align: center;
@@ -156,10 +153,9 @@ $aka: #aca9a9;
             height: 80%;
           }
           .badge-name {
-            font-size: 2.6vw;
             text-align: center;
+            font-size: 2.6vw;
             font-weight: bolder;
-            margin: 0;
           }
         }
       }
@@ -169,14 +165,11 @@ $aka: #aca9a9;
 
 .inactive {
   -webkit-filter: grayscale(100%);
-  border: solid 7.5px;
-  border-radius: 1rem;
+  opacity: 50%;
   border-color: transparent;
 }
 .active {
   cursor: pointer;
-  border: solid 7.5px;
-  border-radius: 1rem;
   border-color: transparent;
 }
 .border {
@@ -185,26 +178,12 @@ $aka: #aca9a9;
 }
 
 // 모드 별 색상 전환
-.light__withdrawl {
+.light__withdraw {
   color: $light_blue2;
 }
-.dark__withdrawl {
+.dark__withdraw {
   color: $dark_purple2;
 }
-
-// .light__profile {
-//   background-color: $light_mint;
-// }
-// .dark__profile {
-//   background-color: $dark_red;
-// }
-
-// .light__ch__btn {
-//   background-color: $light_blue1;
-// }
-// .dark__ch__btn {
-//   background-color: $dark_purple1;
-// }
 
 .light__region {
   color: $light_mint;

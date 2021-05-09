@@ -18,16 +18,17 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 interface ModalConfirmWithdrawlProps {
   MODE: string;
+  userId: string | undefined;
   setMyAKA: any;
 }
 
-export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) {
+export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdrawlProps) {
   // 모드 별 색상 전환
-  let modeInfoBtn = 'dark__i__btn';
+  let modeInfoBtn = 'dark__i__btn circle';
   let modeCheckedBorder = 'dark__ch__border';
   let modeBasicBorder = 'dark__bs__border';
   if (MODE === 'light') {
-    modeInfoBtn = 'light__i__btn';
+    modeInfoBtn = 'light__i__btn circle';
     modeCheckedBorder = 'light__ch__border';
     modeBasicBorder = 'light__bs__border';
   }
@@ -130,10 +131,8 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
     setInfoModalStatus(!infoModalStatus);
   };
   const changeAKA = (idx: number, title: string): void => {
-    // props userId로 변경해주기
-    const uId = 1234567890;
     axios
-      .patch(`${SERVER_URL}/mypage/badge`, {}, { params: { user_id: uId, badge: idx } })
+      .patch(`${SERVER_URL}/mypage/badge`, {}, { params: { user_id: userId, badge: idx } })
       .then((res) => {
         console.log('칭호 체인지', res);
       });
@@ -144,7 +143,6 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
       } else {
         tempBadges[i].picked = false;
       }
-      console.log(i, tempBadges[i].picked);
     }
     setBadges(tempBadges);
     setMyAKA(title);
@@ -163,9 +161,9 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
     return classValue;
   };
 
-  // 활성화, 비활성화된 뱃지 
+  // 활성화, 비활성화된 뱃지
 
-  const ActiveBadge = (key: any, badge: any): any => {
+  const ActiveBadge = (badge: any, key: number) => {
     const b = badge.badge;
     return (
       <div
@@ -181,7 +179,7 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
       </div>
     );
   };
-  const InactiveBadge = (key: any, badge: any): any => {
+  const InactiveBadge = (badge: any, key: number) => {
     const b = badge.badge;
     return (
       <div key={key} className={baseClassName + inactive}>
@@ -215,10 +213,7 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
     setBadges(tempBadges);
   };
   useEffect(() => {
-    // props userId로 바꿔주기
-    const uId = 1234567890;
-
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: uId } }).then((res) => {
+    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
       // 1.버튼 활성화 여부 status에 체크하기 위해 badgeCalculator에 값 넘겨줌.
       const response = res.data.data;
       badgeCalculator('리액션 포인트', response.feedback.angel_count);
@@ -229,7 +224,7 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
       tempBadges[response.badge.id - 1].picked = true;
       setBadges(tempBadges);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <div className="my-badge">
@@ -248,11 +243,11 @@ export default function MyBadge({ MODE, setMyAKA }: ModalConfirmWithdrawlProps) 
       </div>
 
       <div className="badge-container">
-        {badges.map((badge: any): any => {
+        {badges.map((badge) => {
           return badge.status ? (
-            <ActiveBadge key={badge.badgeTitle} badge={badge} />
+            <ActiveBadge key={badge.id} badge={badge} />
           ) : (
-            <InactiveBadge key={badge.badgeTitle} badge={badge} />
+            <InactiveBadge key={badge.id} badge={badge} />
           );
         })}
       </div>

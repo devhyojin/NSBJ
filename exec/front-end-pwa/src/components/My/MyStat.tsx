@@ -7,19 +7,20 @@ import judgeCnt from '../../assets/flaticon/judge_cnt.png';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function MyStat() {
+interface MyStatProps {
+  userId: string | undefined;
+}
+export default function MyStat({ userId }: MyStatProps) {
   const initStat: Array<any> = [
     { path: angelCnt, title: '리액션 포인트', cnt: 0 },
     { path: heartCnt, title: '마음 포인트', cnt: 0 },
     { path: judgeCnt, title: '해결 포인트', cnt: 0 },
   ];
-  const [stat, setStat]: Array<any> = useState(initStat);
-  const [megaphoneCnt, setMegaphoneCnt]: Array<any> = useState(0);
+  const [stat, setStat] = useState(initStat);
+  const [megaphoneCnt, setMegaphoneCnt] = useState(0);
 
   useEffect(() => {
-    // props userId 사용하기
-    const uId = 1234567890;
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: uId } }).then((res) => {
+    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
       const response = res.data.data;
       const tempStat = [...initStat];
       tempStat[0].cnt = response.feedback.angel_count;
@@ -28,7 +29,7 @@ export default function MyStat() {
       setStat(tempStat);
       setMegaphoneCnt(response.megaphone_count);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <div className="my-stat">
@@ -36,7 +37,7 @@ export default function MyStat() {
         <img className="icon" src={megaphone} alt="확성기" />
         <p className="cnt">{megaphoneCnt}회</p>
       </div>
-      {stat.map((s: any): any => (
+      {stat.map((s) => (
         <div key={s.path} className="cnt-zone">
           <img className="icon cnt-icon" src={s.path} alt={s.title} />
           <p className="cnt">{s.cnt}회</p>

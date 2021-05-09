@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import '../../styles/_modalCharacter.scss';
 
@@ -6,6 +6,7 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 interface MyProfileProps {
   MODE: string;
+  userId: string | undefined;
   characters: Array<any>;
   setCharacters: any;
   setMyCharacter: any;
@@ -13,6 +14,7 @@ interface MyProfileProps {
 }
 export default function CharacterModal({
   MODE,
+  userId,
   characters,
   setCharacters,
   setMyCharacter,
@@ -48,7 +50,7 @@ export default function CharacterModal({
   };
 
   // 활성화된 캐릭터, 비활성화된 캐릭터
-  const ActiveCharacter = (character: any, key: number): any => {
+  const ActiveCharacter = (character: any, key: number) => {
     const c = character.character;
     return (
       <div
@@ -64,7 +66,7 @@ export default function CharacterModal({
       </div>
     );
   };
-  const InactiveCharacter = (character: any, key: number): any => {
+  const InactiveCharacter = (character: any, key: number) => {
     const c = character.character;
     return (
       <div className={baseClassName + inactive} key={key}>
@@ -86,7 +88,7 @@ export default function CharacterModal({
     const tempCharacters = [...characters];
     for (let i = x; i < x + 4; i += 1) {
       if (i === idx) {
-        tempCharacters[i].picked = !tempCharacters[i].picked;
+        tempCharacters[i].picked = true;
       } else {
         tempCharacters[i].picked = false;
       }
@@ -94,10 +96,12 @@ export default function CharacterModal({
     setCharacters(tempCharacters);
 
     // 2. back에 보내주기
-    // props userId로 변경해주기
-    const uId = 1234567890;
     axios
-      .patch(`${SERVER_URL}/mypage/img`, {}, { params: { profile_img: characterId, user_id: uId } })
+      .patch(
+        `${SERVER_URL}/mypage/img`,
+        {},
+        { params: { profile_img: characterId, user_id: userId } },
+      )
       .then((res) => {
         console.log('캐릭터 성공', res);
       });
@@ -116,7 +120,7 @@ export default function CharacterModal({
           <p>프로필 캐릭터 선택</p>
         </div>
         <div className="character-modal-body">
-          {tempCharacters.map((character: any): any => {
+          {tempCharacters.map((character) => {
             return character.status ? (
               <ActiveCharacter key={character.id} character={character} />
             ) : (
