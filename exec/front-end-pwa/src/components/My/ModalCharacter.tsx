@@ -88,7 +88,7 @@ export default function CharacterModal({
     const tempCharacters = [...characters];
     for (let i = x; i < x + 4; i += 1) {
       if (i === idx) {
-        tempCharacters[i].picked = !tempCharacters[i].picked;
+        tempCharacters[i].picked = true;
       } else {
         tempCharacters[i].picked = false;
       }
@@ -106,10 +106,6 @@ export default function CharacterModal({
         console.log('캐릭터 성공', res);
       });
   };
-
-  useEffect(() => {
-    console.log('dd');
-  }, [characters]);
 
   return (
     <div className="character-modal-mask">

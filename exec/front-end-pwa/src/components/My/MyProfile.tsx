@@ -70,7 +70,25 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
     setCharacters(tempCharacters);
   };
 
-  // 닉네임 변경
+  // 백에서 바뀐 닉네임 가져오기
+  const getNewNickname = (): void => {
+    axios
+      .get(`${SERVER_URL}/mypage`, { params: { id: userId } })
+      .then((res) => {
+        console.log('닉네임 잘 가져왔음');
+        const response = res.data.data;
+        if (MODE === 'light') {
+          setMyNickName(response.nickname.light);
+        } else {
+          setMyNickName(response.nickname.dark);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // 닉네임 바꾸는 요청 back에 보낸 후, 새로운 닉네임 업데이트 하기
   const changeNickname = (): void => {
     if (nicknameFlag) {
       alert('하루에 한 번만 변경 가능합니다.');
@@ -78,7 +96,8 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
       axios
         .patch(`${SERVER_URL}/mypage/nickname`, {}, { params: { mode: MODE, user_id: userId } })
         .then((res) => {
-          console.log('닉네임 성공', res);
+          console.log('닉네임 변경 요청 성공', res);
+          getNewNickname();
         })
         .catch((err) => {
           console.log(err);
@@ -113,7 +132,7 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
       characterCalculator(tempCharacters, 2, response.feedback.heart_count);
       characterCalculator(tempCharacters, 3, response.feedback.judge_count);
     });
-  }, [myNickName, MODE, userId, myCharacter, myRegion, myAKA, nicknameFlag]);
+  }, []);
 
   return (
     <div className="my-profile">
