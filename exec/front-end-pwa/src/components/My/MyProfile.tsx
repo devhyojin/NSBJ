@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import ModalConfirmNickname from './ModalConfirmNickname';
 import ModalCharacter from './ModalCharacter';
@@ -13,57 +13,91 @@ import mouseJudge from '../../assets/characters/mouse/mouse_judge.gif';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function MyProfile({ MODE, myAKA }): string {
-  const characters: Array<any> = [
-    { id: 0, path: birdBasic, title: '노말짹' },
-    { id: 1, path: birdAngel, title: '엔젤짹' },
-    { id: 2, path: birdHeart, title: '큐피짹' },
-    { id: 3, path: birdJudge, title: '엘맅짹' },
-    { id: 0, path: mouseBasic, title: '노말찍' },
-    { id: 1, path: mouseAngel, title: '엔젤찍' },
-    { id: 2, path: mouseHeart, title: '큐피찍' },
-    { id: 3, path: mouseJudge, title: '엘맅찍' },
+interface MyProfileProps {
+  MODE: string;
+  userId: string | undefined;
+  myAKA: string | undefined;
+  setMyAKA: any;
+}
+
+export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfileProps) {
+  // 모드 별 색상 전환
+  let modeProfile = 'dark__bg__red circle character-circle';
+  let modeCharacterBtn = 'dark__bg__purple circle character-change';
+  let modeRegion = 'dark__region location';
+  let modeNicknameBtn = 'dark__nn__btn nicknameBtn';
+  let initIdx = 4; // 모드 별 기본 캐릭터(노말O) index
+  if (MODE === 'light') {
+    modeProfile = 'light__bg__mint circle character-circle';
+    modeCharacterBtn = 'light__bg__blue circle character-change';
+    modeRegion = 'light__region location';
+    modeNicknameBtn = 'light__nn__btn nicknameBtn';
+    initIdx = 0;
+  }
+
+  const initCharacters: Array<any> = [
+    { id: 0, path: birdBasic, title: '노말짹', status: true, picked: false },
+    { id: 1, path: birdAngel, title: '엔젤짹', status: false, picked: false },
+    { id: 2, path: birdHeart, title: '큐피짹', status: false, picked: false },
+    { id: 3, path: birdJudge, title: '엘맅짹', status: false, picked: false },
+    { id: 0, path: mouseBasic, title: '노말찍', status: true, picked: false },
+    { id: 1, path: mouseAngel, title: '엔젤찍', status: false, picked: false },
+    { id: 2, path: mouseHeart, title: '큐피찍', status: false, picked: false },
+    { id: 3, path: mouseJudge, title: '엘맅찍', status: false, picked: false },
   ];
-  let nicknameFlag = false;
-  const [characterStatus, setCharacterStatus] = useState<boolean>(false);
-  const [confirmStatus, setConfirmStatus] = useState<boolean>(false);
-  const [myCharacter, setMyCharacter] = useState(0);
+  const [nicknameFlag, setNicknameFlag] = useState<boolean>(false);
+  const [characters, setCharacters] = useState(initCharacters);
+  const [myCharacter, setMyCharacter] = useState(initIdx);
   const [myRegion, setMyRegion] = useState();
   const [myNickName, setMyNickName] = useState<string>();
-  const changeCharacterStatus = (): void => {
-    setCharacterStatus(!characterStatus);
-  };
-  const changeConfirmStatus = (): void => {
-    setConfirmStatus(!confirmStatus);
-  };
-  const changeCharacter = (characterId: number): void => {
-    console.log(characterId);
-    // 1. myCharacter 바꿔주기
-    let idx = characterId;
-    console.log('캐릭터아이디', characterId);
-    if (MODE === 'dark') {
-      idx += 4;
-    }
-    setMyCharacter(idx);
+  const [characterModalStatus, setCharacterModalStatus] = useState<boolean>(false);
+  const [nicknameModalStatus, setNicknameModalStatus] = useState<boolean>(false);
 
-    // 2. back에 보내주기
-    const userId = 1234567890;
-    console.log('캐릭터 클릭');
+  // 모달 여닫기
+  const changeCharacterModalStatus = (): void => {
+    setCharacterModalStatus(!characterModalStatus);
+  };
+  const changeNicknameModalStatus = (): void => {
+    setNicknameModalStatus(!nicknameModalStatus);
+  };
+
+  // 캐릭터 활성화 판독하기
+  const characterCalculator = (tempCharacters: Array<any>, idx: number, feedbackCnt: number) => {
+    if (feedbackCnt >= 50) {
+      tempCharacters[idx].status = true;
+      tempCharacters[idx + 4].status = true;
+    }
+    setCharacters(tempCharacters);
+  };
+
+  // 백에서 바뀐 닉네임 가져오기
+  const getNewNickname = (): void => {
     axios
-      .patch(`${SERVER_URL}/mypage/img`, {}, { params: { id: userId, profile_img: characterId } })
+      .get(`${SERVER_URL}/mypage`, { params: { id: userId } })
       .then((res) => {
-        console.log('캐릭터 성공', res);
+        console.log('닉네임 잘 가져왔음');
+        const response = res.data.data;
+        if (MODE === 'light') {
+          setMyNickName(response.nickname.light);
+        } else {
+          setMyNickName(response.nickname.dark);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
+
+  // 닉네임 바꾸는 요청 back에 보낸 후, 새로운 닉네임 업데이트 하기
   const changeNickname = (): void => {
-    const userId = 1234567890;
     if (nicknameFlag) {
       alert('하루에 한 번만 변경 가능합니다.');
     } else {
       axios
-        .patch(`${SERVER_URL}/mypage/nickname`, {}, { params: { id: userId, mode: 'light' } })
+        .patch(`${SERVER_URL}/mypage/nickname`, {}, { params: { mode: MODE, user_id: userId } })
         .then((res) => {
-          console.log('닉네임 성공', res);
+          console.log('닉네임 변경 요청 성공', res);
+          getNewNickname();
         })
         .catch((err) => {
           console.log(err);
@@ -72,20 +106,31 @@ export default function MyProfile({ MODE, myAKA }): string {
   };
 
   useEffect(() => {
-    // 아이디 잡아오고 수정하기
-    const userId = 1234567890;
-    console.log('확인');
     axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
-      console.log('성공', res.data.data);
+      const tempCharacters = [...characters];
       const response = res.data.data;
+
       let profileIdx = response.profile_img;
       if (MODE === 'dark') {
         profileIdx += 4;
       }
+      tempCharacters[profileIdx].picked = true;
+      setCharacters(tempCharacters);
       setMyCharacter(profileIdx);
-      setMyRegion(response.region_id);
-      setMyNickName(response.nickname);
-      nicknameFlag = response.changed_nickname;
+      setMyRegion(response.region.region_name);
+      setMyAKA(response.badge.badge_name);
+      setNicknameFlag(response.changed_nickname);
+      console.log('바꿨니?', nicknameFlag);
+
+      if (MODE === 'light') {
+        setMyNickName(response.nickname.light);
+      } else {
+        setMyNickName(response.nickname.dark);
+      }
+      // 캐릭터 활성화 여부 판독하기
+      characterCalculator(tempCharacters, 1, response.feedback.angel_count);
+      characterCalculator(tempCharacters, 2, response.feedback.heart_count);
+      characterCalculator(tempCharacters, 3, response.feedback.judge_count);
     });
   }, []);
 
@@ -93,38 +138,45 @@ export default function MyProfile({ MODE, myAKA }): string {
     <div className="my-profile">
       {/* 캐릭터 변경 존 */}
       <div className="character-zone">
-        <div className="circle character-circle">
+        <div className={modeProfile}>
           <img className="my-character" src={characters[myCharacter].path} alt="character" />
         </div>
         <button
-          onClick={() => changeCharacterStatus()}
+          className={modeCharacterBtn}
+          onClick={() => changeCharacterModalStatus()}
           type="submit"
-          className="circle character-change"
         >
           +
         </button>
-        {characterStatus && (
+        {characterModalStatus && (
           <ModalCharacter
-            characters={characters}
-            changeCharacterStatus={changeCharacterStatus}
-            changeCharacter={changeCharacter}
             MODE={MODE}
+            userId={userId}
+            characters={characters}
+            setCharacters={setCharacters}
+            setMyCharacter={setMyCharacter}
+            changeCharacterModalStatus={changeCharacterModalStatus}
           />
         )}
       </div>
       {/* 닉네임 존 */}
       <div className="nickname-zone">
-        <p className="location">{myRegion}</p>
+        <p className={modeRegion}>{myRegion}</p>
         <p className="aka">{myAKA}</p>
         <p className="nickname">{myNickName}</p>
         <div>
-          <button onClick={() => changeConfirmStatus()} type="submit" className="btn">
+          <button
+            className={modeNicknameBtn}
+            onClick={() => changeNicknameModalStatus()}
+            type="submit"
+          >
             닉네임 변경
           </button>
-          {confirmStatus && (
+          {nicknameModalStatus && (
             <ModalConfirmNickname
-              changeConfirmStatus={changeConfirmStatus}
+              MODE={MODE}
               changeNickname={changeNickname}
+              changeNicknameModalStatus={changeNicknameModalStatus}
             />
           )}
         </div>

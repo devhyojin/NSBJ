@@ -20,4 +20,13 @@ p {
 button {
   border: none;
   background: none;
+  cursor: pointer;
+}
+
+hr {
+  margin: 0;
+}
+
+.circle {
+  border-radius: 50%;
 }

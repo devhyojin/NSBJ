@@ -7,32 +7,29 @@ import judgeCnt from '../../assets/flaticon/judge_cnt.png';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function MyStat() {
+interface MyStatProps {
+  userId: string | undefined;
+}
+export default function MyStat({ userId }: MyStatProps) {
   const initStat: Array<any> = [
     { path: angelCnt, title: '리액션 포인트', cnt: 0 },
     { path: heartCnt, title: '마음 포인트', cnt: 0 },
     { path: judgeCnt, title: '해결 포인트', cnt: 0 },
   ];
-  const [stat, setStat]: Array<any> = useState(initStat);
-  const [megaphoneCnt, setMegaphoneCnt]: number = useState(0);
+  const [stat, setStat] = useState(initStat);
+  const [megaphoneCnt, setMegaphoneCnt] = useState(0);
 
   useEffect(() => {
-    // 아이디 잡아오고 수정하기
-    const userId = 1234567890;
-    console.log('확인');
     axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
-      console.log('성공', res.data.data);
       const response = res.data.data;
-      setMegaphoneCnt(response.megaphone_count);
-      console.log('슈퍼챗', megaphoneCnt);
       const tempStat = [...initStat];
       tempStat[0].cnt = response.feedback.angel_count;
       tempStat[1].cnt = response.feedback.heart_count;
       tempStat[2].cnt = response.feedback.judge_count;
       setStat(tempStat);
-      console.log('스탯', stat);
+      setMegaphoneCnt(response.megaphone_count);
     });
-  }, []);
+  }, [userId]);
 
   return (
     <div className="my-stat">

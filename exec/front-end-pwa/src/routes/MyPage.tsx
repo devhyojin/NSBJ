@@ -1,50 +1,69 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import ModeCheck from '../utils/ModeCheck';
-import ModalConfirmWithdrawl from '../components/My/ModalConfirmWithdrawl';
+import ModalConfirmWithdraw from '../components/My/ModalConfirmWithdraw';
 import MyProfile from '../components/My/MyProfile';
 import MyStat from '../components/My/MyStat';
 import MyBadge from '../components/My/MyBadge';
-import arrow from '../assets/flaticon/left-arrow.png';
 
 import '../styles/_mypage.scss';
 
-const SERVER_URL = process.env.REACT_APP_URL;
-
 export default function MyPage({ history }: any) {
+  // 로그인한 유저 아이디 가져오기
+  const fetchUserId = () => {
+    const uId = JSON.parse(localStorage.getItem('userInfo') || '{}').id;
+    return uId;
+  };
+  const userId = fetchUserId();
+
+  // 모드 별 색상 전환
   const MODE = ModeCheck();
+  let modeBG = 'dark__bg container';
+  let modeWithdraw = 'dark__withdraw withdraw';
+  if (MODE === 'light') {
+    modeBG = 'light__bg container';
+    modeWithdraw = 'light__withdraw withdraw';
+  }
+
+  const [myAKA, setMyAKA] = useState<string>();
+  const [withdrawModalStatus, setWithdrawModalStatus] = useState<boolean>(false);
+
+  const changeWithdrawModalStatus = (): void => {
+    setWithdrawModalStatus(!withdrawModalStatus);
+  };
 
   const goBack = () => {
     history.goBack();
   };
 
-  const [myAKA, setMyAKA] = useState<string>();
-  const [withdrawlConfirmStatus, setWithdrawlConfirmStatus] = useState<boolean>(false);
-
-  const changeWithdrawlConfirmStatus = (): void => {
-    setWithdrawlConfirmStatus(!withdrawlConfirmStatus);
-  };
-
   return (
-    <div className="container">
-      {/* 뒤로 가기, 탈퇴하기  */}
+    <div className={modeBG}>
       <div className="header">
-        <button onClick={goBack} type="submit">
-          <img src={arrow} alt="arrow" />
+        <i
+          role="button"
+          tabIndex={0}
+          onKeyDown={() => null}
+          onClick={() => goBack()}
+          className="fas fa-chevron-left"
+        >
+          {null}
+        </i>
+        <button onClick={() => changeWithdrawModalStatus()} type="submit">
+          <p className={modeWithdraw}>탈퇴하기</p>
         </button>
-        <button onClick={() => changeWithdrawlConfirmStatus()} type="submit">
-          <p className="withdrawl">탈퇴하기</p>
-        </button>
-        {withdrawlConfirmStatus && (
-          <ModalConfirmWithdrawl changeWithdrawlConfirmStatus={changeWithdrawlConfirmStatus} />
+        {withdrawModalStatus && (
+          <ModalConfirmWithdraw
+            MODE={MODE}
+            userId={userId}
+            changeWithdrawModalStatus={changeWithdrawModalStatus}
+          />
         )}
       </div>
       <div className="body">
-        <MyProfile MODE={MODE} myAKA={myAKA} />
+        <MyProfile MODE={MODE} userId={userId} myAKA={myAKA} setMyAKA={setMyAKA} />
         <hr />
-        <MyStat />
+        <MyStat userId={userId} />
         <hr />
-        <MyBadge setMyAKA={setMyAKA} />
+        <MyBadge userId={userId} MODE={MODE} setMyAKA={setMyAKA} />
       </div>
     </div>
   );
