@@ -22,9 +22,9 @@ public class ChatMessageController {
         if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
             message.setMessage(message.getSender() + "님이 입장하셨습니다.");
         }
-//        else {
-//            chatMessageRepository.saveChatLog(message);
-//        }
+        else {
+            chatMessageRepository.saveChatLog(message);
+        }
         messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 }

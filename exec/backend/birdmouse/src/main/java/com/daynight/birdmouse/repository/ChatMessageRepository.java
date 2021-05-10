@@ -20,7 +20,7 @@ public class ChatMessageRepository {
     }
 
     public void saveChatLog(ChatMessage message) {
-        listOperations.rightPushAll("CHATLOG", message.getRoomId()+"", message.toString());
+        listOperations.rightPushAll("LOG"+message.getRoomId(), message.toString());
         logger.info(message.toString());
     }
 }
