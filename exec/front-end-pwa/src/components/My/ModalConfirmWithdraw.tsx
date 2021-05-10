@@ -24,8 +24,7 @@ export default function ModalConfirmWithdraw({
   const history = useHistory();
 
   const withdraw = (uId: string | undefined): void => {
-    axios.patch(`${SERVER_URL}/mypage/withdraw`, {}, { params: { id: uId } }).then((res) => {
-      console.log('탈퇴 성공', uId, res);
+    axios.patch(`${SERVER_URL}/mypage/withdraw`, {}, { params: { id: uId } }).then(() => {
       localStorage.removeItem('userInfo');
       setTimeout(() => {
         history.push('/mypage');

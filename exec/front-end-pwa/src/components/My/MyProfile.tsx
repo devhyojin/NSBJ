@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ModalConfirmNickname from './ModalConfirmNickname';
 import ModalCharacter from './ModalCharacter';
@@ -95,12 +95,8 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
     } else {
       axios
         .patch(`${SERVER_URL}/mypage/nickname`, {}, { params: { mode: MODE, user_id: userId } })
-        .then((res) => {
-          console.log('닉네임 변경 요청 성공', res);
+        .then(() => {
           getNewNickname();
-        })
-        .catch((err) => {
-          console.log(err);
         });
     }
   };
@@ -120,7 +116,6 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
       setMyRegion(response.region.region_name);
       setMyAKA(response.badge.badge_name);
       setNicknameFlag(response.changed_nickname);
-      console.log('바꿨니?', nicknameFlag);
 
       if (MODE === 'light') {
         setMyNickName(response.nickname.light);
