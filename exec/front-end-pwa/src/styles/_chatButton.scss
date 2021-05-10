@@ -1,0 +1,21 @@
+.feedback-container {
+  width: 18vw;
+  height: 5.6vw;
+  position: absolute;
+  z-index: 1;
+  top: 9.5vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 0.5rem;
+  .feedbackBtn {
+    width: 3vw;
+  }
+}
+
+.light__bg__mint2 {
+  background-color: #93c9c7;
+}
+.dark__bg__red2 {
+  background-color: #9f3d47;
+}
