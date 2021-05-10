@@ -1,17 +1,17 @@
 import React, { useRef, useState, useEffect } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import ChatButton from './ChatButton';
 
 import '../../styles/_message.scss';
 
-const SERVER_URL = process.env.REACT_APP_URL;
+// const SERVER_URL = process.env.REACT_APP_URL;
 
 export default function Message({ message, user, mode }: any) {
   const initFeedbackInfo = { id: 0, user_id: 0, receiver_id: 0, receiver_nickname: null };
   const [feedbackInfo, setFeedbackInfo] = useState(initFeedbackInfo);
-  const [feedbackModalStatus, setFeedbackModalStatus] = useState(false);
+  const [feedbackModalStatus, setFeedbackModalStatus] = useState<boolean>(false);
 
-  // const getFeedbackInfo = () => {
+  // const getFeedbackInfo = (): void => {
   //   // 1. 피드백 관련 모든 정보 업데이트 해주기
   //   axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
   //     const tempFeedbackInfo = { ...feedbackInfo };
