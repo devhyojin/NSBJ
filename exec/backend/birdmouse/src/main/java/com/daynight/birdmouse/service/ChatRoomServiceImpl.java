@@ -1,7 +1,8 @@
 package com.daynight.birdmouse.service;
 
 import com.daynight.birdmouse.dto.ChatRoom;
-import com.daynight.birdmouse.repository.ChatRoomRepository;
+import com.daynight.birdmouse.repository.RedisChatRoomRepository;
+import com.daynight.birdmouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,8 @@ import java.util.*;
 @Service
 public class ChatRoomServiceImpl implements ChatRoomService {
 
-    private final ChatRoomRepository chatRoomRepository;
+    private final RedisChatRoomRepository redisChatRoomRepository;
+    private final UserRepository userRepository;
 
     private Map<Long, ChatRoom> chatRoomMap;
 
@@ -36,7 +38,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         ChatRoom chatRoom = ChatRoom.create(id);
         chatRoomMap.put(chatRoom.getId(), chatRoom);
 
-        chatRoomRepository.createChatRoom(id, "region");
+        redisChatRoomRepository.createChatRoom(id, "region");
 
         return chatRoom;
     }
@@ -45,29 +47,39 @@ public class ChatRoomServiceImpl implements ChatRoomService {
      *
      * @param region_id : 지역 아이디
      * @param user_id : 현재 입장하는 유저의 아이디
-     * @param nickname : 현재 입장하는 유저의 닉네임
      * @return : 해당 채팅방의 채팅 내역 (하루치?)
      */
     @Override
-    public Object registerUser(long region_id, String user_id, String nickname) {
+    public void registerUser(long region_id, String user_id) {
+
+        // 유저의 닉네임 정보 불러오기
+        String bird_name = userRepository.findBirdNameByID(user_id);
+        String mouse_name = userRepository.findMouseNameByID(user_id);
+
+        // exception
+        if (bird_name == null) {
+            System.out.println("no such user");
+        }
 
         // 먼저 다른 지역에 등록돼 있는지 확인
-        long currentRegion = chatRoomRepository.getUser(region_id, user_id);
+        long currentRegion = redisChatRoomRepository.getUser(region_id, user_id);
         // 다른 지역에 있으면 해당 지역 채팅방에서 유저 정보 삭제
         if (currentRegion != 0) {
-            chatRoomRepository.deleteUser(currentRegion, user_id);
+            redisChatRoomRepository.deleteUser(currentRegion, user_id);
         }
         // 현재 지역에 유저와 닉네임 등록
-        chatRoomRepository.registerUser(region_id, user_id, nickname);
-        // 현재 지역의 다른 유저리스트 조회
-        Map<String, Object> userList = chatRoomRepository.getAllUsers(region_id);
-
-        return userList;
+        redisChatRoomRepository.registerUser(region_id, user_id, bird_name, mouse_name);
     }
 
     @Override
     public List<ChatRoom> findAllRoom() {
-        return chatRoomRepository.findAllRoom();
+        return redisChatRoomRepository.findAllRoom();
+    }
+
+    @Override
+    public List<HashMap<String, Object>> findAllUser(long region_id) {
+        // 현재 지역의 다른 유저리스트 조회
+        return redisChatRoomRepository.getAllUsers(region_id);
     }
 
 

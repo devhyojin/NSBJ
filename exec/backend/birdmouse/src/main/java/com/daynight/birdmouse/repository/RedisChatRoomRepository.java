@@ -4,45 +4,72 @@ import com.daynight.birdmouse.dto.ChatRoom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
-public class ChatRoomRepository {
+public class RedisChatRoomRepository {
 
-    final Logger logger = LoggerFactory.getLogger(ChatRoomRepository.class);
+    // 로그 정보 확인을 위한 logger
+    final Logger logger = LoggerFactory.getLogger(RedisChatRoomRepository.class);
 
-    private HashOperations hashOperations;
+    // Redis 에서 HashSet 관련 처리를 담당하는 HashOperations
+    // Key, HashKey, Value
+    private final HashOperations<String, Object, Object> hashOperations;
 
-    public ChatRoomRepository(StringRedisTemplate redisTemplate) {
+    // 생성자
+    // StringRedisTemplate을 사용해야 문자열 그대로 저장됨
+    public RedisChatRoomRepository(StringRedisTemplate redisTemplate) {
         this.hashOperations = redisTemplate.opsForHash();
     }
 
     /**
      * 지역 채팅방에 유저:닉네임 등록
-     *
-     * @param regionId : 지역 아이디
-     * @param userId   : 유저의 아이디
-     * @param nickname : 현재 유저의 닉네임 => set이라서 아이디는 냅두고 계속 값은 업데이트 가능
+     * @param region_id : 지역 아이디
+     * @param user_id   : 유저의 아이디
      */
-    public void registerUser(long regionId, String userId, String nickname) {
-        hashOperations.put("room" + regionId, userId, nickname);
-        hashOperations.put("user", userId, regionId + "");
-        logger.info(String.format("[%d지역] 채팅방에 [유저%s:%s] 등록 완료", regionId, userId, nickname));
+    public void registerUser(long region_id, String user_id, String bird_name, String mouse_name) {
+        // 지역채팅방 등록 = room## : user_id : mouse_name;bird_name
+        // 새/쥐 닉네임은 split(;)로 해서 분리하기
+        String nickname = bird_name + ";" + mouse_name;
+        hashOperations.put("room" + region_id, user_id, nickname);
+
+        // 유저 정보 저장 = user : user_id : region_id
+        // => 나중에 유저가 다른 지역에 있는지 확인용
+        hashOperations.put("user", user_id, region_id + "");
+        logger.info(String.format("[%d지역] 채팅방에 [유저%s:%s] 등록 완료", region_id, user_id, nickname));
     }
 
     /**
      * 지역 채팅방의 모든 유저 리스트 조회
      *
-     * @param regionId :지역 아이디
+     * @param region_id :지역 아이디
      * @return 지역 아이디에 등록된 유저 리스트
      */
-    public Map<String, Object> getAllUsers(long regionId) {
-        logger.info(String.format("[%s지역] 채팅방 조회", regionId));
-        return hashOperations.entries("room" + regionId);
+    public List<HashMap<String, Object>> getAllUsers(long region_id) {
+        logger.info(String.format("[%s지역] 채팅방 조회", region_id));
+        Map<Object, Object> user_list = hashOperations.entries("room" + region_id);
+
+        List<HashMap<String, Object>> neighbor = new ArrayList<>();
+
+        // user_id : aa, bird_name : aa, mouse_name : aa 로 쪼개기
+        for (Map.Entry<Object, Object> users : user_list.entrySet()) {
+            HashMap<String, Object> user_info = new HashMap<>();
+            user_info.put("user_id", users.getKey()+"");
+
+            HashMap<String, String> nicknames = new HashMap<>();
+            String[] nickname = users.getValue().toString().split(";");
+            nicknames.put("bird_name", nickname[0]);
+            nicknames.put("mouse_name", nickname[1]);
+
+            user_info.put("nickname", nicknames);
+
+            neighbor.add(user_info);
+        }
+        return neighbor;
+
     }
 
     /**
