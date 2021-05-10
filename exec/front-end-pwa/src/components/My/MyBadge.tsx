@@ -131,11 +131,7 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
     setInfoModalStatus(!infoModalStatus);
   };
   const changeAKA = (idx: number, title: string): void => {
-    axios
-      .patch(`${SERVER_URL}/mypage/badge`, {}, { params: { user_id: userId, badge: idx } })
-      .then((res) => {
-        console.log('칭호 체인지', res);
-      });
+    axios.patch(`${SERVER_URL}/mypage/badge`, {}, { params: { user_id: userId, badge: idx } });
     const tempBadges = [...badges];
     for (let i = 0; i < 9; i += 1) {
       if (i === idx - 1) {
