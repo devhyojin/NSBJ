@@ -11,7 +11,7 @@ function App() {
       <Route path="/" exact component={LandingPage} />
       <Route path="/main" component={MainPage} />
       <Route path="/mypage" component={MyPage} />
-      <Route path="/chat" component={Chat} />
+      <Route path="/chat/:regionId" component={Chat} />
     </div>
   );
 }
