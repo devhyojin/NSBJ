@@ -50,11 +50,11 @@ public class ChatRoomController {
             region_name = found_region.get().getRegion_name();
         }
 
-        // 유저 등록
-        chatRoomService.registerUser(region_id, user_id);
-
         // 현재 지역의 유저 리스트 조회
         List<HashMap<String, Object>> user_list = chatRoomService.findAllUser(region_id);
+
+        // 유저 등록
+        chatRoomService.registerUser(region_id, user_id);
 
         // return data 포맷에 맞게 가공하기
         HashMap<String, Object> data = new HashMap<>();

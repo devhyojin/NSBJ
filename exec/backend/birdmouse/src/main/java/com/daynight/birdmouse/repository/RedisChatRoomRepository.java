@@ -51,23 +51,24 @@ public class RedisChatRoomRepository {
     public List<HashMap<String, Object>> getAllUsers(long region_id) {
         logger.info(String.format("[%s지역] 채팅방 조회", region_id));
         Map<Object, Object> user_list = hashOperations.entries("room" + region_id);
-
         List<HashMap<String, Object>> neighbor = new ArrayList<>();
 
-        // user_id : aa, bird_name : aa, mouse_name : aa 로 쪼개기
-        for (Map.Entry<Object, Object> users : user_list.entrySet()) {
-            HashMap<String, Object> user_info = new HashMap<>();
-            user_info.put("user_id", users.getKey()+"");
+        if (user_list.size() > 0) {
+            // user_id : aa, bird_name : aa, mouse_name : aa 로 쪼개기
+            for (Map.Entry<Object, Object> users : user_list.entrySet()) {
+                HashMap<String, Object> user_info = new HashMap<>();
+                user_info.put("user_id", users.getKey()+"");
 
-            HashMap<String, String> nicknames = new HashMap<>();
-            String[] nickname = users.getValue().toString().split(";");
-            nicknames.put("bird_name", nickname[0]);
-            nicknames.put("mouse_name", nickname[1]);
+                HashMap<String, String> nicknames = new HashMap<>();
+                String[] nickname = users.getValue().toString().split(";");
+                nicknames.put("bird_name", nickname[0]);
+                nicknames.put("mouse_name", nickname[1]);
+                user_info.put("nickname", nicknames);
 
-            user_info.put("nickname", nicknames);
-
-            neighbor.add(user_info);
+                neighbor.add(user_info);
+            }
         }
+
         return neighbor;
 
     }
