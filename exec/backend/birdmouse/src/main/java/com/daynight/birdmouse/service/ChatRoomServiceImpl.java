@@ -1,6 +1,8 @@
 package com.daynight.birdmouse.service;
 
+import com.daynight.birdmouse.dto.ChatMessage;
 import com.daynight.birdmouse.dto.ChatRoom;
+import com.daynight.birdmouse.repository.RedisChatMessageRepository;
 import com.daynight.birdmouse.repository.RedisChatRoomRepository;
 import com.daynight.birdmouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,17 +17,8 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     private final RedisChatRoomRepository redisChatRoomRepository;
     private final UserRepository userRepository;
+    private final RedisChatMessageRepository redisChatMessageRepository;
 
-    private Map<Long, ChatRoom> chatRoomMap;
-
-    @PostConstruct
-    private void init() {
-        chatRoomMap = new LinkedHashMap<>();
-    }
-
-    public ChatRoom findRoomById(long id) {
-        return chatRoomMap.get(id);
-    }
 
     /**
      * @param id : 지역 아이디
@@ -36,7 +29,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
      */
     public ChatRoom createChatRoom(long id) {
         ChatRoom chatRoom = ChatRoom.create(id);
-        chatRoomMap.put(chatRoom.getId(), chatRoom);
 
         redisChatRoomRepository.createChatRoom(id, "region");
 
@@ -47,7 +39,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
      *
      * @param region_id : 지역 아이디
      * @param user_id : 현재 입장하는 유저의 아이디
-     * @return : 해당 채팅방의 채팅 내역 (하루치?)
      */
     @Override
     public void registerUser(long region_id, String user_id) {
@@ -71,15 +62,25 @@ public class ChatRoomServiceImpl implements ChatRoomService {
         redisChatRoomRepository.registerUser(region_id, user_id, bird_name, mouse_name);
     }
 
-    @Override
-    public List<ChatRoom> findAllRoom() {
-        return redisChatRoomRepository.findAllRoom();
-    }
-
+    /**
+     * 현재 채팅방의 유저 리스트 조회
+     * @param region_id : 지역 아이디
+     * @return List of user nicknames
+     */
     @Override
     public List<HashMap<String, Object>> findAllUser(long region_id) {
         // 현재 지역의 다른 유저리스트 조회
         return redisChatRoomRepository.getAllUsers(region_id);
+    }
+
+    /**
+     * 채팅방 입장 시 기존 저장된 내역 조회
+     * @param region_id
+     * @return
+     */
+    @Override
+    public List<HashMap<String, Object>> getChatLog(long region_id) {
+        return redisChatMessageRepository.getChatLog(region_id);
     }
 
 

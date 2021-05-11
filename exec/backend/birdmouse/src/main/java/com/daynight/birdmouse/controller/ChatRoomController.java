@@ -1,6 +1,7 @@
 package com.daynight.birdmouse.controller;
 
 import com.daynight.birdmouse.domain.Region;
+import com.daynight.birdmouse.dto.ChatMessage;
 import com.daynight.birdmouse.dto.ChatRoom;
 import com.daynight.birdmouse.dto.Response;
 import com.daynight.birdmouse.repository.RegionRepository;
@@ -72,10 +73,26 @@ public class ChatRoomController {
     }
 
     @ApiOperation(value = "지역 채팅방 입장")
-    @GetMapping("/room/enter/{regionId}")
+    @GetMapping("region/{regionId}")
+    public Object enterChatRoom(@PathVariable long regionId) {
+        List<HashMap<String, Object>> chat_log = chatRoomService.getChatLog(regionId);
+        Response result = Response.builder()
+                .status(true)
+                .message(String.format("%d 채팅방 입장", regionId))
+                .data(chat_log)
+                .build();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "지역 채팅방 입장")
+    @GetMapping("/room/{regionId}")
     public String roomDetail(Model model, @PathVariable long regionId) {
+
+        List<HashMap<String, Object>> chat_log = chatRoomService.getChatLog(regionId);
+
         model.addAttribute("roomId", regionId+"");
         return "/chat/roomdetail";
     }
+
 
 }
