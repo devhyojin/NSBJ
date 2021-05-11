@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
-// import { GoogleLoginButton } from 'ts-react-google-login-component';
 import ModeCheck from '../utils/ModeCheck';
 
 import '../styles/_landing.scss';
@@ -11,7 +10,6 @@ import mouseBasic from '../assets/characters/mouse/mouse_basic.gif';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-console.log(GOOGLE_CLIENT_ID);
 
 export default function LadingPage() {
   let landingBgMode = 'bg landing__dark__bg';
@@ -20,32 +18,27 @@ export default function LadingPage() {
 
   const responseGoogle = (res: any) => {
     const { accessToken, googleId } = res;
-    login(googleId, MODE, accessToken);
+    axios
+      .get(`${SERVER_URL}/login/google`, {
+        params: { id: googleId, mode: MODE, token: accessToken },
+      })
+      .then((resp) => {
+        const userInfo = resp.data.data.user;
+        if (userInfo.has_left) {
+          alert('3개월 내에 동일한 아이디로 재가입이 불가능합니다.');
+        } else {
+          login(userInfo);
+        }
+      });
   };
 
   const responseFail = (err: any) => {
     alert(err);
   };
 
-  const login = (googleId: string, MODE: string, accessToken: string) => {
-    axios
-      .get(`${SERVER_URL}/login/google`, {
-        params: {
-          id: googleId,
-          mode: MODE,
-          token: accessToken,
-        },
-      })
-      .then((res) => {
-        const {
-          data: {
-            data: { user },
-          },
-        } = res;
-        localStorage.setItem('userInfo', JSON.stringify(user));
-        history.push('/main');
-      })
-      .catch((err) => alert(err));
+  const login = (userInfo: any) => {
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    history.push('/main');
   };
 
   if (MODE === 'light') {
