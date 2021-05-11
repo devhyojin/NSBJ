@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 import '../../styles/_modalCharacter.scss';
 
@@ -96,15 +96,11 @@ export default function CharacterModal({
     setCharacters(tempCharacters);
 
     // 2. back에 보내주기
-    axios
-      .patch(
-        `${SERVER_URL}/mypage/img`,
-        {},
-        { params: { profile_img: characterId, user_id: userId } },
-      )
-      .then((res) => {
-        console.log('캐릭터 성공', res);
-      });
+    axios.patch(
+      `${SERVER_URL}/mypage/img`,
+      {},
+      { params: { profile_img: characterId, user_id: userId } },
+    );
   };
 
   return (

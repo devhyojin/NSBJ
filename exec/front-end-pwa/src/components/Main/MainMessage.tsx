@@ -1,20 +1,19 @@
 // import React from 'react'
-import { useHistory } from 'react-router-dom'
 
 interface MainMessageProps {
   activate: boolean,
   mode: string,
+  routerToChat(): any,
 }
 
 
-export default function MainMessage({ activate, mode }: MainMessageProps) {
+export default function MainMessage({ activate, mode, routerToChat }: MainMessageProps) {
   if (!activate) { return null }
   const baseClass = 'main__message bg__fill__img '
   const btnClass = mode === 'light' ? 'light__btn' : 'dark__btn'
-  const history = useHistory()
 
-  const routerToChat = () => {
-    history.push('/chat')
+  const routerToChatHandler = () => {
+    routerToChat()
   }
 
   return (
@@ -22,7 +21,7 @@ export default function MainMessage({ activate, mode }: MainMessageProps) {
       role='button'
       tabIndex={0}
       className={baseClass + btnClass}
-      onClick={routerToChat}
+      onClick={routerToChatHandler}
       onKeyDown={() => null}
     >
       {null}
