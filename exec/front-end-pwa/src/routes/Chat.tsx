@@ -16,7 +16,6 @@ const SERVER_URL = process.env.REACT_APP_URL
 
 
 let sockJS = new SockJS(`${SERVER_URL}/ws-stomp`)
-// const stompClient: Stomp.Client = Stomp.over(sockJS)
 let webSocket = Stomp.over(sockJS)
 
 

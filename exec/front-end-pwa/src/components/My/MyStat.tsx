@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import megaphone from '../../assets/flaticon/megaphone.png';
 import angelCnt from '../../assets/flaticon/angel_cnt.png';
@@ -11,14 +11,6 @@ interface MyStatProps {
   userId: string | undefined;
 }
 export default function MyStat({ userId }: MyStatProps) {
-  const initStat: Array<any> = [
-    { path: angelCnt, title: '리액션 포인트', cnt: 0 },
-    { path: heartCnt, title: '마음 포인트', cnt: 0 },
-    { path: judgeCnt, title: '해결 포인트', cnt: 0 },
-  ];
-  const [stat, setStat] = useState(initStat);
-  const [megaphoneCnt, setMegaphoneCnt] = useState(0);
-
   useEffect(() => {
     axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
       const response = res.data.data;
@@ -29,7 +21,15 @@ export default function MyStat({ userId }: MyStatProps) {
       setStat(tempStat);
       setMegaphoneCnt(response.megaphone_count);
     });
-  }, [userId]);
+  }, []);
+
+  const initStat: Array<any> = [
+    { path: angelCnt, title: '리액션 포인트', cnt: 0 },
+    { path: heartCnt, title: '마음 포인트', cnt: 0 },
+    { path: judgeCnt, title: '해결 포인트', cnt: 0 },
+  ];
+  const [stat, setStat] = useState(initStat);
+  const [megaphoneCnt, setMegaphoneCnt] = useState(0);
 
   return (
     <div className="my-stat">

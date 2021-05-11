@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ModeCheck from '../utils/ModeCheck';
 import ModalConfirmWithdraw from '../components/My/ModalConfirmWithdraw';
 import MyProfile from '../components/My/MyProfile';
