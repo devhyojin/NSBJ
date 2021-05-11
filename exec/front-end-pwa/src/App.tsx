@@ -5,6 +5,7 @@ import LandingPage from './routes/LandingPage';
 import MainPage from './routes/MainPage';
 import MyPage from './routes/MyPage';
 import Chat from './routes/Chat';
+import PageNotFound from './routes/PageNotFound';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <PrivateRoute path="/main" component={MainPage} />
       <PrivateRoute path="/mypage" component={MyPage} />
       <PrivateRoute path="/chat" component={Chat} />
+      <PublicRoute component={PageNotFound} />
     </Switch>
   );
 }
