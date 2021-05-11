@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ModalBadgeInfo from './ModalBadgeInfo';
 import angelCnt from '../../assets/flaticon/angel_cnt.png';
