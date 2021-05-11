@@ -217,7 +217,10 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
       badgeCalculator('해결 포인트', response.feedback.judge_count);
       // 2. 저장된 나의 칭호에 border 생기도록 picked값을 true로 바꿔줌
       const tempBadges = [...badges];
-      tempBadges[response.badge.id - 1].picked = true;
+      if (response.badge.id) {
+        tempBadges[response.badge.id - 1].picked = true;
+      }
+
       setBadges(tempBadges);
     });
   }, [userId]);
