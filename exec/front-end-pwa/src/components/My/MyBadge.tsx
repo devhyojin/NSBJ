@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ModalBadgeInfo from './ModalBadgeInfo';
 import angelCnt from '../../assets/flaticon/angel_cnt.png';
@@ -23,6 +23,22 @@ interface ModalConfirmWithdrawlProps {
 }
 
 export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdrawlProps) {
+  useEffect(() => {
+    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
+      // 1.버튼 활성화 여부 status에 체크하기 위해 badgeCalculator에 값 넘겨줌.
+      const response = res.data.data;
+      badgeCalculator('리액션 포인트', response.feedback.angel_count);
+      badgeCalculator('마음 포인트', response.feedback.heart_count);
+      badgeCalculator('해결 포인트', response.feedback.judge_count);
+      // 2. 저장된 나의 칭호에 border 생기도록 picked값을 true로 바꿔줌
+      const tempBadges = [...badges];
+      if (response.badge.id) {
+        tempBadges[response.badge.id - 1].picked = true;
+      }
+      setBadges(tempBadges);
+    });
+  }, []);
+
   // 모드 별 색상 전환
   let modeInfoBtn = 'dark__i__btn circle';
   let modeCheckedBorder = 'dark__ch__border';
@@ -208,19 +224,6 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
     }
     setBadges(tempBadges);
   };
-  useEffect(() => {
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
-      // 1.버튼 활성화 여부 status에 체크하기 위해 badgeCalculator에 값 넘겨줌.
-      const response = res.data.data;
-      badgeCalculator('리액션 포인트', response.feedback.angel_count);
-      badgeCalculator('마음 포인트', response.feedback.heart_count);
-      badgeCalculator('해결 포인트', response.feedback.judge_count);
-      // 2. 저장된 나의 칭호에 border 생기도록 picked값을 true로 바꿔줌
-      const tempBadges = [...badges];
-      tempBadges[response.badge.id - 1].picked = true;
-      setBadges(tempBadges);
-    });
-  }, [userId]);
 
   return (
     <div className="my-badge">
