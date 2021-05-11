@@ -84,15 +84,15 @@ public class ChatRoomController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "지역 채팅방 입장")
-    @GetMapping("/room/{regionId}")
-    public String roomDetail(Model model, @PathVariable long regionId) {
-
-        List<HashMap<String, Object>> chat_log = chatRoomService.getChatLog(regionId);
-
-        model.addAttribute("roomId", regionId+"");
-        return "/chat/roomdetail";
-    }
+//    @ApiOperation(value = "테스트용 채팅방 입장")
+//    @GetMapping("/test/{regionId}")
+//    public String roomDetail(Model model, @PathVariable long regionId) {
+//
+//        List<HashMap<String, Object>> chat_log = chatRoomService.getChatLog(regionId);
+//
+//        model.addAttribute("roomId", regionId+"");
+//        return "/chat/roomdetail";
+//    }
 
 
 }
