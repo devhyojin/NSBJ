@@ -1,5 +1,6 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+import PublicRoute from './lib/PublicRoute';
+import PrivateRoute from './lib/PrivateRoute';
 import LandingPage from './routes/LandingPage';
 import MainPage from './routes/MainPage';
 import MyPage from './routes/MyPage';
@@ -7,12 +8,12 @@ import Chat from './routes/Chat';
 
 function App() {
   return (
-    <div>
-      <Route path="/" exact component={LandingPage} />
-      <Route path="/main" component={MainPage} />
-      <Route path="/mypage" component={MyPage} />
-      <Route path="/chat" component={Chat} />
-    </div>
+    <Switch>
+      <PublicRoute exact path="/" restricted component={LandingPage} />
+      <PrivateRoute path="/main" component={MainPage} />
+      <PrivateRoute path="/mypage" component={MyPage} />
+      <PrivateRoute path="/chat" component={Chat} />
+    </Switch>
   );
 }
 
