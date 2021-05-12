@@ -49,8 +49,7 @@ export default function CharacterModal({
   };
 
   // 활성화된 캐릭터, 비활성화된 캐릭터
-  const ActiveCharacter = (character: any, key: number) => {
-    const c = character.character;
+  const ActiveCharacter = ({ c }: any, key: number) => {
     return (
       <div
         key={key}
@@ -65,8 +64,7 @@ export default function CharacterModal({
       </div>
     );
   };
-  const InactiveCharacter = (character: any, key: number) => {
-    const c = character.character;
+  const InactiveCharacter = ({ c }: any, key: number) => {
     return (
       <div className={baseClassName + inactive} key={key}>
         <img src={c.path} alt={c.title} />
@@ -117,9 +115,9 @@ export default function CharacterModal({
         <div className="character-modal-body">
           {tempCharacters.map((character) => {
             return character.status ? (
-              <ActiveCharacter key={character.id} character={character} />
+              <ActiveCharacter key={character.id} c={character} />
             ) : (
-              <InactiveCharacter key={character.id} character={character} />
+              <InactiveCharacter key={character.id} c={character} />
             );
           })}
         </div>
