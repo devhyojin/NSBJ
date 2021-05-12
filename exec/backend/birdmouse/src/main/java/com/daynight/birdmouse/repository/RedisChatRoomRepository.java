@@ -49,7 +49,7 @@ public class RedisChatRoomRepository {
      * @return 지역 아이디에 등록된 유저 리스트
      */
     public List<HashMap<String, Object>> getAllUsers(long region_id) {
-        logger.info(String.format("[%s지역] 채팅방 조회", region_id));
+        logger.info(String.format("[%s 지역]의 유저 리스트 조회", region_id));
         Map<Object, Object> user_list = hashOperations.entries("room" + region_id);
         List<HashMap<String, Object>> neighbor = new ArrayList<>();
 
@@ -95,10 +95,10 @@ public class RedisChatRoomRepository {
     public long getUser(long regionId, String userId) {
         boolean checkStatus = hashOperations.hasKey("user", userId);
         if (!checkStatus) {
-            logger.info("채팅방에 등록되지 않은 유저");
+            logger.info("아직 채팅방에 등록되지 않은 유저");
             return 0;
         } else {
-            long region = Long.parseLong((String) hashOperations.get("user", userId));
+            long region = Long.parseLong((String) Objects.requireNonNull(hashOperations.get("user", userId)));
             if (region == regionId) {
                 logger.info("기존 채팅방 잔류");
                 return 0;
@@ -116,23 +116,6 @@ public class RedisChatRoomRepository {
      */
     public void createChatRoom(long regionId, String regionName) {
         hashOperations.put("room", regionId + "", regionName);
-    }
-
-    /**
-     * 모든 채팅방 리스트로 가져오기
-     * 아빠프로그래머 예제에 필요해서 추가한거
-     * @return List of chatrooms
-     */
-    public List<ChatRoom> findAllRoom() {
-        List<ChatRoom> chatRooms = new ArrayList<>();
-        Map rooms = hashOperations.entries("room");
-        for (Object id : rooms.keySet()) {
-            long tmp = Long.parseLong((String) id);
-            System.out.println(tmp);
-            ChatRoom room = new ChatRoom(tmp);
-            chatRooms.add(room);
-        }
-        return chatRooms;
     }
 
 }

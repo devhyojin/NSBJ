@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs';
@@ -14,23 +14,23 @@ import '../styles/_chat.scss'
 
 const SERVER_URL = process.env.REACT_APP_URL
 
-
-const sockJS = new SockJS(`${SERVER_URL}/ws-stomp`)
-// const stompClient: Stomp.Client = Stomp.over(sockJS)
-const webSocket = Stomp.over(sockJS)
-console.log(webSocket)
+let sockJS = new SockJS(`${SERVER_URL}/ws-stomp`)
+let ws = Stomp.over(sockJS)
 
 
 export default function Chat() {
   const [data, setData] = useState([]);
-
-
   const mode = ModeCheck();
   const history = useHistory();
-  const params = useParams();
+  const { state: { chat } }: any = useLocation();
+  const { regionId }: any = useParams();
 
+  useEffect(() => {
+    setData(chat)
+  }, [])
 
-  if (!params) { history.push('/main') }
+  if (regionId === '') { history.push('/main') }
+
   let chatDivClassName = 'chat chat__dark__mode';
   // 모드 체크 파트
   if (mode === 'light') { chatDivClassName = 'chat chat__light__mode'; };
@@ -38,30 +38,38 @@ export default function Chat() {
   const backHandler = () => { history.push('/main') };
 
 
+
+
   const connect = () => {
-    webSocket.connect({}, function () {
-      webSocket.subscribe(`${SERVER_URL}/sub/chat/room/${params}`, function (message) {
-        console.log(`${SERVER_URL}/sub/chat/room/${params}`)
-        console.log(message, 'Connect webSocket')
+    ws.connect({}, function () {
+      ws.subscribe(`/sub/chat/room/${regionId}`, function (message) {
+        const recv = JSON.parse(message.body)
+        recvMessage(recv)
       })
+      ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'ENTER', mode, room_id: regionId, sender_id: '104323557732025537658', message: 'test1', sent_at: '2021-05-11' }))
+    }, function () {
+      console.log('connection error')
+      sockJS = new SockJS(`${SERVER_URL}/ws-stomp`)
+      ws = Stomp.over(sockJS)
+      connect()
     })
   }
 
   const sendMessage = () => {
-    webSocket.send('put/chat/message', {}, JSON.stringify({ type: 'TALK', roomId: 4111312800, sender: '104323557732025537658', message: 'test' }))
+    ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'TALK', mode, room_id: regionId, sender_id: '104323557732025537658', message: 'test1aaas', sent_at: '2021-05-11' }))
   }
 
-
+  const recvMessage = (msg: any) => {
+    console.log(msg, 'recive message')
+  }
 
   connect()
 
   return (
     <div className={chatDivClassName}>
-      <button type='button' onClick={sendMessage} >test</button>
       <ChatNav backHandler={backHandler} />
       <ChatContent data={data} mode={mode} />
-      <ChatInput />
-
+      <ChatInput sendMessage={sendMessage} />
     </div>
   );
 }

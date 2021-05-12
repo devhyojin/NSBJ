@@ -21,9 +21,15 @@ export default function MainPage() {
   const [region, setRegion] = useState('');
   const [cnt, setCnt] = useState(0);
   const [neighborCnt, setNeighborCnt] = useState(0);
+
   const MODE = ModeCheck();
   const history = useHistory();
   const userInfo = localStorage.getItem('userInfo');
+
+  let modeName = 'dark__mode bg';
+  let latitude = 0;
+  let longitude = 0;
+
   // 랜덤웨이브 무한 생성
   useEffect(() => {
     const randomNum = Math.random()
@@ -47,14 +53,7 @@ export default function MainPage() {
 
   if (!userInfo) { history.push('/') }
 
-
-  let modeName = 'dark__mode bg';
-  let latitude = 0;
-  let longitude = 0;
-
-  if (MODE === "light") {
-    modeName = 'light__mode bg';
-  };
+  if (MODE === "light") { modeName = 'light__mode bg'; };
 
   const geoCode = function () {
     return new Promise(function (res, err) {
@@ -88,21 +87,20 @@ export default function MainPage() {
     const user = JSON.parse(userInfo)
     let nickName = user.bird_name
 
-    if (MODE === 'dark') {
-      nickName = user.mouse_name
-    }
+    if (MODE === 'dark') { nickName = user.mouse_name }
 
 
-    axios.get(`${SERVER_URL}/chat/room/${bCode}`, {
+    axios.post(`${SERVER_URL}/chat/roar/${bCode}`, {}, {
       params: {
-        nickname: nickName,
-        userId: user.id
+        user_id: user.id
       }
     })
       .then(res => {
-        console.log(res)
-        setNeighborCnt(res.data.data.length)
+        setNeighborCnt(res.data.data.count)
         setActivate(true)
+      })
+      .catch(err => {
+        alert(err)
       })
 
   }
@@ -112,10 +110,10 @@ export default function MainPage() {
     const bCode = localStorage.getItem('b_code');
     if (!bCode) { return; };
 
-    axios.get(`${SERVER_URL}/chat/room/enter/${bCode}`)
+    axios.get(`${SERVER_URL}/chat/region/${bCode}`)
       .then(res => {
-        console.log(res)
-        history.push(`/chat/${bCode}`)
+        const { data: { data } } = res
+        history.push(`/chat/${bCode}`, { chat: data })
       })
       .catch(err => alert(err))
   }

@@ -25,19 +25,4 @@ public class ChatMessage {
 
     private String mode;
 
-    @Override
-    public String toString() {
-
-        return "type=" + type + ";" +
-                "room_id=" + room_id + ";" +
-                "message=" + message + ";" +
-                "sent_at=" + sent_at + ";" +
-                "sender_id=" + sender_id + ";" +
-                "bird_name=" + bird_name + ";" +
-                "mouse_name=" + mouse_name + ";" +
-                "badge=" + badge + ";" +
-                "profile_img=" + profile_img + ";" +
-                "mode=" + mode;
-
-    }
 }

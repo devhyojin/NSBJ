@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import ModalConfirmNickname from './ModalConfirmNickname';
 import ModalCharacter from './ModalCharacter';
@@ -21,6 +21,34 @@ interface MyProfileProps {
 }
 
 export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfileProps) {
+  useEffect(() => {
+    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
+      const tempCharacters = [...characters];
+      const response = res.data.data;
+
+      let profileIdx = response.profile_img;
+      if (MODE === 'dark') {
+        profileIdx += 4;
+      }
+      tempCharacters[profileIdx].picked = true;
+      setCharacters(tempCharacters);
+      setMyCharacter(profileIdx);
+      setMyRegion(response.region.region_name);
+      setMyAKA(response.badge.badge_name);
+      setNicknameFlag(response.changed_nickname);
+
+      if (MODE === 'light') {
+        setMyNickName(response.nickname.light);
+      } else {
+        setMyNickName(response.nickname.dark);
+      }
+      // 캐릭터 활성화 여부 판독하기
+      characterCalculator(tempCharacters, 1, response.feedback.angel_count);
+      characterCalculator(tempCharacters, 2, response.feedback.heart_count);
+      characterCalculator(tempCharacters, 3, response.feedback.judge_count);
+    });
+  }, []);
+
   // 모드 별 색상 전환
   let modeProfile = 'dark__bg__red circle character-circle';
   let modeCharacterBtn = 'dark__bg__purple circle character-change';
@@ -100,34 +128,6 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
         });
     }
   };
-
-  useEffect(() => {
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
-      const tempCharacters = [...characters];
-      const response = res.data.data;
-
-      let profileIdx = response.profile_img;
-      if (MODE === 'dark') {
-        profileIdx += 4;
-      }
-      tempCharacters[profileIdx].picked = true;
-      setCharacters(tempCharacters);
-      setMyCharacter(profileIdx);
-      setMyRegion(response.region.region_name);
-      setMyAKA(response.badge.badge_name);
-      setNicknameFlag(response.changed_nickname);
-
-      if (MODE === 'light') {
-        setMyNickName(response.nickname.light);
-      } else {
-        setMyNickName(response.nickname.dark);
-      }
-      // 캐릭터 활성화 여부 판독하기
-      characterCalculator(tempCharacters, 1, response.feedback.angel_count);
-      characterCalculator(tempCharacters, 2, response.feedback.heart_count);
-      characterCalculator(tempCharacters, 3, response.feedback.judge_count);
-    });
-  }, []);
 
   return (
     <div className="my-profile">

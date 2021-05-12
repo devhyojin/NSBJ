@@ -24,6 +24,9 @@ public class ChatMessageController {
 
     @MessageMapping("/chat/message")
     public void message(ChatMessage message) {
+        System.out.println(message.toString());
+        System.out.println("message()");
+
         Optional<User> found_user = userRepository.findById(message.getSender_id());
         if (found_user.isPresent()) {
             User user = found_user.get();
@@ -50,9 +53,9 @@ public class ChatMessageController {
 //        }
 
         // 일반 채팅 입력
-        else {
-            redisChatMessageRepository.saveChatLog(message);
-        }
+//        else {
+//        }
+        redisChatMessageRepository.saveChatLog(message);
         messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoom_id(), message);
     }
 

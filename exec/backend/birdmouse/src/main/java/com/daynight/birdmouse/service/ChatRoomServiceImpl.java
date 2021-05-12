@@ -6,6 +6,8 @@ import com.daynight.birdmouse.repository.RedisChatMessageRepository;
 import com.daynight.birdmouse.repository.RedisChatRoomRepository;
 import com.daynight.birdmouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -18,27 +20,25 @@ public class ChatRoomServiceImpl implements ChatRoomService {
     private final RedisChatRoomRepository redisChatRoomRepository;
     private final UserRepository userRepository;
     private final RedisChatMessageRepository redisChatMessageRepository;
-
+    final Logger logger = LoggerFactory.getLogger(RedisChatRoomRepository.class);
 
     /**
-     * @param id : 지역 아이디
-     * @return 생성된 채팅방
-     *
-     * - 레디스의 채팅방 HSET에 유저의 아이디와 닉네임을 저장
-     * - 채팅방 생성
+     * 채팅방 생성
+     * => DB에 채팅방 정보 등록
+     * @param region_id :지역번호 (채팅방 pk)
+     * @return ChatRoom 객체
      */
-    public ChatRoom createChatRoom(long id) {
-        ChatRoom chatRoom = ChatRoom.create(id);
-
-        redisChatRoomRepository.createChatRoom(id, "region");
-
+    public ChatRoom createChatRoom(long region_id) {
+        ChatRoom chatRoom = ChatRoom.create(region_id);
+        redisChatRoomRepository.createChatRoom(region_id, "region");
         return chatRoom;
     }
 
     /**
-     *
-     * @param region_id : 지역 아이디
-     * @param user_id : 현재 입장하는 유저의 아이디
+     * 지역 채팅방에 유저 등록
+     * => 현재 유저가 등록된 채팅방이 있다면 해당 채팅방에서
+     * @param region_id : 지역번호 (채팅방 pk)
+     * @param user_id : 유저번호
      */
     @Override
     public void registerUser(long region_id, String user_id) {
@@ -49,7 +49,7 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
         // exception
         if (bird_name == null) {
-            System.out.println("no such user");
+            logger.info("%s 유저 정보를 찾을 수 없습니다.");
         }
 
         // 먼저 다른 지역에 등록돼 있는지 확인
@@ -69,7 +69,6 @@ public class ChatRoomServiceImpl implements ChatRoomService {
      */
     @Override
     public List<HashMap<String, Object>> findAllUser(long region_id) {
-        // 현재 지역의 다른 유저리스트 조회
         return redisChatRoomRepository.getAllUsers(region_id);
     }
 
