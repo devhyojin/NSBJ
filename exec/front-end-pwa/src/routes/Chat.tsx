@@ -14,9 +14,8 @@ import '../styles/_chat.scss'
 
 const SERVER_URL = process.env.REACT_APP_URL
 
-
 let sockJS = new SockJS(`${SERVER_URL}/ws-stomp`)
-let webSocket = Stomp.over(sockJS)
+let ws = Stomp.over(sockJS)
 
 
 export default function Chat() {
@@ -36,27 +35,30 @@ export default function Chat() {
 
 
   const connect = () => {
-    webSocket.connect({}, function () {
-      webSocket.subscribe(`${SERVER_URL}/sub/chat/room/${regionId}`, function (message) {
-        console.log(`${SERVER_URL}/sub/chat/room/${regionId}`)
-        console.log(message, 'Connect webSocket')
+    ws.connect({}, function () {
+      ws.subscribe(`/sub/chat/room/${regionId}`, function (message) {
+        const recv = JSON.parse(message.body)
+        recvMessage(recv)
       })
-      console.log('hhh')
-      webSocket.send('put/chat/message', {}, JSON.stringify({ type: 'ENTER', room_id: regionId, sender_id: '104323557732025537658', message: 'test1', sent_at: '2021-05-11' }))
+      ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'ENTER', room_id: regionId, sender_id: '104323557732025537658', message: 'test1', sent_at: '2021-05-11' }))
     }, function () {
       console.log('connection error')
       sockJS = new SockJS(`${SERVER_URL}/ws-stomp`)
-      webSocket = Stomp.over(sockJS)
+      ws = Stomp.over(sockJS)
       connect()
     })
   }
 
   const sendMessage = () => {
-    webSocket.send('put/chat/message', {}, JSON.stringify({ type: 'ENTER', room_id: regionId, sender_id: '104323557732025537658', message: 'test1', sent_at: '2021-05-11' }))
+    ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'TALK', mode, room_id: regionId, sender_id: '104323557732025537658', message: 'test1', sent_at: '2021-05-11' }))
+  }
+
+  const recvMessage = (msg: any) => {
+    console.log(msg, 'recive message')
   }
 
 
-
+  console.log("let's connect ")
   connect()
 
   return (
