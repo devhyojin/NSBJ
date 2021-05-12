@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 
 import SockJS from 'sockjs-client'
 import Stomp from 'stompjs';
@@ -22,8 +22,12 @@ export default function Chat() {
   const [data, setData] = useState([]);
   const mode = ModeCheck();
   const history = useHistory();
-  const { state } = useLocation();
-  const regionId = JSON.stringify(state).split(':')[1].split('}')[0].split('"')[1]
+  const { state: { chat } }: any = useLocation();
+  const { regionId }: any = useParams();
+
+  useEffect(() => {
+    setData(chat)
+  }, [])
 
   if (regionId === '') { history.push('/main') }
 
@@ -34,13 +38,15 @@ export default function Chat() {
   const backHandler = () => { history.push('/main') };
 
 
+
+
   const connect = () => {
     ws.connect({}, function () {
       ws.subscribe(`/sub/chat/room/${regionId}`, function (message) {
         const recv = JSON.parse(message.body)
         recvMessage(recv)
       })
-      ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'ENTER', room_id: regionId, sender_id: '104323557732025537658', message: 'test1', sent_at: '2021-05-11' }))
+      ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'ENTER', mode, room_id: regionId, sender_id: '104323557732025537658', message: 'test1', sent_at: '2021-05-11' }))
     }, function () {
       console.log('connection error')
       sockJS = new SockJS(`${SERVER_URL}/ws-stomp`)
@@ -50,15 +56,13 @@ export default function Chat() {
   }
 
   const sendMessage = () => {
-    ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'TALK', mode, room_id: regionId, sender_id: '104323557732025537658', message: 'test1', sent_at: '2021-05-11' }))
+    ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'TALK', mode, room_id: regionId, sender_id: '104323557732025537658', message: 'test1aaas', sent_at: '2021-05-11' }))
   }
 
   const recvMessage = (msg: any) => {
     console.log(msg, 'recive message')
   }
 
-
-  console.log("let's connect ")
   connect()
 
   return (
