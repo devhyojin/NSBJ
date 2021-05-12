@@ -50,15 +50,18 @@
     var vm = new Vue({
         el: '#app',
         data: {
-            roomId: 0,
+            room_id: 0,
             room: {},
             sender: '',
             message: '',
-            messages: []
+            messages: [],
+            sender_id: 0,
+            sent_at: ''
         },
         created() {
             this.roomId = localStorage.getItem('wschat.roomId');
             this.sender = localStorage.getItem('wschat.sender');
+            this.sender_id = localStorage.getItem('wschat.sender_id');
             this.findRoom();
         },
         methods: {
@@ -66,7 +69,8 @@
                 axios.get('/chat/room/'+this.roomId).then(response => { this.room = response.data; });
             },
             sendMessage: function() {
-                ws.send("/pub/chat/message", {}, JSON.stringify({type:'TALK', roomId:this.roomId, sender:this.sender, message:this.message}));
+                ws.send("/pub/chat/message", {},
+                    JSON.stringify({type:'TALK', room_id:this.roomId, sender_id:this.sender_id, message:this.message}));
                 this.message = '';
             },
             recvMessage: function(recv) {
@@ -82,7 +86,7 @@
                 var recv = JSON.parse(message.body);
                 vm.recvMessage(recv);
             });
-            ws.send("/pub/chat/message", {}, JSON.stringify({type:'ENTER', roomId:vm.$data.roomId, sender:vm.$data.sender}));
+            ws.send("/pub/chat/message", {}, JSON.stringify({type:'ENTER', roomId:vm.$data.roomId, sender:vm.$data.sender, sender_id:this.sender_id}));
         }, function(error) {
             if(reconnect++ <= 5) {
                 setTimeout(function() {
