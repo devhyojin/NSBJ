@@ -29,20 +29,35 @@ public class RedisChatMessageRepository {
         this.listOperations = redisTemplate.opsForList();
     }
 
+    /**
+     * 채팅 로그 저장
+     * => json형식의 message를 ObjectMapper를 통해 String으로 변환 후 레디스에 저장
+     * => 레디스에는 LIST 형식으로 저장됨
+     * @param message : 유저 한명이 입력한 채팅메세지
+     */
     public void saveChatLog(ChatMessage message) {
         try {
             String saveMessage = objectMapper.writeValueAsString(message);
             listOperations.rightPushAll("LOG"+message.getRoom_id(), saveMessage);
-            logger.info(message.toString());
+            logger.info("LOG"+message.getRoom_id() + ":" + message.toString());
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
     }
 
+    /**
+     * 특정 채팅방의 채팅 로그를 반환
+     * => 레디스에서 채팅방의 로그를 가져온다 (초반엔 List<String> 형태)
+     * => 로그 하나하나가 String 형태이기 때문에 ChatMessage 타입으로 다시 변환 후 List<HashMap> 형태로 반환한다
+     * => (ObjectMapper를 이용해 String을 다시 json으로 변환)
+     * @param region_id : 채팅방의 번호 = 지역번호
+     * @return List 형식으로 메세지 반환
+     */
     public List<HashMap<String, Object>> getChatLog(long region_id) {
+        logger.info(String.format("[%d 지역] 채팅방의 채팅로그 가져오는 중", region_id));
         List<String> string_log = listOperations.range("LOG" + region_id, 0, -1);
-        List<HashMap<String, Object>> chatlog = new ArrayList<>();
+        List<HashMap<String, Object>> returning_log = new ArrayList<>();
 
         if (string_log.size() > 0) {
             for (String log : string_log) {
@@ -53,15 +68,15 @@ public class RedisChatMessageRepository {
                             return super.getType();
                         }
                     });
-                    chatlog.add(map);
+                    returning_log.add(map);
                 } catch (JsonProcessingException e) {
-                    e.printStackTrace();
+                    logger.info(e.getMessage());
                 }
             }
         } else {
-            System.out.println("Empty Log!");
+            logger.info(String.format("[%d 지역] 채팅방의 로그가 없습니다.", region_id));
         }
 
-        return chatlog;
+        return returning_log;
     }
 }
