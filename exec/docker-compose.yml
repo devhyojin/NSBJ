@@ -1,0 +1,29 @@
+version: 3
+services:
+  frontend:
+    build: 
+      context: ./front-end-pwa
+      dockerfile: Dockerfile.dev
+    ports: # nginx 생성 시 포트 제거
+      - "3000:3000"
+    volumes: 
+      # - /usr/front/node_modules
+      - ./front-end-pwa:/usr/front
+    environment: 
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: true
+
+  # nginx:
+  #   restart: always
+  #   build: 
+  #     context: ./nginx
+  #     dockerfile: Dockerfile
+  #   ports: 
+  #     - "3000:80"
+
+  # backend:
+  #   build: 
+  #     context: ./backend
+  #     dockerfile: Dockerfile.dev
+  #   volumes:
+
