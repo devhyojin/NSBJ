@@ -50,7 +50,7 @@ export default function Chat() {
   }
 
   const sendMessage = () => {
-    ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'TALK', mode, room_id: regionId, sender_id: '104323557732025537658', message: 'test1', sent_at: '2021-05-11' }))
+    ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'TALK', mode, room_id: regionId, sender_id: '104323557732025537658', message: 'test1aaas', sent_at: '2021-05-11' }))
   }
 
   const recvMessage = (msg: any) => {

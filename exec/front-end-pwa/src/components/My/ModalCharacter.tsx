@@ -50,7 +50,7 @@ export default function CharacterModal({
 
   // 활성화된 캐릭터, 비활성화된 캐릭터
   const ActiveCharacter = (character: any, key: number) => {
-    const c = character.character;
+    // const c = character.character;
     return (
       <div
         key={key}

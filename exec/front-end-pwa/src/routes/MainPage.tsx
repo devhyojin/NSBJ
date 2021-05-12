@@ -112,7 +112,6 @@ export default function MainPage() {
 
     axios.get(`${SERVER_URL}/chat/region/${bCode}`)
       .then(res => {
-        console.log(res)
         history.push(`/chat/${bCode}`, { regionId: bCode })
       })
       .catch(err => alert(err))
