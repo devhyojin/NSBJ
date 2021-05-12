@@ -4,9 +4,11 @@ import com.daynight.birdmouse.domain.Region;
 import com.daynight.birdmouse.dto.ChatMessage;
 import com.daynight.birdmouse.dto.ChatRoom;
 import com.daynight.birdmouse.dto.Response;
+import com.daynight.birdmouse.repository.RedisFeedbackRepository;
 import com.daynight.birdmouse.repository.RegionRepository;
 import com.daynight.birdmouse.service.ChatRoomService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,7 @@ public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
     private final RegionRepository regionRepository;
+    private final RedisFeedbackRepository feedbackRepository;
 
     /**
      * 현재 지역에 유저 등록 및 채팅방의 사용자 리스트 조회
@@ -84,15 +87,21 @@ public class ChatRoomController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-//    @ApiOperation(value = "테스트용 채팅방 입장")
-//    @GetMapping("/test/{regionId}")
-//    public String roomDetail(Model model, @PathVariable long regionId) {
-//
-//        List<HashMap<String, Object>> chat_log = chatRoomService.getChatLog(regionId);
-//
-//        model.addAttribute("roomId", regionId+"");
-//        return "/chat/roomdetail";
-//    }
+    @ApiOperation(value = "유저의 피드백 확인")
+    @GetMapping("/{region_id}/{receiver_id}")
+    public Object getUserFeedback(@PathVariable long region_id, @PathVariable String receiver_id,
+                                  String sender_id, String receiver_bird) {
+        int badge = feedbackRepository.getGivenFeedback(region_id, sender_id, receiver_id, receiver_bird);
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("badge", badge);
+        Response result = Response.builder()
+                .status(true)
+                .message(String.format("%s 유저의 피드백 기록 조회 성공", receiver_id))
+                .data(map)
+                .build();
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 
 }

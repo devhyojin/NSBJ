@@ -43,10 +43,10 @@ public class ChatMessageController {
             if (message.getMode().equals("light")) {
                 message.setMessage(message.getBird_name() + "님이 입장하셨습니다.");
             } else {
-                message.setMessage(message.getMouse_name() +"님이 입장하셨습니다.");
+                message.setMessage(message.getMouse_name() + "님이 입장하셨습니다.");
             }
-            
-        } 
+
+        }
         // 확성기
 //        else if (ChatMessage.MessageType.ANNOUNCE.equals(message.getType())) {
 //            message.setMessage(message.getMessage());
@@ -58,4 +58,5 @@ public class ChatMessageController {
         redisChatMessageRepository.saveChatLog(message);
         messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoom_id(), message);
     }
+
 }
