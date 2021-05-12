@@ -68,12 +68,18 @@ public class LoginServiceImpl implements LoginService{
             user.setMegaphone_count(2);
 
             // 기본 뱃지 0
-            Badge zeroBadge = badgeRepository.getOne(0);
-            user.setBadge(zeroBadge);
+            Optional<Badge> zeroBadge = badgeRepository.findById(0);
+            if (zeroBadge.isPresent()) {
+                Badge badge = zeroBadge.get();
+                user.setBadge(badge);
+            }
 
             // 기본 지역 0
-            Region zeroRegion = regionRepository.getOne(0L);
-            user.setRegion(zeroRegion);
+            Optional<Region> zeroRegion = regionRepository.findById(0L);
+            if (zeroRegion.isPresent()) {
+                Region region = zeroRegion.get();
+                user.setRegion(region);
+            }
 
             // DB에 유저 정보 저장
             userRepository.save(user);

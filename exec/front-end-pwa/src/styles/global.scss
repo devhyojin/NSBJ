@@ -30,3 +30,13 @@ hr {
 .circle {
   border-radius: 50%;
 }
+
+.inactive {
+  -webkit-filter: grayscale(100%);
+  opacity: 50%;
+  border-color: transparent;
+}
+.active {
+  cursor: pointer;
+  border-color: transparent;
+}

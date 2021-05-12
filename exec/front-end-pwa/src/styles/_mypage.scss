@@ -163,15 +163,6 @@ $aka: #aca9a9;
   }
 }
 
-.inactive {
-  -webkit-filter: grayscale(100%);
-  opacity: 50%;
-  border-color: transparent;
-}
-.active {
-  cursor: pointer;
-  border-color: transparent;
-}
 .border {
   border: solid 7.5px;
   border-radius: 1rem;

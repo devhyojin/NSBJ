@@ -5,23 +5,25 @@ import Message from './Message';
 
 
 interface ChatContentProps {
-  data: {
-    chat: any;
-    count: number;
-    user: any;
-  };
+  data: any;
   mode: string;
 }
 
-export default function ChatContent({ data, mode }: ChatContentProps) {
+export default function ChatContent({ data, mode }: ChatContentProps): any {
   const chatContent = useRef() as React.MutableRefObject<HTMLInputElement>
   useEffect(() => {
     const target = chatContent.current
+    if (!target) return;
     target.scrollTop = target.scrollHeight
   })
 
 
   const { chat, user } = data
+
+  if (!chat) {
+    return <div>{null}</div>
+  }
+
 
 
   return (
