@@ -3,6 +3,38 @@ $message_light_color: #000000;
 $message_dark_bg: #d3505d;
 $message_dark_color: #ffffff;
 
+
+
+.profile__light {
+  .img__0 {
+    background-image: url('../assets/characters/bird/bird_basic.gif');
+  }
+  .img__1 {
+    background-image: url('../assets/characters/bird/bird_angel.gif');
+  }
+  .img__2{
+    background-image: url('../assets/characters/bird/bird_heart.gif');    
+  }
+  .img__3{
+    background-image: url('../assets/characters/bird/bird_judge.gif');    
+  }
+}
+
+.profile__dark {
+  .img__0 {
+    background-image: url('../assets/characters/mouse/mouse_basic.gif');
+  }
+  .img__1 {
+    background-image: url('../assets/characters/mouse/mouse_angel.gif');
+  }
+  .img__2{
+    background-image: url('../assets/characters/mouse/mouse_heart.gif');    
+  }
+  .img__3{
+    background-image: url('../assets/characters/mouse/mouse_judge.gif');    
+  }
+}
+
 .message__cover {
   position: relative;
   display: flex;
@@ -19,11 +51,12 @@ $message_dark_color: #ffffff;
   .nick__badge {
     font-size: 0.4rem;
     line-height: 110%;
+    font-weight: bold;
   }
 }
 
 .my__cover {
-  display: flex;
+  display: flex;  
   flex-direction: row-reverse;
   .nick__badge {
     display: none;
@@ -31,14 +64,25 @@ $message_dark_color: #ffffff;
 }
 
 .message__profile {
+  position:relative;
   width: 10vw;
   height: 10vw;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  margin-left: -0%;
-  background-image: url('../assets/characters/bird/bird_angel.gif');
+  margin-left: -0%;  
 }
+
+.time__stamp {
+  position:absolute;
+  display:inline-block;
+  top:100%;
+  font-size: .3rem;
+  font-weight: 600;
+  left:10%;
+}
+
+
 
 .message__dark {
   color: $message_dark_color;
@@ -54,7 +98,7 @@ $message_dark_color: #ffffff;
 
 .message {
   position: relative;
-  display: inline-flex;
+  display: inline-flex;    
   max-width: 60%;
   border-radius: 10px;
   margin: 2% 1%;
@@ -63,7 +107,7 @@ $message_dark_color: #ffffff;
 }
 
 .other__message:before {
-  border-left: 15px solid transparent;
+  border-left: 12px solid transparent;
   border-right: 0px solid transparent;
   border-bottom: 0px solid transparent;
   content: '';
@@ -74,7 +118,7 @@ $message_dark_color: #ffffff;
 
 .my__message:before {
   border-left: 0px solid transparent;
-  border-right: 15px solid transparent;
+  border-right: 12px solid transparent;
   border-bottom: 0px solid transparent;
   content: '';
   position: absolute;
@@ -88,3 +132,5 @@ $message_dark_color: #ffffff;
 .message__light:before {
   border-top: 15px solid $message_light_bg;
 }
+
+.display__none{display: none;}
