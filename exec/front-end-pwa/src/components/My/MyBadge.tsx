@@ -175,8 +175,7 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
 
   // 활성화, 비활성화된 뱃지
 
-  const ActiveBadge = (badge: any, key: number) => {
-    const b = badge.badge;
+  const ActiveBadge = ({ b }: any, key: number) => {
     return (
       <div
         key={key}
@@ -191,8 +190,7 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
       </div>
     );
   };
-  const InactiveBadge = (badge: any, key: number) => {
-    const b = badge.badge;
+  const InactiveBadge = ({ b }: any, key: number) => {
     return (
       <div key={key} className={baseClassName + inactive}>
         <img className="badge-icon" src={b.badgePath} alt={b.badgeTitle} />
@@ -243,10 +241,11 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
 
       <div className="badge-container">
         {badges.map((badge) => {
+          console.log('화아악인', badge);
           return badge.status ? (
-            <ActiveBadge key={badge.id} badge={badge} />
+            <ActiveBadge key={badge.id} b={badge} />
           ) : (
-            <InactiveBadge key={badge.id} badge={badge} />
+            <InactiveBadge key={badge.id} b={badge} />
           );
         })}
       </div>
