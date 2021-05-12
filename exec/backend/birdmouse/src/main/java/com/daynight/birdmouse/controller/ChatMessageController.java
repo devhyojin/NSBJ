@@ -59,8 +59,4 @@ public class ChatMessageController {
         messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoom_id(), message);
     }
 
-    @MessageMapping("/chat/feedback")
-    public void feedback() {
-
-    }
 }
