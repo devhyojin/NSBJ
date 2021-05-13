@@ -25,11 +25,11 @@ public class LoginController {
     @GetMapping(value = "/google")
     @ApiOperation(value = "GET user data from Google")
     public Object getGoogleProfile(
-            @ApiParam(value = "GoogleID", example = "12345", required = true) @RequestParam String id,
+            @ApiParam(value = "GoogleID", example = "12345", required = true) @RequestParam String google_id,
             @ApiParam(value = "AccessToken from Google", example = "ab23cd", required = true) @RequestParam String token,
             @ApiParam(value = "Light/Dark", example = "light", required = true) @RequestParam String mode) {
   
-        Response result = loginService.getGoogleProfile(id, token, mode);
+        Response result = loginService.getGoogleProfile(google_id, token, mode);
         return new ResponseEntity<>(result, HttpStatus.OK);
 
     }
