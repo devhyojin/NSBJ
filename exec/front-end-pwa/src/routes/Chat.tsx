@@ -29,7 +29,6 @@ interface msgProps {
 
 
 const SERVER_URL = process.env.REACT_APP_URL
-// const SERVER_URL = 'ws://localhost:8080'
 
 let sockJS = new SockJS(`${SERVER_URL}/ws-stomp`)
 let ws = Stomp.over(sockJS)
@@ -43,7 +42,7 @@ export default function Chat() {
   // const location: any = useLocation();
   // const { state: { chat } }: any = useLocation();
   const { regionId }: any = useParams();
-
+  console.log(regionId)
   const userInfo = localStorage.getItem('userInfo')
   let user_id = 0
 
