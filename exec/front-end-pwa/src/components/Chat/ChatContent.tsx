@@ -22,7 +22,8 @@ interface msgProps {
   mouse_name: string;
   badge: any;
   profileImg: number;
-  mode: string
+  mode: string;
+  profile_img: number;
 }
 
 export default function ChatContent({ data, mode, user_id }: ChatContentProps): any {
@@ -52,10 +53,12 @@ export default function ChatContent({ data, mode, user_id }: ChatContentProps): 
           return <MegaPhone key={uuidv4()} msg={msg} userId={user_id} />
         }
 
+
         let skipProfile = false
         if (cnt && data[cnt - 1].sender_id === msg.sender_id && data[cnt - 1].sent_at === msg.sent_at) {
           skipProfile = true
         }
+        console.log('??')
         return <Message key={uuidv4()} msg={msg} user_id={user_id} mode={mode} skipProfile={skipProfile} />
 
       })
