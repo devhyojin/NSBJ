@@ -47,7 +47,6 @@ export default function MainPage() {
 
 
   useEffect(() => {
-    console.log('ajdflksdjflskaj')
     getGeoCoder()
   }, [])
 
@@ -55,8 +54,8 @@ export default function MainPage() {
 
   if (MODE === "light") { modeName = 'light__mode bg'; };
 
-  const geoCode = function () {
-    return new Promise(function (res, err) {
+  const geoCode = () => {
+    return new Promise((res, err) => {
       navigator.geolocation.getCurrentPosition(res, err)
     });
   };
@@ -85,9 +84,9 @@ export default function MainPage() {
     if (!bCode || !userInfo) return;
 
     const user = JSON.parse(userInfo)
-    let nickName = user.bird_name
+    // let nickName = user.bird_name
 
-    if (MODE === 'dark') { nickName = user.mouse_name }
+    // if (MODE === 'dark') { nickName = user.mouse_name }
 
 
     axios.post(`${SERVER_URL}/chat/roar/${bCode}`, {}, {
