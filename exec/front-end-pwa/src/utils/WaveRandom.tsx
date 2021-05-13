@@ -30,7 +30,7 @@ export default function WaveRandom(MODE: string) {
       wave.classList.add('dark__mode')
     }
 
-    wave.addEventListener('animationend', function () {
+    wave.addEventListener('animationend', () => {
       document.body.removeChild(wave)
     })
     document.body.appendChild(wave)

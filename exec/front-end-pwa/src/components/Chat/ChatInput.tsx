@@ -1,25 +1,54 @@
-import React, { useRef } from 'react'
+import React from 'react'
 
 interface ChatInputProps {
-  sendMessage(content: string): any;
+  sendMessage(content: string, type: string): any;
+  setMegaPhone(): void;
+  megaPhoneState: boolean;
 }
 
 
-export default function ChatInput({ sendMessage }: ChatInputProps) {
-  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>
+export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState }: ChatInputProps) {
+  const inputRef = React.useRef() as React.MutableRefObject<HTMLInputElement>
+  const [placeHolderMessage, setPlaceHolderMessage] = React.useState('')
+  let sendType = 'TALK'
+
+  React.useEffect(() => {
+    if (megaPhoneState) {
+      sendType = 'ANNOUNCE'
+      setPlaceHolderMessage('확성기가 활성화 되었슴둥')
+    } else {
+      sendType = 'TALK'
+      setPlaceHolderMessage('')
+    }
+  }, [megaPhoneState])
+
 
   const sendMessageHandler = (): any => {
     const inputValue = inputRef.current.value
     if (!inputValue) return;
-    sendMessage(inputValue)
+    sendMessage(inputValue, sendType)
     inputRef.current.value = ''
   }
 
+  const setMegaPhoneHandler = () => {
+    setMegaPhone()
+  }
 
   return (
     <div className='chat__input__cover'>
-      <button type='button'>확</button>
-      <input type="text" ref={inputRef} />
+      <button type='button' onClick={setMegaPhoneHandler}>확</button>
+      <input
+        className={megaPhoneState ? 'mega__activate' : 'mega__deactivate'}
+        type="text"
+        ref={inputRef}
+        placeholder={placeHolderMessage}
+      />
+      {/* <div className={megaPhoneState ? 'mega__activate' : 'mega__deactivate'}>
+        <span>{null}</span>
+        <span>{null}</span>
+        <span>{null}</span>
+        <span>{null}</span>
+      </div> */}
       <button type='button' onClick={sendMessageHandler} >
         <i className="fas fa-paper-plane">{null}</i>
       </button>
