@@ -14,7 +14,7 @@ public class RedisConfig {
     @Bean
     public RedisConnectionFactory connectionFactory() {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
-        configuration.setHostName("127.0.0.1");
+        configuration.setHostName("nsbj-redis");
         configuration.setPort(6379);
         return new LettuceConnectionFactory(configuration);
     }
