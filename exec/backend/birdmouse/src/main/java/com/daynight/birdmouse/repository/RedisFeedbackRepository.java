@@ -26,13 +26,22 @@ public class RedisFeedbackRepository {
         this.hashOperations = redisTemplate.opsForHash();
     }
 
+    /**
+     * 다른 사람에게 피드백 주기
+     * @param region_id : 현재 입장한 채팅방 번호
+     * @param sender_id : 보내는 사람의 아이디
+     * @param receiver_id : 받는 사람의 아이디
+     * @param receiver_bird : 받는 사람의 닉네임 (낮)
+     * @param receiver_mouse : 받는 사람의 닉네임 (밤)
+     * @param feedback_id : 피드백의 아이디 (인덱스 개념)
+     */
     public void giveFeedback(long region_id, String sender_id, String receiver_id,
-                             String receiver_bird, String receiver_mouse, int badge) {
+                             String receiver_bird, String receiver_mouse, int feedback_id) {
 
         HashMap<String, Object> receiver = new HashMap<>();
         receiver.put("receiver_bird", receiver_bird);
         receiver.put("receiver_mouse", receiver_mouse);
-        receiver.put("badge", badge);
+        receiver.put("feedback_id", feedback_id);
 
         try {
             String saveReceiver = objectMapper.writeValueAsString(receiver);
@@ -47,7 +56,7 @@ public class RedisFeedbackRepository {
     public int getGivenFeedback(long region_id, String sender_id, String receiver_id,
                                                           String receiver_bird) {
 
-        int badge = 0;
+        int feedback_id = 0;
 
         boolean checkStatus = hashOperations.hasKey("room" + region_id + ";" + sender_id, receiver_id);
         // 이미 준 적이 있다면 현재 닉네임과 기존 닉네임이 같은지 확인
@@ -57,14 +66,14 @@ public class RedisFeedbackRepository {
                 HashMap receiver_info = objectMapper.readValue(str_receiver, HashMap.class);
                 // 현재 닉이랑 기존 닉이 같다면 기존 뱃지 리턴
                 if (receiver_info.get("receiver_bird").equals(receiver_bird)) {
-                    badge = (int) receiver_info.get("badge");
+                    feedback_id = (int) receiver_info.get("feedback_id");
                 }
             } catch (JsonProcessingException e) {
                 logger.error(e.getMessage());
             }
         }
 
-        return badge;
+        return feedback_id;
     }
 
 }
