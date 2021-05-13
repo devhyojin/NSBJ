@@ -22,6 +22,21 @@ interface ModalConfirmWithdrawlProps {
   setMyAKA: any;
 }
 
+interface badgeProps {
+  b: {
+    id: number;
+    cntPath: any;
+    cntTitle: string;
+    condition: number;
+    badgePath: any;
+    badgeTitle: string;
+    status: boolean;
+    picked: boolean;
+  }
+
+}
+
+
 export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdrawlProps) {
   useEffect(() => {
     axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
@@ -48,6 +63,7 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
     modeCheckedBorder = 'light__ch__border';
     modeBasicBorder = 'light__bs__border';
   }
+
 
   const initBadges: Array<any> = [
     {
@@ -175,7 +191,7 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
 
   // 활성화, 비활성화된 뱃지
 
-  const ActiveBadge = ({ b }: any, key: number) => {
+  const ActiveBadge = ({ b }: badgeProps, key: number) => {
     return (
       <div
         key={key}
@@ -190,7 +206,7 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
       </div>
     );
   };
-  const InactiveBadge = ({ b }: any, key: number) => {
+  const InactiveBadge = ({ b }: badgeProps, key: number) => {
     return (
       <div key={key} className={baseClassName + inactive}>
         <img className="badge-icon" src={b.badgePath} alt={b.badgeTitle} />

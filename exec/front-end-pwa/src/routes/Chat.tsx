@@ -42,18 +42,14 @@ export default function Chat() {
   // const location: any = useLocation();
   // const { state: { chat } }: any = useLocation();
   const { regionId }: any = useParams();
-
+  console.log(regionId)
   const userInfo = localStorage.getItem('userInfo')
   let user_id = 0
 
   useEffect(() => {
     readChat()
+    sockJS.close()
     connect()
-    const test = localStorage.getItem('test')
-    if (!test) {
-      window.location.reload()
-      localStorage.setItem('test', '1')
-    }
   }, [])
 
 
@@ -84,11 +80,10 @@ export default function Chat() {
 
   const connect = () => {
     ws.connect({}, function () {
-      ws.subscribe(`/sub/chat/room/${regionId}`,
-        function (message) {
-          const recv = JSON.parse(message.body)
-          recvMessage(recv)
-        }, function () { console.log('err') }
+      ws.subscribe(`/sub/chat/room/${regionId}`, function (message) {
+        const recv = JSON.parse(message.body)
+        recvMessage(recv)
+      }, function () { console.log('err') }
       )
       ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'ENTER', mode, room_id: regionId, sender_id: user_id, message: '', sent_at: '2021-05-11' }))
     }, function () {
