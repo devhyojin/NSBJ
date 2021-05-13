@@ -1,0 +1,25 @@
+div {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  img {
+    width: 18vw;
+    margin-left: 6%;
+  }
+  p {
+    font-size: 5vw;
+    font-weight: bold;
+    margin: 0 !important;
+  }
+}
+
+.light__bg {
+  background: white;
+  color: #61acf1;
+}
+
+.dark__bg {
+  background: #323232;
+  color: #bf5963;
+}

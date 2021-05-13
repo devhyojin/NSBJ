@@ -109,13 +109,13 @@ export default function MainPage() {
   const routerToChat = () => {
     const bCode = localStorage.getItem('b_code');
     if (!bCode) { return; };
-
-    axios.get(`${SERVER_URL}/chat/region/${bCode}`)
-      .then(res => {
-        const { data: { data } } = res
-        history.push(`/chat/${bCode}`, { chat: data })
-      })
-      .catch(err => alert(err))
+    history.push(`/chat/${bCode}`)
+    // axios.get(`${SERVER_URL}/chat/region/${bCode}`)
+    //   .then(res => {
+    //     const { data: { data } } = res
+    //     history.push(`/chat/${bCode}`, { chat: data })
+    //   })
+    //   .catch(err => alert(err))
   }
 
 

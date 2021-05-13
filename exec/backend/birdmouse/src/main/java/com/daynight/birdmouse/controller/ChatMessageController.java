@@ -10,6 +10,9 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import javax.websocket.OnClose;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import java.util.Optional;
 
 @CrossOrigin(origins = {"*"})
@@ -24,8 +27,6 @@ public class ChatMessageController {
 
     @MessageMapping("/chat/message")
     public void message(ChatMessage message) {
-        System.out.println(message.toString());
-        System.out.println("message()");
 
         Optional<User> found_user = userRepository.findById(message.getSender_id());
         if (found_user.isPresent()) {
@@ -43,19 +44,20 @@ public class ChatMessageController {
             if (message.getMode().equals("light")) {
                 message.setMessage(message.getBird_name() + "님이 입장하셨습니다.");
             } else {
-                message.setMessage(message.getMouse_name() +"님이 입장하셨습니다.");
+                message.setMessage(message.getMouse_name() + "님이 입장하셨습니다.");
             }
-            
-        } 
-        // 확성기
+
+        }
+//        // 확성기
 //        else if (ChatMessage.MessageType.ANNOUNCE.equals(message.getType())) {
 //            message.setMessage(message.getMessage());
 //        }
 
         // 일반 채팅 입력
-//        else {
-//        }
-        redisChatMessageRepository.saveChatLog(message);
+        else {
+            redisChatMessageRepository.saveChatLog(message);
+        }
         messagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoom_id(), message);
     }
+
 }
