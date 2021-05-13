@@ -54,7 +54,7 @@ export default function ChatButton({ msg, user_id, region_id }: any) {
         },
       })
       .then((res) => {
-        const feedbackId = res.data.data.badge;
+        const feedbackId = res.data.data.feedback_id;
         console.log(' 호이짜', feedbackId);
         // 1. feedback했던 정보 받아와서 해당 포인트만 컬러로 보여주도록 status 바꿔주기
         if (feedbackId > 0) {
@@ -83,12 +83,13 @@ export default function ChatButton({ msg, user_id, region_id }: any) {
       `/pub/chat/feedback`,
       {},
       JSON.stringify({
-        // type: 'TALK',
-        // mode,
-        // room_id: regionId,
-        // sender_id: user_id,
-        // message: content,
-        // sent_at: sentAt,
+        feedback_id: feedback,
+        region_id: region_id,
+        sender_id: user_id,
+        receiver_id: msg.senderId,
+        receiver_bird: msg.birdName,
+        receiver_mouse: msg.mouseName,
+        mode: msg.mode,
       }),
     );
     // 2. 선택한 버튼만 status=true로 바꿔주고, 나머지는 false로 바꿔주기
