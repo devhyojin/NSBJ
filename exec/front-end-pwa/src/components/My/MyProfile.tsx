@@ -22,7 +22,7 @@ interface MyProfileProps {
 
 export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfileProps) {
   useEffect(() => {
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
+    axios.get(`${SERVER_URL}/mypage`, { params: { user_id: userId } }).then((res) => {
       const tempCharacters = [...characters];
       const response = res.data.data;
 
@@ -101,7 +101,7 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
   // 백에서 바뀐 닉네임 가져오기
   const getNewNickname = (): void => {
     axios
-      .get(`${SERVER_URL}/mypage`, { params: { id: userId } })
+      .get(`${SERVER_URL}/mypage`, { params: { user_id: userId } })
       .then((res) => {
         console.log('닉네임 잘 가져왔음');
         const response = res.data.data;

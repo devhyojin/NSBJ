@@ -32,14 +32,12 @@ interface badgeProps {
     badgeTitle: string;
     status: boolean;
     picked: boolean;
-  }
-
+  };
 }
-
 
 export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdrawlProps) {
   useEffect(() => {
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
+    axios.get(`${SERVER_URL}/mypage`, { params: { user_id: userId } }).then((res) => {
       // 1.버튼 활성화 여부 status에 체크하기 위해 badgeCalculator에 값 넘겨줌.
       const response = res.data.data;
       badgeCalculator('리액션 포인트', response.feedback.angel_count);
@@ -63,7 +61,6 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
     modeCheckedBorder = 'light__ch__border';
     modeBasicBorder = 'light__bs__border';
   }
-
 
   const initBadges: Array<any> = [
     {
