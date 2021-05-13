@@ -14,6 +14,7 @@ $chat_nav_height: 10vh;
 $chat_content_max_height: 80%;
 $chat_input_height: 10vh;
 
+
 .chat__dark__mode {
   color:$chat_dark_font_color;
   background-color: $chat_dark_bg_color;
@@ -26,6 +27,7 @@ $chat_input_height: 10vh;
   input {
     background-color: $chat_dark_input_color;
     color: inherit;
+  
   }
   .chat__input__cover {
     background-color: #D3505D;
@@ -80,6 +82,7 @@ $chat_input_height: 10vh;
 
 .chat__input__cover {
   display: flex;
+  position:relative;
   justify-content: space-around;
   align-items: center;
   height: $chat_input_height; 
@@ -87,9 +90,8 @@ $chat_input_height: 10vh;
   input,button {  
     height: 60%;
   }
-
   input {
-    outline:none; border:none;
+    outline:none;
     border-radius: 10px;
     width: 60%;
   }
@@ -97,6 +99,13 @@ $chat_input_height: 10vh;
   button {
     width: calc(10vh * 0.6);
     border-radius: 50%;
+  }
+  
+  div {
+    position:absolute;
+    width:60%;
+    height:60%;
+    border-radius: 10px;
   }
 }
 
@@ -106,4 +115,28 @@ $chat_input_height: 10vh;
   font-weight: bolder;
   text-align: center;
   margin: 4% 0;
+}
+
+
+// .mega__activate {
+//   span {
+//     display:block;
+//     position:absolute;
+//     width:10px; 
+//     height: 2px;
+//     background: black;
+//     &:nth-child(1) {
+//     }
+//   }
+// }
+
+
+.mega__activate {
+  // border-top: white;
+  // border-right: #1d124e;
+  border: 1px solid rgb(32, 170, 62);
+}
+
+.mega__deactivate {
+  border:none;
 }

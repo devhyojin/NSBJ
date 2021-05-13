@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Message from './Message';
 import EnterChat from './EnterChat';
+import MegaPhone from './MegaPhone';
 
 interface ChatContentProps {
   data: any;
@@ -22,6 +23,7 @@ interface msgProps {
   badge: any;
   profileImg: number;
   mode: string;
+  profile_img: number;
 }
 
 export default function ChatContent({ data, mode, user_id, region_id }: ChatContentProps): any {
@@ -45,12 +47,12 @@ export default function ChatContent({ data, mode, user_id, region_id }: ChatCont
           const { message } = msg;
           return <EnterChat key={uuidv4()} enterMessage={message} />;
         }
-        // else if (msg.type === 'ANNOUNCE') {
-        //   return <Message key={uuidv4()} msg={msg} userId={userId} />
-        // }
+
+        if (msg.type === 'ANNOUNCE') {
+          return <MegaPhone key={uuidv4()} msg={msg} userId={user_id} />;
+        }
 
         let skipProfile = false;
-        console.log(msg.sent_at);
         if (
           cnt &&
           data[cnt - 1].sender_id === msg.sender_id &&
@@ -58,12 +60,12 @@ export default function ChatContent({ data, mode, user_id, region_id }: ChatCont
         ) {
           skipProfile = true;
         }
+        console.log('??');
         return (
           <Message
             key={uuidv4()}
             msg={msg}
             user_id={user_id}
-            region_id={region_id}
             mode={mode}
             skipProfile={skipProfile}
           />

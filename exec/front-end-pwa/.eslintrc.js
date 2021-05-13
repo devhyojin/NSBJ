@@ -26,7 +26,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 0,
     'global-require': 0,
     "no-param-reassign": 0,
-    "camelcase": "off",
+    "camelcase": "off",    
     // "@typescript-eslint/camelcase": ["warn"]
   },
   settings: {

@@ -20,7 +20,7 @@ export default function LadingPage() {
     const { accessToken, googleId } = res;
     axios
       .get(`${SERVER_URL}/login/google`, {
-        params: { id: googleId, mode: MODE, token: accessToken },
+        params: { google_id: googleId, mode: MODE, token: accessToken },
       })
       .then((resp) => {
         const userInfo = resp.data.data.user;

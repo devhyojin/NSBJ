@@ -1,0 +1,33 @@
+$chat_light_font_color:#000000;
+$chat_light_border_color :#93C9C7;
+
+$chat_dark_border_color :#9F3D47;
+$chat_dark_font_color:#FFFFFF;
+
+
+.mega__cover {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;  
+  align-items: center;
+  position:fixed;
+  top:12%;      
+  max-width:80%;
+  padding:2% 5%;
+  left:50%;
+  transform: translateX(-50%);
+  border-radius: 10px;
+  font-size: .5rem;  
+  line-height: 150%;
+  transition: .3s;
+}
+
+
+.cover__dark {
+  background-color: $chat_dark_border_color;
+  color: $chat_dark_font_color;
+}
+.cover__light {
+  background-color: $chat_light_border_color;
+  color: $chat_light_font_color;
+}
