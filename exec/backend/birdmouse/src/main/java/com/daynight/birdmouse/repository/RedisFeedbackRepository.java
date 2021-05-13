@@ -7,12 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
-import springfox.documentation.spring.web.json.Json;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 @Repository
 public class RedisFeedbackRepository {
@@ -38,15 +34,19 @@ public class RedisFeedbackRepository {
     public void giveFeedback(long region_id, String sender_id, String receiver_id,
                              String receiver_bird, String receiver_mouse, int feedback_id) {
 
+        // 레디스에 저장할 피드백 내역
         HashMap<String, Object> receiver = new HashMap<>();
         receiver.put("receiver_bird", receiver_bird);
         receiver.put("receiver_mouse", receiver_mouse);
         receiver.put("feedback_id", feedback_id);
 
         try {
+            // key: room지역번호;
             String saveReceiver = objectMapper.writeValueAsString(receiver);
-            hashOperations.put("room" + region_id + ";" + sender_id, region_id, saveReceiver);
+            hashOperations.put("room" + String.valueOf(region_id) + ";" + sender_id, String.valueOf(region_id), saveReceiver);
             logger.info(String.format("[%d 지역]에서 [유저%s]가 [유저%s]에게 피드백", region_id, sender_id, receiver_id));
+
+
 
         } catch (JsonProcessingException e) {
             logger.error(e.getMessage());

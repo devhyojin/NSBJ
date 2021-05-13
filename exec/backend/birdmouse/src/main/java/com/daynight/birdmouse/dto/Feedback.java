@@ -2,9 +2,11 @@ package com.daynight.birdmouse.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class Feedback {
 
     private int feedback_id;
