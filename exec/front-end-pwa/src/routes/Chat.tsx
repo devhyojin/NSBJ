@@ -29,6 +29,7 @@ interface msgProps {
 
 
 const SERVER_URL = process.env.REACT_APP_URL
+// const SERVER_URL = 'ws://localhost:8080'
 
 let sockJS = new SockJS(`${SERVER_URL}/ws-stomp`)
 let ws = Stomp.over(sockJS)
@@ -48,12 +49,8 @@ export default function Chat() {
 
   useEffect(() => {
     readChat()
+    sockJS.close()
     connect()
-    const test = localStorage.getItem('test')
-    if (!test) {
-      window.location.reload()
-      localStorage.setItem('test', '1')
-    }
   }, [])
 
 
@@ -84,11 +81,10 @@ export default function Chat() {
 
   const connect = () => {
     ws.connect({}, function () {
-      ws.subscribe(`/sub/chat/room/${regionId}`,
-        function (message) {
-          const recv = JSON.parse(message.body)
-          recvMessage(recv)
-        }, function () { console.log('err') }
+      ws.subscribe(`/sub/chat/room/${regionId}`, function (message) {
+        const recv = JSON.parse(message.body)
+        recvMessage(recv)
+      }, function () { console.log('err') }
       )
       ws.send(`/pub/chat/message`, {}, JSON.stringify({ type: 'ENTER', mode, room_id: regionId, sender_id: user_id, message: '', sent_at: '2021-05-11' }))
     }, function () {

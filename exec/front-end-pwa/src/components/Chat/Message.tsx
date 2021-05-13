@@ -74,7 +74,7 @@ export default function Message({ msg, user_id, mode, skipProfile }: any) {
         {/* {feedbackModalStatus && <ChatButton mode={msg.mode} feedbackInfo={feedbackInfo} />} */}
         <div className={coverClassName}>
           <div className={badgeClassName}>
-            {null} <br /> nickname
+            {null} <br /> {mode === 'light' ? msg.bird_name : msg.mouse_name}
           </div>
           <div className={messageClassName}>
             <span>{msg.message}</span>

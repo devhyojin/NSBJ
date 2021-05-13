@@ -10,6 +10,7 @@ export default function ChatInput({ sendMessage }: ChatInputProps) {
 
   const sendMessageHandler = (): any => {
     const inputValue = inputRef.current.value
+    if (!inputValue) return;
     sendMessage(inputValue)
     inputRef.current.value = ''
   }
