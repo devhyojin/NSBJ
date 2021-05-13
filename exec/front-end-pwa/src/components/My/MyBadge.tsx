@@ -22,9 +22,22 @@ interface ModalConfirmWithdrawlProps {
   setMyAKA: any;
 }
 
+interface badgeProps {
+  b: {
+    id: number;
+    cntPath: any;
+    cntTitle: string;
+    condition: number;
+    badgePath: any;
+    badgeTitle: string;
+    status: boolean;
+    picked: boolean;
+  };
+}
+
 export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdrawlProps) {
   useEffect(() => {
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
+    axios.get(`${SERVER_URL}/mypage`, { params: { user_id: userId } }).then((res) => {
       // 1.버튼 활성화 여부 status에 체크하기 위해 badgeCalculator에 값 넘겨줌.
       const response = res.data.data;
       badgeCalculator('리액션 포인트', response.feedback.angel_count);
@@ -175,8 +188,7 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
 
   // 활성화, 비활성화된 뱃지
 
-  const ActiveBadge = (badge: any, key: number) => {
-    const b = badge.badge;
+  const ActiveBadge = ({ b }: badgeProps, key: number) => {
     return (
       <div
         key={key}
@@ -191,8 +203,7 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
       </div>
     );
   };
-  const InactiveBadge = (badge: any, key: number) => {
-    const b = badge.badge;
+  const InactiveBadge = ({ b }: badgeProps, key: number) => {
     return (
       <div key={key} className={baseClassName + inactive}>
         <img className="badge-icon" src={b.badgePath} alt={b.badgeTitle} />
@@ -243,10 +254,11 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
 
       <div className="badge-container">
         {badges.map((badge) => {
+          console.log('화아악인', badge);
           return badge.status ? (
-            <ActiveBadge key={badge.id} badge={badge} />
+            <ActiveBadge key={badge.id} b={badge} />
           ) : (
-            <InactiveBadge key={badge.id} badge={badge} />
+            <InactiveBadge key={badge.id} b={badge} />
           );
         })}
       </div>

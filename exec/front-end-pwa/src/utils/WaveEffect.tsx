@@ -11,7 +11,7 @@ export default function WaveEffect(x: number, y: number, mode: string): void {
     } else {
       wave.className = 'wave__effect dark__effect'
     }
-    wave.addEventListener('animationend', function () {
+    wave.addEventListener('animationend', () => {
       document.body.removeChild(wave)
     })
     document.body.appendChild(wave)

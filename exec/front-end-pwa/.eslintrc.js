@@ -25,7 +25,9 @@ module.exports = {
     'jsx-a11y/no-noninteractive-element-interactions': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
     'global-require': 0,
-    "no-param-reassign": 0
+    "no-param-reassign": 0,
+    "camelcase": "off",    
+    // "@typescript-eslint/camelcase": ["warn"]
   },
   settings: {
     'import/resolver': {

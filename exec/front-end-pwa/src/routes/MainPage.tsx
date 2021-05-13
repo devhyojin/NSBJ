@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import ModeCheck from '../utils/ModeCheck';
 import MainTop from '../components/Main/MainTop';
@@ -9,16 +10,26 @@ import waveRandom from '../utils/WaveRandom';
 import '../styles/_main.scss';
 
 
-
+const SERVER_URL = process.env.REACT_APP_URL
 const KAKAO_SERVER_URL = process.env.REACT_APP_KAKAO_SERVER_URL;
 const KAKAO_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
+
 
 
 export default function MainPage() {
   const [activate, setActivate] = useState(false);
   const [region, setRegion] = useState('');
-  const [cnt, setCnt] = useState(0)
+  const [cnt, setCnt] = useState(0);
+  const [neighborCnt, setNeighborCnt] = useState(0);
+
   const MODE = ModeCheck();
+  const history = useHistory();
+  const userInfo = localStorage.getItem('userInfo');
+
+  let modeName = 'dark__mode bg';
+  let latitude = 0;
+  let longitude = 0;
+
   // 랜덤웨이브 무한 생성
   useEffect(() => {
     const randomNum = Math.random()
@@ -35,24 +46,21 @@ export default function MainPage() {
   }, [cnt])
 
 
+  useEffect(() => {
+    getGeoCoder()
+  }, [])
 
-  let modeName = 'dark__mode bg';
-  let neighborCnt = 0;
-  let latitude = 0;
-  let longitude = 0;
+  if (!userInfo) { history.push('/') }
 
-  if (MODE === "light") {
-    modeName = 'light__mode bg';
-    neighborCnt += 1;
-  };
+  if (MODE === "light") { modeName = 'light__mode bg'; };
 
-  const geoCode = function () {
-    return new Promise(function (res, err) {
+  const geoCode = () => {
+    return new Promise((res, err) => {
       navigator.geolocation.getCurrentPosition(res, err)
     });
   };
 
-  const btnActivate = async () => {
+  const getGeoCoder = async () => {
     await geoCode()
       .then((res: any) => {
         latitude = res.coords.latitude;
@@ -66,16 +74,56 @@ export default function MainPage() {
     })
       .then(res => {
         setRegion(res.data.documents[0].region_3depth_name);
-        setActivate(true);
-
+        localStorage.setItem('b_code', res.data.documents[0].code);
       })
   }
+
+  const btnActivate = () => {
+    const bCode = localStorage.getItem('b_code')
+
+    if (!bCode || !userInfo) return;
+
+    const user = JSON.parse(userInfo)
+    // let nickName = user.bird_name
+
+    // if (MODE === 'dark') { nickName = user.mouse_name }
+
+
+    axios.post(`${SERVER_URL}/chat/roar/${bCode}`, {}, {
+      params: {
+        user_id: user.id
+      }
+    })
+      .then(res => {
+        setNeighborCnt(res.data.data.count)
+        setActivate(true)
+      })
+      .catch(err => {
+        alert(err)
+      })
+
+  }
+
+
+  const routerToChat = () => {
+    const bCode = localStorage.getItem('b_code');
+    if (!bCode) { return; };
+    history.push(`/chat/${bCode}`)
+    // axios.get(`${SERVER_URL}/chat/region/${bCode}`)
+    //   .then(res => {
+    //     const { data: { data } } = res
+    //     history.push(`/chat/${bCode}`, { chat: data })
+    //   })
+    //   .catch(err => alert(err))
+  }
+
+
 
   return (
     <div className={modeName}>
       <MainTop mode={MODE} activate={activate} neighborCnt={neighborCnt} region={region} />
       <MainBody btnActivate={btnActivate} mode={MODE} />
-      <MainMessage activate={activate} mode={MODE} />
+      <MainMessage activate={activate} mode={MODE} routerToChat={routerToChat} />
       <MainBottom mode={MODE} />
     </div>
   )

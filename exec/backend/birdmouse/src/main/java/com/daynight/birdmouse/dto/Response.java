@@ -1,9 +1,13 @@
 package com.daynight.birdmouse.dto;
 
+import com.daynight.birdmouse.controller.ChatMessageController;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 public class Response {
     @ApiModelProperty(value = "status", position = 0)
     public boolean status;
