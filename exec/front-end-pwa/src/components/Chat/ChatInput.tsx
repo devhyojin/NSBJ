@@ -10,14 +10,14 @@ interface ChatInputProps {
 export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState }: ChatInputProps) {
   const inputRef = React.useRef() as React.MutableRefObject<HTMLInputElement>
   const [placeHolderMessage, setPlaceHolderMessage] = React.useState('')
-  let sendType = 'TALK'
+  const [sendType, setSendType] = React.useState('TALK')
 
   React.useEffect(() => {
     if (megaPhoneState) {
-      sendType = 'ANNOUNCE'
+      setSendType('ANNOUNCE')
       setPlaceHolderMessage('확성기가 활성화 되었슴둥')
     } else {
-      sendType = 'TALK'
+      setSendType('TALK')
       setPlaceHolderMessage('')
     }
   }, [megaPhoneState])
