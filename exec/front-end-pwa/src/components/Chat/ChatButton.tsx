@@ -84,7 +84,7 @@ export default function ChatButton({ msg, user_id, region_id }: any) {
       {},
       JSON.stringify({
         feedback_id: feedback,
-        region_id: region_id,
+        region_id,
         sender_id: user_id,
         receiver_id: msg.senderId,
         receiver_bird: msg.birdName,
