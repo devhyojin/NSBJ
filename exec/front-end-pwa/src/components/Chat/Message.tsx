@@ -8,7 +8,26 @@ import '../../styles/_message.scss';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function Message({ msg, user_id, region_id, mode, skipProfile }: any) {
+export default function Message({ msg, user_id, region_id, mode, skipProfile, sendFeedback }: any) {
+  useEffect(() => {
+    // axios
+    //   .patch(
+    //     `${SERVER_URL}/chat/test`,
+    //     {},
+    //     {
+    //       params: {
+    //         receiver_bird: msg.bird_name,
+    //         receiver_id: msg.sender_id,
+    //         room_id: msg.room_id,
+    //         sender_id: user_id,
+    //       },
+    //     },
+    //   )
+    //   .then((res) => {
+    //     console.log('초기화성공', res);
+    //   });
+  }, []);
+
   const [feedbackModalStatus, setFeedbackModalStatus] = useState<boolean>(false);
   const changeFeedbackModalStatus = (): void => {
     setFeedbackModalStatus(!feedbackModalStatus);
@@ -82,26 +101,6 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile }: 
     await changeFeedbackModalStatus();
   };
 
-  const FeedbackGuide = () => {
-    return (
-      <div className="modal-mask">
-        <div>
-          <p>피드백을 한 번 선택하면 바꿀 수 없습니다!</p>
-          <p>신중히 선택해주세요</p>
-        </div>
-      </div>
-    );
-  };
-  const FeedbackSend = () => {
-    return (
-      <div className="modal-mask">
-        <div>
-          <p>00님에게 00 피드백을 보냈습니다.</p>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div>
       <div className={messageCoverName} ref={messageRef}>
@@ -124,6 +123,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile }: 
             feedback={feedback}
             setFeedback={setFeedback}
             changeFeedbackModalStatus={changeFeedbackModalStatus}
+            sendFeedback={sendFeedback}
           />
         )}
         <div className={coverClassName}>

@@ -10,6 +10,7 @@ interface ChatContentProps {
   mode: string;
   user_id: number;
   region_id: number;
+  sendFeedback: any;
 }
 
 interface msgProps {
@@ -26,7 +27,13 @@ interface msgProps {
   profile_img: number;
 }
 
-export default function ChatContent({ data, mode, user_id, region_id }: ChatContentProps): any {
+export default function ChatContent({
+  data,
+  mode,
+  user_id,
+  region_id,
+  sendFeedback,
+}: ChatContentProps): any {
   const chatContent = useRef() as React.MutableRefObject<HTMLInputElement>;
   let cnt = -1;
 
@@ -69,6 +76,7 @@ export default function ChatContent({ data, mode, user_id, region_id }: ChatCont
             region_id={region_id}
             mode={mode}
             skipProfile={skipProfile}
+            sendFeedback={sendFeedback}
           />
         );
       })}

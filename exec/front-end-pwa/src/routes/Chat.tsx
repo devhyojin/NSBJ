@@ -100,6 +100,16 @@ export default function Chat() {
             sent_at: '2021-05-11',
           }),
         );
+        // 피드백 용
+        ws.subscribe(
+          `/feedback/room/${regionId}`,
+          function (message) {
+            console.log('바아아디요호우', message.body);
+          },
+          function () {
+            console.log('err');
+          },
+        );
       },
       function () {
         if (reconnect <= 5) {
@@ -132,14 +142,41 @@ export default function Chat() {
     );
   };
 
+  const sendFeedback = (
+    id: number,
+    receiverId: string,
+    receiverBird: string,
+    receiverMouse: string,
+    receiverMode: string,
+  ): void => {
+    ws.send(
+      `/pub/chat/feedback`,
+      {},
+      JSON.stringify({
+        feedback_id: id,
+        region_id: regionId,
+        sender_id: user_id,
+        receiver_id: receiverId,
+        receiver_bird: receiverBird,
+        receiver_mouse: receiverMouse,
+        mode: receiverMode,
+      }),
+    );
+  };
+
   const setMegaPhone = (): void => {
     setMegaPhoneState(!megaPhoneState);
   };
-
   return (
     <div className={mode === 'light' ? 'chat chat__light__mode' : 'chat chat__dark__mode'}>
       <ChatNav backHandler={backHandler} />
-      <ChatContent data={data} mode={mode} user_id={user_id} region_id={regionId} />
+      <ChatContent
+        data={data}
+        mode={mode}
+        user_id={user_id}
+        region_id={regionId}
+        sendFeedback={sendFeedback}
+      />
       <ChatInput
         sendMessage={sendMessage}
         setMegaPhone={setMegaPhone}

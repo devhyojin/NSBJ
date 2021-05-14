@@ -1,9 +1,13 @@
+.feedback {
+  background-color: yellow;
+}
 .feedback-container {
   width: 18vw;
   height: 5.6vw;
   position: absolute;
   z-index: 1;
   top: 9.5vw;
+  left: 0;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
