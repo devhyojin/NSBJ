@@ -66,6 +66,7 @@ export default function ChatContent({ data, mode, user_id, region_id }: ChatCont
             key={uuidv4()}
             msg={msg}
             user_id={user_id}
+            region_id={region_id}
             mode={mode}
             skipProfile={skipProfile}
           />
