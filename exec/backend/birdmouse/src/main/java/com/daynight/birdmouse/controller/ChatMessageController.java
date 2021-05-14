@@ -29,8 +29,9 @@ public class ChatMessageController {
     public void message(ChatMessage message) {
 
         Optional<User> found_user = userRepository.findById(message.getSender_id());
+        User user = null;
         if (found_user.isPresent()) {
-            User user = found_user.get();
+            user = found_user.get();
             message.setBadge(user.getBadge().getBadge_name());
             message.setMouse_name(user.getMouse_name());
             message.setBird_name(user.getBird_name());
@@ -48,10 +49,13 @@ public class ChatMessageController {
             }
 
         }
-//        // 확성기
-//        else if (ChatMessage.MessageType.ANNOUNCE.equals(message.getType())) {
-//            message.setMessage(message.getMessage());
-//        }
+        // 확성기 사용 후 개수 1개 줄이기
+        else if (ChatMessage.MessageType.ANNOUNCE.equals(message.getType())) {
+            int current_megaphone = user.getMegaphone_count();
+            user.setMegaphone_count(current_megaphone - 1);
+
+            message.setMessage(message.getMessage());
+        }
 
         // 일반 채팅 입력
         else {
