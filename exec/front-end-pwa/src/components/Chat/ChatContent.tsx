@@ -28,7 +28,9 @@ interface msgProps {
 
 export default function ChatContent({ data, mode, user_id }: ChatContentProps): any {
   const chatContent = useRef() as React.MutableRefObject<HTMLInputElement>
+  const [superChat, setSuperChat] = React.useState<Array<msgProps>>()
   let cnt = -1
+
 
   useEffect(() => {
     const target = chatContent.current
@@ -49,17 +51,24 @@ export default function ChatContent({ data, mode, user_id }: ChatContentProps): 
           return <EnterChat key={uuidv4()} enterMessage={message} />
         }
 
+        if (msg.type === 'TALK') {
+          let skipProfile = false
+          if (cnt && data[cnt - 1].sender_id === msg.sender_id && data[cnt - 1].sent_at === msg.sent_at) {
+            skipProfile = true
+          }
+          return <Message key={uuidv4()} msg={msg} user_id={user_id} mode={mode} skipProfile={skipProfile} />
+        }
+
         if (msg.type === 'ANNOUNCE') {
-          return <MegaPhone key={uuidv4()} msg={msg} userId={user_id} />
+          if (superChat === undefined) {
+            setSuperChat((prevSuperChat) => {
+              return [...prevSuperChat, msg]
+            })
+          } else { setSuperChat([msg]) }
         }
 
+        return { null}
 
-        let skipProfile = false
-        if (cnt && data[cnt - 1].sender_id === msg.sender_id && data[cnt - 1].sent_at === msg.sent_at) {
-          skipProfile = true
-        }
-        console.log('??')
-        return <Message key={uuidv4()} msg={msg} user_id={user_id} mode={mode} skipProfile={skipProfile} />
 
       })
       }

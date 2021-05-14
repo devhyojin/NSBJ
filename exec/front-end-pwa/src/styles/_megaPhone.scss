@@ -4,6 +4,14 @@ $chat_light_border_color :#93C9C7;
 $chat_dark_border_color :#9F3D47;
 $chat_dark_font_color:#FFFFFF;
 
+@keyframes animate {
+  0%{
+    opacity: 0;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
 
 .mega__cover {
   display:flex;
@@ -20,6 +28,7 @@ $chat_dark_font_color:#FFFFFF;
   font-size: .5rem;  
   line-height: 150%;
   transition: .3s;
+  animation: animate .5s forwards;
 }
 
 

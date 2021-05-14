@@ -16,14 +16,14 @@ import '../styles/_chat.scss'
 
 interface msgProps {
   type: string;
-  roomId: number;
+  room_id: number;
   message: string;
-  sentAt: string;
-  senderId: string;
-  birdName: string;
-  mouseName: string;
+  sent_at: string;
+  sender_id: string;
+  bird_name: string;
+  mouse_name: string;
   badge: any;
-  profileImg: number;
+  profile_img: number;
   mode: string
 }
 
@@ -107,9 +107,6 @@ export default function Chat() {
   const setMegaPhone = (): void => {
     setMegaPhoneState(!megaPhoneState)
   }
-
-
-
 
 
   return (
