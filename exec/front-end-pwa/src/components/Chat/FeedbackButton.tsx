@@ -5,7 +5,7 @@ import Stomp from 'stompjs';
 // import angelCnt from '../../assets/flaticon/angel_cnt.png';
 // import heartCnt from '../../assets/flaticon/heart_cnt.png';
 // import judgeCnt from '../../assets/flaticon/judge_cnt.png';
-import '../../styles/_chatButton.scss';
+import '../../styles/_feedbackButton.scss';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
