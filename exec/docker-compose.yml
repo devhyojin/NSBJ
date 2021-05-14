@@ -4,26 +4,29 @@ services:
     container_name: nsbj-front
     build: 
       context: ./front-end-pwa
-      dockerfile: Dockerfile.dev
-    ports: # nginx 생성 시 포트 제거
-      - "3000:3000"
+      dockerfile: Dockerfile
+      # dockerfile: Dockerfile.dev
+    ports:
+      - "3000:80"
     # volumes: 
       # - /usr/front/node_modules
-      # - ./front-end-pwa:/usr/front
+      # - ./front-end-pwa:/app
     environment: 
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true
     tty: true
+    depends_on: 
+      - backend
 
   backend:
     container_name: nsbj-back
     build: 
       context: ./backend/birdmouse
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
+      # dockerfile: Dockerfile.dev
+    # restart: on-failure
     ports: 
       - "8080:8080"
-    # depends_on: 
-    #   - "frontend"
   
   redis:
     image: redis
