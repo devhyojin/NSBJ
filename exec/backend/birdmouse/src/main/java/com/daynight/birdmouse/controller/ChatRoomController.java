@@ -86,9 +86,9 @@ public class ChatRoomController {
     @GetMapping("/{region_id}/{receiver_id}")
     public Object getUserFeedback(@PathVariable long region_id, @PathVariable String receiver_id,
                                   String sender_id, String receiver_bird) {
-        int badge = feedbackRepository.getGivenFeedback(region_id, sender_id, receiver_id, receiver_bird);
+        int feedback_id = feedbackRepository.getGivenFeedback(region_id, sender_id, receiver_id, receiver_bird);
         HashMap<String, Integer> map = new HashMap<>();
-        map.put("badge", badge);
+        map.put("feedback_id", feedback_id);
         Response result = Response.builder()
                 .status(true)
                 .message(String.format("%s 유저의 피드백 기록 조회 성공", receiver_id))

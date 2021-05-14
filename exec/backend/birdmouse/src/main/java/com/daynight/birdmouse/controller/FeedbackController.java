@@ -20,12 +20,10 @@ public class FeedbackController {
     @MessageMapping("/chat/feedback")
     public void feedback(Feedback feedback) {
 
-        System.out.println(feedback.toString());
         feedbackRepository.giveFeedback(feedback.getRegion_id(), feedback.getSender_id(), feedback.getReceiver_id(),
                 feedback.getReceiver_bird(), feedback.getReceiver_mouse(), feedback.getFeedback_id());
 
         messagingTemplate.convertAndSend("/sub/chat/room/"+feedback.getRegion_id(), feedback);
-
 
     }
 }
