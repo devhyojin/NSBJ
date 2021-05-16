@@ -16,27 +16,45 @@ interface feedbackProps {
 }
 export default function FeedbackButton({
   msg,
-  user_id,
-  region_id,
-  feedbackId,
-  setFeedbackId,
   feedback,
   setFeedback,
-  changeFeedbackModalStatus,
+  getFeedback,
+  setIsFeedbackActive,
   sendFeedback,
 }: any) {
-  // const sockJS = new SockJS(`${SERVER_URL}/ws-stomp`);
-  // const ws = Stomp.over(sockJS);
-
   // 모드 별 색상 전환
-  let modeFeedbackModal = 'dark__bg__red2 feedback-container';
+  let modeFeedbackModal = 'dark__bg__red2 feedback-modal';
+  let modeGuideModal = 'dark__bg__red3 guide-modal';
   if (msg.mode === 'light') {
-    modeFeedbackModal = 'light__bg__mint2 feedback-container';
+    modeFeedbackModal = 'light__bg__mint2 feedback-modal';
+    modeGuideModal = 'dark__bg__mint3 guide-modal';
   }
+  const [isButtonActive, setIsButtonActive] = useState<boolean>(false);
+  const [isGuideActive, setIsGuideActive] = useState<boolean>(false);
+
+  const [didFeedback, setDidFeedback] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log('ee');
-  }, [feedbackId]);
+    const isGuideNeed = async () => {
+      const id = await getFeedback();
+      console.log('리이이얼', id);
+      if (id > 0) {
+        setIsButtonActive(true);
+        setDidFeedback(true);
+        console.log('디드피드백', didFeedback);
+      } else {
+        setIsGuideActive(true);
+      }
+    };
+    isGuideNeed();
+    // 클린업 함수 문제 해결하기
+    // return function cleanup() {
+    //   setIsButtonActive(false);
+    //   setDidFeedback(false);
+    //   setIsGuideActive(false);
+    // };
+  }, [msg]);
+  console.log('디드피드백 22', didFeedback);
 
   const checkBtnStatus = (status: boolean): string => {
     let classValue = '';
@@ -47,25 +65,8 @@ export default function FeedbackButton({
     }
     return classValue;
   };
-
-  const chooseFeedback = (id: number): void => {
-    console.log('쥐쥐쥐쥐', msg);
-    // 1. 선택한 feedback 값 레디스에 넘겨주기
-    sendFeedback(id, msg.sender_id, msg.bird_name, msg.mouse_name, msg.mode);
-    // ws.send(
-    //   `/pub/chat/feedback`,
-    //   {},
-    //   JSON.stringify({
-    //     feedback_id: id,
-    //     region_id,
-    //     sender_id: user_id,
-    //     receiver_id: msg.sender_id,
-    //     receiver_bird: msg.bird_name,
-    //     receiver_mouse: msg.mouse_name,
-    //     mode: msg.mode,
-    //   }),
-    // );
-    // 2. 선택한 버튼만 status=true로 바꿔주고, 나머지는 false로 바꿔주기
+  const reflectResult = (id: number): void => {
+    console.log('11리플렉트 리절트 돌입');
     const tempFeedback = [...feedback];
     for (let i = 0; i < 3; i += 1) {
       if (i === id - 1) {
@@ -75,8 +76,21 @@ export default function FeedbackButton({
       }
     }
     setFeedback(tempFeedback);
-    setFeedbackId(id);
-    setTimeout(() => changeFeedbackModalStatus(), 1000);
+    console.log('22 피드백 반영 여부 확인1', tempFeedback);
+    console.log('33 피드백 반영 여부 확인2', feedback);
+  };
+  const [isSendActive, setIsSendActive] = useState<boolean>(false);
+  const changeIsSendActive = () => {
+    setIsSendActive(!isSendActive);
+  };
+  const chooseFeedback = async (id: number) => {
+    console.log('00추스피드백 돌입', msg);
+    // 1. 선택한 feedback 값 레디스에 넘겨주기
+    reflectResult(id);
+    sendFeedback(id, msg.sender_id, msg.bird_name, msg.mouse_name, msg.mode);
+    console.log('55 피드백과 액티브 사이');
+    setIsSendActive(true);
+    console.log('66 액티브 했나?', isSendActive);
   };
 
   const cannotAlert = () => {
@@ -110,47 +124,61 @@ export default function FeedbackButton({
       </div>
     );
   };
-  // const [feedbackGuideStatus, setFeedbackGuideStatus] = useState<boolean>(false);
-  // const [feedbackSendStatus, setFeedbackSendStatus] = useState<boolean>(false);
-  // const changeFeedbackGuideStatus = (): void => {
-  //   setFeedbackGuideStatus(!feedbackGuideStatus);
-  // };
-  // const changeFeedbackSendStatus = (): void => {
-  //   setFeedbackSendStatus(!feedbackSendStatus);
-  // };
-  // const FeedbackGuide = () => {
-  //   return (
-  //     <div className="modal-mask">
-  //       <div>
-  //         <p>피드백을 한 번 선택하면 바꿀 수 없습니다!</p>
-  //         <p>신중히 선택해주세요</p>
-  //       </div>
-  //     </div>
-  //   );
-  // };
-  // const FeedbackSend = () => {
-  //   return (
-  //     <div className="modal-mask">
-  //       <div>
-  //         <p>00님에게 00 피드백을 보냈습니다.</p>
-  //       </div>
-  //     </div>
-  //   );
-  // };
+
+  const FeedbackGuide = () => {
+    useEffect(() => {
+      setTimeout(() => {
+        setIsGuideActive(false);
+      }, 1400);
+      setTimeout(() => {
+        setIsButtonActive(true);
+      }, 1390);
+    }, []);
+    return (
+      <div className={modeGuideModal}>
+        <p>피드백은 각 유저에게 1일 1회만 보낼 수 있습니다.</p>
+        <p>선택 후 수정 불가하오니, 신중하게 선택하세요!</p>
+      </div>
+    );
+  };
+  const FeedbackSend = () => {
+    useEffect(() => {
+      setTimeout(() => {
+        changeIsSendActive();
+        console.log(isSendActive);
+      }, 3990);
+      setTimeout(() => {
+        setIsButtonActive(false);
+        setIsFeedbackActive(false);
+      }, 4000);
+    }, []);
+
+    let receiver_nickname = msg.mouse_name;
+    if (msg.mode === 'light') {
+      receiver_nickname = msg.bird_name;
+    }
+    return (
+      <div className={modeGuideModal}>
+        <p>{receiver_nickname}님에게 피드백을 성공적으로 전달했습니다.</p>
+      </div>
+    );
+  };
 
   return (
     <div className="feedback">
-      <div className={modeFeedbackModal}>
-        {feedback.map((f) => {
-          return feedbackId > 0 ? (
-            <CannotFeedback key={f.id} f={f} />
-          ) : (
-            <CanFeedback key={f.id} f={f} />
-          );
-        })}
-      </div>
-      {/* {feedbackGuideStatus && <FeedbackGuide />}
-      {feedbackSendStatus && <FeedbackSend />} */}
+      {isGuideActive && <FeedbackGuide />}
+      {isSendActive && <FeedbackSend />}
+      {isButtonActive && (
+        <div className={modeFeedbackModal}>
+          {feedback.map((f) => {
+            return didFeedback ? (
+              <CannotFeedback key={f.id} f={f} />
+            ) : (
+              <CanFeedback key={f.id} f={f} />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

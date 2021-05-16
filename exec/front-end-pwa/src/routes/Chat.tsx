@@ -25,6 +25,15 @@ interface msgProps {
   profileImg: number;
   mode: string;
 }
+interface feedbackProps {
+  feedback_id: number;
+  region_id: number;
+  sender_id: string;
+  receiver_id: string;
+  receiver_bird: string;
+  receiver_mouse: string;
+  mode: string;
+}
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
@@ -34,6 +43,7 @@ let reconnect = 0;
 
 export default function Chat() {
   const [data, setData] = React.useState<Array<msgProps>>();
+  const [feedbackData, setFeedbackData] = React.useState<feedbackProps>();
   const [megaPhoneState, setMegaPhoneState] = React.useState(false);
   const mode = ModeCheck();
   const history = useHistory();
@@ -61,6 +71,12 @@ export default function Chat() {
       const chat = res.data.data;
       setData(chat);
     });
+  };
+
+  const recvFeedback = (feedback: feedbackProps) => {
+    console.log(feedback);
+    setFeedbackData(feedback);
+    setTimeout(() => console.log('핃백데이터', feedbackData), 3000);
   };
 
   if (regionId === '' || !userInfo) {
@@ -105,6 +121,8 @@ export default function Chat() {
           `/feedback/room/${regionId}`,
           function (message) {
             console.log('바아아디요호우', message.body);
+            const recv = JSON.parse(message.body);
+            recvFeedback(recv);
           },
           function () {
             console.log('err');
@@ -149,6 +167,7 @@ export default function Chat() {
     receiverMouse: string,
     receiverMode: string,
   ): void => {
+    console.log('44센드피드백 돌입');
     ws.send(
       `/pub/chat/feedback`,
       {},

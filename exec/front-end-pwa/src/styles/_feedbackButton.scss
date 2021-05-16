@@ -1,7 +1,7 @@
 .feedback {
-  background-color: yellow;
+  // background-color: yellow;
 }
-.feedback-container {
+.feedback-modal {
   width: 18vw;
   height: 5.6vw;
   position: absolute;
@@ -24,4 +24,37 @@ feedback-button {
 }
 .dark__bg__red2 {
   background-color: #9f3d47;
+}
+.light__bg__mint3 {
+  background-color: #93c9c7;
+}
+.dark__bg__red3 {
+  background-color: #6e2c33;
+}
+
+// feedback Guide 관련
+.guide-modal {
+  position: absolute;
+  border-radius: 0.3rem;
+  width: 63vw;
+  height: 12vw;
+  z-index: 1000;
+  left: 15vw;
+  font-size: 2.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: 0.3s linear guide_show;
+}
+
+@keyframes guide_show {
+  0% {
+    top: -15%;
+    opacity: 0;
+  }
+  100% {
+    top: 0%;
+    opacity: 1;
+  }
 }

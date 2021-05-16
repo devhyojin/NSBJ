@@ -10,6 +10,13 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 export default function Message({ msg, user_id, region_id, mode, skipProfile, sendFeedback }: any) {
   useEffect(() => {
+    const settingFeedbackInfo = async () => {
+      const id = await getFeedback();
+      if (id) {
+        changeFeedbackColor(id);
+      }
+    };
+    settingFeedbackInfo();
     // axios
     //   .patch(
     //     `${SERVER_URL}/chat/test`,
@@ -26,11 +33,11 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
     //   .then((res) => {
     //     console.log('초기화성공', res);
     //   });
-  }, []);
+  }, [msg]);
 
-  const [feedbackModalStatus, setFeedbackModalStatus] = useState<boolean>(false);
-  const changeFeedbackModalStatus = (): void => {
-    setFeedbackModalStatus(!feedbackModalStatus);
+  const [isFeedbackActive, setIsFeedbackActive] = useState<boolean>(false);
+  const changeIsFeedbackActive = (): void => {
+    setIsFeedbackActive(!isFeedbackActive);
   };
 
   let coverClassName = 'message__content__cover ';
@@ -56,37 +63,29 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
   messageClassName += `message__${mode} `;
 
   const initFeedback = [
-    { id: 1, title: '리액션 포인트 주기', path: angelCnt, status: false },
-    { id: 2, title: '마음 포인트 주기', path: heartCnt, status: false },
-    { id: 3, title: '해결 포인트 주기', path: judgeCnt, status: false },
+    { id: 1, title: '리액션 포인트', path: angelCnt, status: false },
+    { id: 2, title: '마음 포인트', path: heartCnt, status: false },
+    { id: 3, title: '해결 포인트', path: judgeCnt, status: false },
   ];
   const [feedback, setFeedback] = useState(initFeedback);
-  const [feedbackId, setFeedbackId] = useState(0);
 
-  const getFeedback = (): void => {
-    console.log('홋홋', region_id, msg.sender_id, msg.bird_name, user_id);
-    axios
-      .get(`${SERVER_URL}/chat/${region_id}/${msg.sender_id}`, {
-        params: {
-          receiver_bird: msg.bird_name,
-          receiver_id: msg.sender_id,
-          region_id,
-          sender_id: user_id,
-        },
-      })
-      .then((res) => {
-        console.log('뭐가 들어오긴 하니', res);
-        const id = res.data.data.feedback_id;
-        // 2. feedback 인덱스를 갱신해준다.
-        setFeedbackId(id);
-      });
+  const getFeedback = async () => {
+    const res = await axios.get(`${SERVER_URL}/chat/${region_id}/${msg.sender_id}`, {
+      params: {
+        receiver_bird: msg.bird_name,
+        receiver_id: msg.sender_id,
+        region_id,
+        sender_id: user_id,
+      },
+    });
+    return res.data.data.feedback_id;
   };
 
-  const changeFeedbackColor = () => {
+  const changeFeedbackColor = (id: number) => {
     // 1. feedback했던 정보 받아와서 해당 포인트만 컬러로 보여주도록 status 바꿔주기
     const tempFeedback = [...feedback];
     for (let i = 0; i < 3; i += 1) {
-      if (i === feedbackId - 1) {
+      if (i === id - 1) {
         tempFeedback[i].status = true;
       } else {
         tempFeedback[i].status = false;
@@ -95,10 +94,8 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
     setFeedback(tempFeedback);
   };
 
-  const openFeedbackModal = async () => {
-    await getFeedback();
-    await changeFeedbackColor();
-    await changeFeedbackModalStatus();
+  const openFeedbackComponent = () => {
+    changeIsFeedbackActive();
   };
 
   return (
@@ -108,21 +105,18 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
           role="button"
           tabIndex={0}
           onKeyDown={() => null}
-          onClick={() => openFeedbackModal()}
+          onClick={() => openFeedbackComponent()}
           className={profileClassName}
         >
           <span className={timeClassName}>{msg.sent_at}</span>
         </div>
-        {feedbackModalStatus && (
+        {isFeedbackActive && (
           <FeedbackButton
             msg={msg}
-            user_id={user_id}
-            region_id={region_id}
-            feedbackId={feedbackId}
-            setFeedbackId={setFeedbackId}
             feedback={feedback}
+            getFeedback={getFeedback}
             setFeedback={setFeedback}
-            changeFeedbackModalStatus={changeFeedbackModalStatus}
+            setIsFeedbackActive={setIsFeedbackActive}
             sendFeedback={sendFeedback}
           />
         )}
