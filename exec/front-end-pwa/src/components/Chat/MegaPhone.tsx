@@ -1,5 +1,7 @@
 import React from 'react'
 
+import TextToSpeech from '../../utils/TextToSpeech'
+
 import '../../styles/_megaPhone.scss'
 
 interface megaPhoneProps {
@@ -16,52 +18,40 @@ interface megaPhoneProps {
 }
 
 
-export default function MegaPhone(msg: megaPhoneProps, user_id: number) {
-  const [cnt, setCnt] = React.useState(0)
-  const [check, setCheck] = React.useState(false)
+export default function MegaPhone(chat: megaPhoneProps, mode: string) {
 
-  React.useEffect(() => {
-    const target = document.body
-    const checkDiv = document.querySelector('.mega__cover')
-    const checking = setTimeout(() => {
-      // if (target.contains(checkDiv) && !check) {
-      //   setCnt(cnt + 1)
-      //   // console.log(cnt)
-      // } else {
-      //   setCheck(true)
-      //   target.appendChild(divDom)
-      // }
-      setCnt(cnt + 1)
-      console.log(cnt)
-    }, 3000 * cnt);
-    return () => clearTimeout(checking)
-  }, [cnt])
+  const showingChat = () => {
+    target.appendChild(superChatDiv)
+  }
 
-  const { message, mode, bird_name, mouse_name } = msg
-  const coverClass = `mega__cover cover__${mode}`
+  TextToSpeech(chat.message)
 
-  const divDom = document.createElement('div')
-  const divDom1 = document.createElement('div')
-  const divDom2 = document.createElement('div')
-  const divDom3 = document.createElement('div')
 
-  divDom.className = coverClass
-  divDom1.innerText = '확성기 이미지'
-  divDom2.innerText = mode === 'light' ? bird_name : mouse_name
-  divDom3.innerText = message
 
-  divDom.appendChild(divDom1)
-  divDom.appendChild(divDom2)
-  divDom.appendChild(divDom3)
+  const nick = mode === 'light' ? chat.bird_name : chat.mouse_name;
 
-  divDom.addEventListener('animationend', () => {
-    document.body.removeChild(divDom)
+
+  // div 생성
+  const target = document.body
+  const superChatDiv = document.createElement('div')
+  const iconDiv = document.createElement('div')
+  const nickDiv = document.createElement('div')
+  const messageDiv = document.createElement('div')
+  // div className 부여
+
+
+  superChatDiv.classList.add(`mega__cover`)
+  superChatDiv.classList.add(`cover__${mode}`)
+  superChatDiv.innerText = 'icon'
+  nickDiv.innerText = nick
+  messageDiv.innerText = chat.message
+
+  superChatDiv.addEventListener('animationend', () => {
+    target.removeChild(superChatDiv)
   })
 
-  document.body.appendChild(divDom)
-  // if (document.body)
+  superChatDiv.append(iconDiv, nickDiv, messageDiv)
 
-
-
-
+  target.appendChild(superChatDiv)
+  showingChat()
 }

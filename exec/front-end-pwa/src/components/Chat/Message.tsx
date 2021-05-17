@@ -12,6 +12,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile }: 
     setFeedbackModalStatus(!feedbackModalStatus);
   };
 
+
   let coverClassName = 'message__content__cover ';
   let profileClassName = 'message__profile ';
   let messageClassName = 'message ';

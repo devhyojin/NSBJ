@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
@@ -133,19 +133,36 @@ export default function Chat() {
   };
 
   const setMegaPhone = (): void => {
-<<<<<<< HEAD
     setMegaPhoneState(!megaPhoneState)
   }
 
-=======
-    setMegaPhoneState(!megaPhoneState);
-  };
->>>>>>> e16e7c3412d0c66f677ea786226afb7ee7e24802
+
+  const deleteAnnounce = ((chat: any) => {
+    if (data) {
+      setData(data.filter(msg => msg !== chat))
+    }
+  })
+
+  const addNull = () => {
+
+    setData((prevData): any => {
+      if (prevData === undefined) return {};
+      return [...prevData]
+    })
+  }
+
 
   return (
     <div className={mode === 'light' ? 'chat chat__light__mode' : 'chat chat__dark__mode'}>
       <ChatNav backHandler={backHandler} />
-      <ChatContent data={data} mode={mode} user_id={user_id} region_id={regionId} />
+      <ChatContent
+        data={data}
+        mode={mode}
+        user_id={user_id}
+        region_id={regionId}
+        deleteAnnounce={deleteAnnounce}
+        addNull={addNull}
+      />
       <ChatInput
         sendMessage={sendMessage}
         setMegaPhone={setMegaPhone}
