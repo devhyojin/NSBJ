@@ -138,7 +138,6 @@ $chat_input_height: 10vh;
 }
 
 .mega__deactivate {
-<<<<<<< exec/front-end-pwa/src/styles/_chat.scss
   border: none;
 }
 
@@ -150,21 +149,16 @@ $chat_input_height: 10vh;
   top: 0;
   left: 0;
 }
-=======
-  border:none;
-}
 
 .chat__neighbor__cnt {
   width: 5vw;
   height: 5vw;
   background-size: 100%;
   background-repeat: no-repeat;
-  background-position: center;  
+  background-position: center;
   // margin-right: 5vw;
   span {
     margin-left: 4vw;
-    font-size: .5rem;
+    font-size: 0.5rem;
   }
 }
-
->>>>>>> exec/front-end-pwa/src/styles/_chat.scss
