@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
@@ -15,15 +15,15 @@ import '../styles/_chat.scss';
 
 interface msgProps {
   type: string;
-  roomId: number;
+  room_id: number;
   message: string;
-  sentAt: string;
-  senderId: string;
-  birdName: string;
-  mouseName: string;
+  sent_at: string;
+  sender_id: string;
+  bird_name: string;
+  mouse_name: string;
   badge: any;
-  profileImg: number;
-  mode: string;
+  profile_img: number;
+  mode: string
 }
 
 const SERVER_URL = process.env.REACT_APP_URL;
@@ -37,8 +37,9 @@ export default function Chat() {
   const [megaPhoneState, setMegaPhoneState] = React.useState(false);
   const mode = ModeCheck();
   const history = useHistory();
-  const { regionId }: any = useParams();
+  const { regionId, bName, neighborCnt }: any = useParams();
   const userInfo = localStorage.getItem('userInfo');
+  const entered = localStorage.getItem('nsbjEntered') ? localStorage.getItem('nsbjEntered') : false;
   let user_id = 0;
 
   React.useEffect(() => {
@@ -60,6 +61,7 @@ export default function Chat() {
     axios.get(`${SERVER_URL}/chat/region/${regionId}`).then((res) => {
       const chat = res.data.data;
       setData(chat);
+      console.log(res)
     });
   };
 
@@ -98,6 +100,7 @@ export default function Chat() {
             sender_id: user_id,
             message: '',
             sent_at: '2021-05-11',
+            entered
           }),
         );
       },
@@ -117,7 +120,8 @@ export default function Chat() {
 
   const sendMessage = (content: string, type: string) => {
     const date = new Date();
-    const sentAt = `${date.getHours().toString()}:${date.getMinutes().toString()}`;
+    const min = date.getMinutes().toString().length === 2 ? date.getMinutes().toString() : `0${date.getMinutes().toString()}`
+    const sentAt = `${date.getHours().toString()}:${min}`;
     ws.send(
       `/pub/chat/message`,
       {},
@@ -133,13 +137,41 @@ export default function Chat() {
   };
 
   const setMegaPhone = (): void => {
-    setMegaPhoneState(!megaPhoneState);
-  };
+    setMegaPhoneState(!megaPhoneState)
+  }
+
+
+  const deleteAnnounce = ((chat: any) => {
+    if (data) {
+      setData(data.filter(msg => msg !== chat))
+    }
+  })
+
+  const addNull = () => {
+
+    setData((prevData): any => {
+      if (prevData === undefined) return {};
+      return [...prevData]
+    })
+  }
+
 
   return (
     <div className={mode === 'light' ? 'chat chat__light__mode' : 'chat chat__dark__mode'}>
-      <ChatNav backHandler={backHandler} />
-      <ChatContent data={data} mode={mode} user_id={user_id} region_id={regionId} />
+      <ChatNav
+        backHandler={backHandler}
+        bName={bName}
+        neighborCnt={neighborCnt}
+        mode={mode}
+      />
+      <ChatContent
+        data={data}
+        mode={mode}
+        user_id={user_id}
+        region_id={regionId}
+        deleteAnnounce={deleteAnnounce}
+        addNull={addNull}
+      />
       <ChatInput
         sendMessage={sendMessage}
         setMegaPhone={setMegaPhone}

@@ -131,3 +131,25 @@ $dark_btn : #7613C5;
 }
 
 
+.other__user {
+  position:absolute;
+  width: 12vw;
+  height: 12vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  animation: 3s otherUserEffect ease-in;
+}
+
+@keyframes otherUserEffect {
+  0% {
+    opacity:.8;
+  }
+  80% {
+    opacity: .7;
+  }
+  100% {
+    opacity: 0;
+  }
+
+}
