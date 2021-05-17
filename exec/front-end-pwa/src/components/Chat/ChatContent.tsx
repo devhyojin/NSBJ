@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Message from './Message';
@@ -11,6 +11,8 @@ interface ChatContentProps {
   user_id: number;
   region_id: number;
   sendFeedback: any;
+  deleteAnnounce(chat: msgProps): any;
+  addNull(): void;
 }
 
 interface msgProps {
@@ -33,15 +35,28 @@ export default function ChatContent({
   user_id,
   region_id,
   sendFeedback,
+  deleteAnnounce,
+  addNull,
 }: ChatContentProps): any {
-  const chatContent = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const chatContent = React.useRef() as React.MutableRefObject<HTMLInputElement>;
+  const superChat = data ? data.find((msg: msgProps) => msg.type === 'ANNOUNCE') : undefined;
+
+  if (!document.body.contains(document.querySelector('.mega__cover')) && superChat !== undefined) {
+    deleteAnnounce(superChat); // 로그에서 삭제
+    MegaPhone(superChat, mode);
+  } else if (superChat !== undefined) {
+    setTimeout(() => {
+      addNull();
+    }, 3000);
+  }
+
   let cnt = -1;
 
-  useEffect(() => {
+  React.useEffect(() => {
     const target = chatContent.current;
     if (!target) return;
     target.scrollTop = target.scrollHeight;
-  });
+  }, [data]);
 
   if (!data) {
     return <div>{null}</div>;
@@ -55,30 +70,26 @@ export default function ChatContent({
           return <EnterChat key={uuidv4()} enterMessage={message} />;
         }
 
-        if (msg.type === 'ANNOUNCE') {
-          return <MegaPhone key={uuidv4()} msg={msg} userId={user_id} />;
+        if (msg.type === 'TALK') {
+          let skipProfile = false;
+          if (
+            cnt &&
+            data[cnt - 1].sender_id === msg.sender_id &&
+            data[cnt - 1].sent_at === msg.sent_at
+          ) {
+            skipProfile = true;
+          }
+          return (
+            <Message
+              key={uuidv4()}
+              msg={msg}
+              user_id={user_id}
+              mode={mode}
+              skipProfile={skipProfile}
+            />
+          );
         }
-
-        let skipProfile = false;
-        if (
-          cnt &&
-          data[cnt - 1].sender_id === msg.sender_id &&
-          data[cnt - 1].sent_at === msg.sent_at
-        ) {
-          skipProfile = true;
-        }
-        console.log('??');
-        return (
-          <Message
-            key={uuidv4()}
-            msg={msg}
-            user_id={user_id}
-            region_id={region_id}
-            mode={mode}
-            skipProfile={skipProfile}
-            sendFeedback={sendFeedback}
-          />
-        );
+        return <div key={uuidv4()}>{null}</div>;
       })}
     </div>
   );

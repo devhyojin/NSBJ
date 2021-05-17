@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+
 import ModeCheck from '../utils/ModeCheck';
 import MainTop from '../components/Main/MainTop';
 import MainBody from '../components/Main/MainBody';
 import MainMessage from '../components/Main/MainMessage';
 import MainBottom from '../components/Main/MainBottom';
 import waveRandom from '../utils/WaveRandom';
+import OtherUser from '../utils/OtherUser'
 import '../styles/_main.scss';
 
 
@@ -21,10 +23,13 @@ export default function MainPage() {
   const [region, setRegion] = useState('');
   const [cnt, setCnt] = useState(0);
   const [neighborCnt, setNeighborCnt] = useState(0);
+  const [otherShow, setOtherShow] = useState(false);
 
   const MODE = ModeCheck();
   const history = useHistory();
   const userInfo = localStorage.getItem('userInfo');
+  const target = document.body
+  const checkTarget = document.querySelector('.other__user')
 
   let modeName = 'dark__mode bg';
   let latitude = 0;
@@ -78,43 +83,39 @@ export default function MainPage() {
       })
   }
 
-  const btnActivate = () => {
+  const btnActivate = async (targetX: number, targetY: number) => {
     const bCode = localStorage.getItem('b_code')
 
     if (!bCode || !userInfo) return;
 
     const user = JSON.parse(userInfo)
-    // let nickName = user.bird_name
 
-    // if (MODE === 'dark') { nickName = user.mouse_name }
-
-
-    axios.post(`${SERVER_URL}/chat/roar/${bCode}`, {}, {
+    await axios.post(`${SERVER_URL}/chat/roar/${bCode}`, {}, {
       params: {
         user_id: user.id
       }
     })
       .then(res => {
-        setNeighborCnt(res.data.data.count)
+        const { data: { data: { count, entered } } } = res
+
+        setNeighborCnt(count)
         setActivate(true)
+        localStorage.setItem('nsbjEntered', entered)
+        OtherUser(targetX, targetY, count, otherShow, MODE)
       })
       .catch(err => {
         alert(err)
       })
-
+    if (!target.contains(checkTarget)) {
+      setOtherShow(false)
+    } else { setOtherShow(true) }
   }
 
 
   const routerToChat = () => {
     const bCode = localStorage.getItem('b_code');
     if (!bCode) { return; };
-    history.push(`/chat/${bCode}`)
-    // axios.get(`${SERVER_URL}/chat/region/${bCode}`)
-    //   .then(res => {
-    //     const { data: { data } } = res
-    //     history.push(`/chat/${bCode}`, { chat: data })
-    //   })
-    //   .catch(err => alert(err))
+    history.push(`/chat/${bCode}/${region}/${neighborCnt}`)
   }
 
 

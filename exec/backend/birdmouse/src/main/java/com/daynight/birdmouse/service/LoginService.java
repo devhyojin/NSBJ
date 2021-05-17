@@ -1,6 +1,5 @@
 package com.daynight.birdmouse.service;
 
-import com.daynight.birdmouse.dto.KakaoTokenDto;
 import com.daynight.birdmouse.dto.Response;
 
 public interface LoginService {
