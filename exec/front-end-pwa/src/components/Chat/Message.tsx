@@ -21,10 +21,11 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile }: 
   const messageCoverName = `message__cover profile__${mode}`;
   const messageRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  if (msg.sender_id === 1) {
+  if (msg.sender_id === user_id) {
     messageClassName += 'my__message ';
     profileClassName = '';
     coverClassName += 'my__cover ';
+    timeClassName += 'display__none';
   } else if (!skipProfile) {
     profileClassName += `img__${msg.profile_img}`;
     messageClassName += 'other__message ';

@@ -24,7 +24,7 @@ function App() {
         <PublicRoute exact path="/" restricted component={LandingPage} />
         <PrivateRoute path="/main" component={MainPage} />
         <PrivateRoute path="/mypage" component={MyPage} />
-        <PrivateRoute path="/chat/:regionId" component={Chat} />
+        <PrivateRoute path="/chat/:regionId/:bName/:neighborCnt" component={Chat} />
       </Switch>
     </div>
   );

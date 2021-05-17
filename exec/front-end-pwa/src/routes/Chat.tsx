@@ -37,8 +37,9 @@ export default function Chat() {
   const [megaPhoneState, setMegaPhoneState] = React.useState(false);
   const mode = ModeCheck();
   const history = useHistory();
-  const { regionId }: any = useParams();
+  const { regionId, bName, neighborCnt }: any = useParams();
   const userInfo = localStorage.getItem('userInfo');
+  const entered = localStorage.getItem('nsbjEntered') ? localStorage.getItem('nsbjEntered') : false;
   let user_id = 0;
 
   React.useEffect(() => {
@@ -60,6 +61,7 @@ export default function Chat() {
     axios.get(`${SERVER_URL}/chat/region/${regionId}`).then((res) => {
       const chat = res.data.data;
       setData(chat);
+      console.log(res)
     });
   };
 
@@ -98,6 +100,7 @@ export default function Chat() {
             sender_id: user_id,
             message: '',
             sent_at: '2021-05-11',
+            entered
           }),
         );
       },
@@ -117,7 +120,8 @@ export default function Chat() {
 
   const sendMessage = (content: string, type: string) => {
     const date = new Date();
-    const sentAt = `${date.getHours().toString()}:${date.getMinutes().toString()}`;
+    const min = date.getMinutes().toString().length === 2 ? date.getMinutes().toString() : `0${date.getMinutes().toString()}`
+    const sentAt = `${date.getHours().toString()}:${min}`;
     ws.send(
       `/pub/chat/message`,
       {},
@@ -154,7 +158,12 @@ export default function Chat() {
 
   return (
     <div className={mode === 'light' ? 'chat chat__light__mode' : 'chat chat__dark__mode'}>
-      <ChatNav backHandler={backHandler} />
+      <ChatNav
+        backHandler={backHandler}
+        bName={bName}
+        neighborCnt={neighborCnt}
+        mode={mode}
+      />
       <ChatContent
         data={data}
         mode={mode}
