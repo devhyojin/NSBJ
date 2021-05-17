@@ -2,6 +2,7 @@ package com.daynight.birdmouse.controller;
 
 import com.daynight.birdmouse.domain.Region;
 import com.daynight.birdmouse.dto.Response;
+import com.daynight.birdmouse.repository.RedisChatRoomRepository;
 import com.daynight.birdmouse.repository.RedisFeedbackRepository;
 import com.daynight.birdmouse.repository.RegionRepository;
 import com.daynight.birdmouse.service.ChatRoomService;
@@ -26,6 +27,7 @@ public class ChatRoomController {
     private final ChatRoomService chatRoomService;
     private final RegionRepository regionRepository;
     private final RedisFeedbackRepository feedbackRepository;
+    private final RedisChatRoomRepository chatRoomRepository;
 
     /**
      * 현재 지역에 유저 등록 및 채팅방의 사용자 리스트 조회
@@ -97,6 +99,11 @@ public class ChatRoomController {
                 .build();
 
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/testing/")
+    public void test() {
+        chatRoomRepository.getAllChatRoom();
     }
 
 

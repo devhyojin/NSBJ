@@ -134,4 +134,16 @@ public class RedisChatRoomRepository {
 
     }
 
+    /**
+     * Redis에 있는 모든 채팅방의 지역번호를 가져옴
+     */
+    public List<Long> getAllChatRoom() {
+        Set<Object> room_list = hashOperations.keys("room");
+        List<Long> room_id_list = new ArrayList<>();
+        for (Object region_id : room_list) {
+            room_id_list.add(Long.parseLong(String.valueOf(region_id)));
+        }
+        return room_id_list;
+    }
+
 }
