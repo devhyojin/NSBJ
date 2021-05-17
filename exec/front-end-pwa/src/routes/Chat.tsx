@@ -239,6 +239,7 @@ export default function Chat() {
         mode={mode}
         user_id={user_id}
         region_id={regionId}
+        sendFeedback={sendFeedback}
         deleteAnnounce={deleteAnnounce}
         addNull={addNull}
       />
