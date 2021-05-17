@@ -31,15 +31,24 @@ public class RedisChatRoomRepository {
      * @param user_id   : 유저의 아이디
      */
     public void registerUser(long region_id, String user_id, String bird_name, String mouse_name) {
-        // 지역채팅방 등록 = room## : user_id : mouse_name;bird_name
-        // 새/쥐 닉네임은 split(;)로 해서 분리하기
-        String nickname = bird_name + ";" + mouse_name;
-        hashOperations.put("room" + region_id, user_id, nickname);
 
-        // 유저 정보 저장 = user : user_id : region_id
-        // => 나중에 유저가 다른 지역에 있는지 확인용
-        hashOperations.put("user", user_id, region_id + "");
-        logger.info(String.format("[%d지역] 채팅방에 [유저%s:%s] 등록 완료", region_id, user_id, nickname));
+        boolean checkStatus = hashOperations.hasKey("room" + region_id, user_id);
+        if (!checkStatus) {
+            // 지역채팅방 등록 = room## : user_id : mouse_name;bird_name
+            // 새/쥐 닉네임은 split(;)로 해서 분리하기
+            String nickname = bird_name + ";" + mouse_name;
+            hashOperations.put("room" + region_id, user_id, nickname);
+
+            // 유저 정보 저장 = user : user_id : region_id
+            // => 나중에 유저가 다른 지역에 있는지 확인용
+            hashOperations.put("user", user_id, region_id + "");
+            logger.info(String.format("[%d지역] 채팅방에 [유저%s:%s] 등록 완료", region_id, user_id, nickname));
+        } else {
+
+            logger.info(String.format("[%d지역] 채팅방에 [유저%s]가 이미 등록되어있습니다.", region_id, user_id));
+        }
+
+
     }
 
     /**
@@ -101,7 +110,7 @@ public class RedisChatRoomRepository {
             long region = Long.parseLong((String) Objects.requireNonNull(hashOperations.get("user", userId)));
             if (region == regionId) {
                 logger.info("기존 채팅방 잔류");
-                return 0;
+                return 1;
             } else {
                 logger.info(String.format("[%d지역] 채팅방에 등록된 유저", region));
                 return region;
@@ -115,7 +124,14 @@ public class RedisChatRoomRepository {
      * @param regionName : 지역의 한글 이름
      */
     public void createChatRoom(long regionId, String regionName) {
-        hashOperations.put("room", regionId + "", regionName);
+        boolean checkStatus = hashOperations.hasKey("room", regionId+"");
+        if (!checkStatus) {
+            hashOperations.put("room", regionId + "", regionName);
+            logger.info(regionName + " 채팅방을 생성했습니다.");
+        } else {
+            logger.info(regionName + " 채팅방이 이미 있습니다.");
+        }
+
     }
 
 }
