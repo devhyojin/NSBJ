@@ -42,12 +42,14 @@ public class ChatMessageController {
         // 모드에 따라 새/쥐 닉네임이 뜬다
         // 로그에 안남게 확성기 처럼 입장했습니다만 잠깐 뜨기
         if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
-            if (message.getMode().equals("light")) {
-                message.setMessage(message.getBird_name() + "님이 입장하셨습니다.");
-            } else {
-                message.setMessage(message.getMouse_name() + "님이 입장하셨습니다.");
+            // 기존에 입장하지 않은 유저만 환영 메세지 띄워주기
+            if (message.getEntered() == 0) {
+                if (message.getMode().equals("light")) {
+                    message.setMessage(message.getBird_name() + "님이 입장하셨습니다.");
+                } else {
+                    message.setMessage(message.getMouse_name() + "님이 입장하셨습니다.");
+                }
             }
-
         }
         // 확성기 사용 후 개수 1개 줄이기
         else if (ChatMessage.MessageType.ANNOUNCE.equals(message.getType())) {
