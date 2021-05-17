@@ -24,5 +24,7 @@ public class ChatMessage {
     private int profile_img;    // 보낸 사람의 프로필 인덱스
 
     private String mode;
+    
+    private int entered;    // 입장 여부
 
 }

@@ -29,9 +29,9 @@ public class ChatRoomController {
 
     /**
      * 현재 지역에 유저 등록 및 채팅방의 사용자 리스트 조회
-     * @param region_id
-     * @param user_id
-     * @return
+     * @param region_id : 지역 채팅방 번호
+     * @param user_id : 입장하는 유저 아이디
+     * @return : 해당 지역의 유저 명단
      */
     @ApiOperation(value = "현재 지역 채팅방에 유저 등록")
     @PostMapping("/roar/{region_id}")
@@ -52,7 +52,7 @@ public class ChatRoomController {
         List<HashMap<String, Object>> user_list = chatRoomService.findAllUser(region_id);
 
         // 유저 등록
-        chatRoomService.registerUser(region_id, user_id);
+        int registeredStatus = chatRoomService.registerUser(region_id, user_id);
 
         // return data 포맷에 맞게 가공하기
         HashMap<String, Object> data = new HashMap<>();
@@ -60,6 +60,7 @@ public class ChatRoomController {
         data.put("region_id", region_id);
         data.put("region_name", region_name);
         data.put("count", user_list.size());
+        data.put("entered", registeredStatus);  // 0 = have not entered & 1 = have entered
 
         Response result = Response.builder()
                 .status(true)
