@@ -8,7 +8,7 @@ import axios from 'axios';
 import ChatNav from '../components/Chat/ChatNav';
 import ChatContent from '../components/Chat/ChatContent';
 import ChatInput from '../components/Chat/ChatInput';
-
+import FeedbackReceived from '../components/Chat/FeedbackReceived';
 import ModeCheck from '../utils/ModeCheck';
 
 import '../styles/_chat.scss';
@@ -43,7 +43,8 @@ let reconnect = 0;
 
 export default function Chat() {
   const [data, setData] = React.useState<Array<msgProps>>();
-  const [feedbackData, setFeedbackData] = React.useState<feedbackProps>();
+  const [isReactionActive, setIsReactionActive] = React.useState<boolean>(false);
+  const [reactionId, setReactionId] = React.useState(0);
   const [megaPhoneState, setMegaPhoneState] = React.useState(false);
   const mode = ModeCheck();
   const history = useHistory();
@@ -55,7 +56,8 @@ export default function Chat() {
     readChat();
     sockJS.close();
     connect();
-  }, []);
+    console.log('리액션아이디', reactionId);
+  }, [reactionId]);
 
   const recvMessage = (msg: msgProps) => {
     setData((prevData) => {
@@ -73,12 +75,6 @@ export default function Chat() {
     });
   };
 
-  const recvFeedback = (feedback: feedbackProps) => {
-    console.log(feedback);
-    setFeedbackData(feedback);
-    setTimeout(() => console.log('핃백데이터', feedbackData), 3000);
-  };
-
   if (regionId === '' || !userInfo) {
     history.push('/main');
   } else {
@@ -88,6 +84,20 @@ export default function Chat() {
   // 채팅창 백 버튼 (메인화면으로 진행)
   const backHandler = () => {
     history.push('/main');
+  };
+
+  const recvFeedback = (feedback: feedbackProps) => {
+    console.log('11111리시브피드백', feedback);
+    console.log('22222나', typeof user_id);
+    console.log('33333보낸놈', typeof feedback.sender_id);
+    console.log('44444받는놈', typeof feedback.receiver_id);
+    // receiver_id로 바꿔주기
+    if (String(user_id) === String(feedback.sender_id)) {
+      console.log('55555나에게 온 메시지?');
+      setReactionId(feedback.feedback_id);
+      setIsReactionActive(true);
+      setTimeout(() => setIsReactionActive(false), 5000);
+    }
   };
 
   const connect = () => {
@@ -120,7 +130,7 @@ export default function Chat() {
         ws.subscribe(
           `/feedback/room/${regionId}`,
           function (message) {
-            console.log('바아아디요호우', message.body);
+            console.log('00000바아아디요호우', message.body);
             const recv = JSON.parse(message.body);
             recvFeedback(recv);
           },
@@ -181,6 +191,7 @@ export default function Chat() {
         mode: receiverMode,
       }),
     );
+    console.log('55보냈다잉');
   };
 
   const setMegaPhone = (): void => {
@@ -201,6 +212,7 @@ export default function Chat() {
         setMegaPhone={setMegaPhone}
         megaPhoneState={megaPhoneState}
       />
+      {isReactionActive && <FeedbackReceived reactionId={reactionId} />}
     </div>
   );
 }

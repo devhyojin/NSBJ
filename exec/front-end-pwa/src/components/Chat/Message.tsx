@@ -9,9 +9,11 @@ import '../../styles/_message.scss';
 const SERVER_URL = process.env.REACT_APP_URL;
 
 export default function Message({ msg, user_id, region_id, mode, skipProfile, sendFeedback }: any) {
+  // const [feedbackId, setfeedbackId] = useState(0);
   useEffect(() => {
     const settingFeedbackInfo = async () => {
       const id = await getFeedback();
+      console.log('꿈꿈d', id);
       if (id) {
         changeFeedbackColor(id);
       }
@@ -68,6 +70,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
     { id: 3, title: '해결 포인트', path: judgeCnt, status: false },
   ];
   const [feedback, setFeedback] = useState(initFeedback);
+  // const [feedbackId, setFeedbackId] = useState(initFeedback);
 
   const getFeedback = async () => {
     const res = await axios.get(`${SERVER_URL}/chat/${region_id}/${msg.sender_id}`, {
@@ -95,7 +98,9 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
   };
 
   const openFeedbackComponent = () => {
-    changeIsFeedbackActive();
+    if (user_id !== msg.sender_id) {
+      changeIsFeedbackActive();
+    }
   };
 
   return (
@@ -116,6 +121,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
             feedback={feedback}
             getFeedback={getFeedback}
             setFeedback={setFeedback}
+            isFeedbackActive={isFeedbackActive}
             setIsFeedbackActive={setIsFeedbackActive}
             sendFeedback={sendFeedback}
           />

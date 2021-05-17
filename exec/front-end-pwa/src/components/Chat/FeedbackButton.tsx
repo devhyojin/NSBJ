@@ -1,10 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-// import SockJS from 'sockjs-client';
-// import Stomp from 'stompjs';
 import '../../styles/_feedbackButton.scss';
-
-const SERVER_URL = process.env.REACT_APP_URL;
 
 interface feedbackProps {
   f: {
@@ -19,6 +14,7 @@ export default function FeedbackButton({
   feedback,
   setFeedback,
   getFeedback,
+  isFeedbackActive,
   setIsFeedbackActive,
   sendFeedback,
 }: any) {
@@ -31,30 +27,31 @@ export default function FeedbackButton({
   }
   const [isButtonActive, setIsButtonActive] = useState<boolean>(false);
   const [isGuideActive, setIsGuideActive] = useState<boolean>(false);
-
+  const [isSendActive, setIsSendActive] = useState<boolean>(false);
   const [didFeedback, setDidFeedback] = useState<boolean>(false);
 
+  const isGuideNeed = async () => {
+    const id = await getFeedback();
+    console.log('리이이얼', id);
+    // 전에 피드백한 기록이 없는 경우에만 가이드를 보여준다.
+    if (id > 0) {
+      setIsButtonActive(true);
+      setDidFeedback(true);
+    } else {
+      setIsGuideActive(true);
+    }
+  };
+
   useEffect(() => {
-    const isGuideNeed = async () => {
-      const id = await getFeedback();
-      console.log('리이이얼', id);
-      if (id > 0) {
-        setIsButtonActive(true);
-        setDidFeedback(true);
-        console.log('디드피드백', didFeedback);
-      } else {
-        setIsGuideActive(true);
-      }
-    };
     isGuideNeed();
+    console.log('너 언제 바뀌니?', isSendActive);
     // 클린업 함수 문제 해결하기
     // return function cleanup() {
     //   setIsButtonActive(false);
     //   setDidFeedback(false);
     //   setIsGuideActive(false);
     // };
-  }, [msg]);
-  console.log('디드피드백 22', didFeedback);
+  }, [isSendActive]);
 
   const checkBtnStatus = (status: boolean): string => {
     let classValue = '';
@@ -79,7 +76,7 @@ export default function FeedbackButton({
     console.log('22 피드백 반영 여부 확인1', tempFeedback);
     console.log('33 피드백 반영 여부 확인2', feedback);
   };
-  const [isSendActive, setIsSendActive] = useState<boolean>(false);
+
   const changeIsSendActive = () => {
     setIsSendActive(!isSendActive);
   };
@@ -88,9 +85,9 @@ export default function FeedbackButton({
     // 1. 선택한 feedback 값 레디스에 넘겨주기
     reflectResult(id);
     sendFeedback(id, msg.sender_id, msg.bird_name, msg.mouse_name, msg.mode);
-    console.log('55 피드백과 액티브 사이');
+    console.log('66 피드백과 액티브 사이');
     setIsSendActive(true);
-    console.log('66 액티브 했나?', isSendActive);
+    console.log('77 액티브 했나?', isSendActive);
   };
 
   const cannotAlert = () => {
@@ -127,12 +124,13 @@ export default function FeedbackButton({
 
   const FeedbackGuide = () => {
     useEffect(() => {
-      setTimeout(() => {
+      const openLogic = setTimeout(() => {
         setIsGuideActive(false);
-      }, 1400);
-      setTimeout(() => {
         setIsButtonActive(true);
-      }, 1390);
+      }, 1400);
+      console.log('001이즈가이드엑티브 바뀜?', isGuideActive);
+      console.log('002이즈버튼엑티브 바뀜?', isButtonActive);
+      return () => clearTimeout(openLogic);
     }, []);
     return (
       <div className={modeGuideModal}>
@@ -142,16 +140,22 @@ export default function FeedbackButton({
     );
   };
   const FeedbackSend = () => {
+    console.log('000피드백샌드 진입');
     useEffect(() => {
-      setTimeout(() => {
-        changeIsSendActive();
-        console.log(isSendActive);
-      }, 3990);
-      setTimeout(() => {
-        setIsButtonActive(false);
-        setIsFeedbackActive(false);
-      }, 4000);
-    }, []);
+      const openLogic = setTimeout(() => {
+        console.log('111핃백 샌드 오픈로직 진입 ');
+        setIsSendActive(false);
+        console.log('222이즈샌드엑티브 바뀜?', isSendActive);
+        // setIsButtonActive(false);
+        // console.log('333이즈버튼액티브 바뀜?', isButtonActive);
+        // setIsFeedbackActive(false);
+        // console.log('444이즈핃백엑티브 바뀜?', isFeedbackActive);
+      }, 1000);
+      console.log('2222이즈샌드엑티브 바뀜?', isSendActive);
+      console.log('3333이즈버튼액티브 바뀜?', isButtonActive);
+      console.log('4444이즈핃백엑티브 바뀜?', isFeedbackActive);
+      return () => clearTimeout(openLogic);
+    }, [msg]);
 
     let receiver_nickname = msg.mouse_name;
     if (msg.mode === 'light') {
