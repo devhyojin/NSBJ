@@ -17,7 +17,7 @@ public class User {
     private String bird_name;
     private String mouse_name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(columnDefinition = "integer default 0")
     private Badge badge;
 

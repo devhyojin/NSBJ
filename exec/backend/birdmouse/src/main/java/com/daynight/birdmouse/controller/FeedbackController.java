@@ -23,7 +23,7 @@ public class FeedbackController {
         feedbackRepository.giveFeedback(feedback.getRegion_id(), feedback.getSender_id(), feedback.getReceiver_id(),
                 feedback.getReceiver_bird(), feedback.getReceiver_mouse(), feedback.getFeedback_id());
 
-        messagingTemplate.convertAndSend("/sub/feedback/room/"+feedback.getRegion_id(), feedback);
+        messagingTemplate.convertAndSend("/feedback/room/"+feedback.getRegion_id(), feedback);
 
     }
 }
