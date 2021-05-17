@@ -12,6 +12,7 @@ export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState }:
   const [placeHolderMessage, setPlaceHolderMessage] = React.useState('')
   const [sendType, setSendType] = React.useState('TALK')
 
+
   React.useEffect(() => {
     if (megaPhoneState) {
       setSendType('ANNOUNCE')
@@ -28,6 +29,9 @@ export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState }:
     if (!inputValue) return;
     sendMessage(inputValue, sendType)
     inputRef.current.value = ''
+    if (megaPhoneState) {
+      setMegaPhone()
+    }
   }
 
   const setMegaPhoneHandler = () => {
