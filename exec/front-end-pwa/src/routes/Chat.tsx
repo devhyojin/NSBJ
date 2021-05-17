@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import SockJS from 'sockjs-client';
@@ -43,7 +43,7 @@ let reconnect = 0;
 
 export default function Chat() {
   const [data, setData] = React.useState<Array<msgProps>>();
-  const [isReactionActive, setIsReactionActive] = React.useState<boolean>(false);
+  const [isReactionActive, setIsReactionActive] = useState(false);
   const [reactionId, setReactionId] = React.useState(0);
   const [megaPhoneState, setMegaPhoneState] = React.useState(false);
   const mode = ModeCheck();
@@ -53,10 +53,12 @@ export default function Chat() {
   let user_id = 0;
 
   React.useEffect(() => {
+    console.log('다시마운트');
     readChat();
     sockJS.close();
     connect();
     console.log('리액션아이디', reactionId);
+    openReaction();
   }, [reactionId]);
 
   const recvMessage = (msg: msgProps) => {
@@ -91,12 +93,18 @@ export default function Chat() {
     console.log('22222나', typeof user_id);
     console.log('33333보낸놈', typeof feedback.sender_id);
     console.log('44444받는놈', typeof feedback.receiver_id);
-    // receiver_id로 바꿔주기
+    // feedback.receiver_id로 바꿔주기
     if (String(user_id) === String(feedback.sender_id)) {
       console.log('55555나에게 온 메시지?');
       setReactionId(feedback.feedback_id);
+      openReaction();
+    }
+  };
+
+  const openReaction = () => {
+    if (reactionId > 0) {
       setIsReactionActive(true);
-      setTimeout(() => setIsReactionActive(false), 5000);
+      setTimeout(() => setIsReactionActive(false), 3000);
     }
   };
 
@@ -212,7 +220,9 @@ export default function Chat() {
         setMegaPhone={setMegaPhone}
         megaPhoneState={megaPhoneState}
       />
-      {isReactionActive && <FeedbackReceived reactionId={reactionId} />}
+      {isReactionActive && (
+        <FeedbackReceived setIsReactionActive={setIsReactionActive} reactionId={reactionId} />
+      )}
     </div>
   );
 }

@@ -1,19 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useInterval } from 'react-use';
 import styled from 'styled-components';
-import angelCnt from '../../assets/flaticon/angel_cnt.png';
-import heartCnt from '../../assets/flaticon/heart_cnt.png';
-import judgeCnt from '../../assets/flaticon/judge_cnt.png';
 
-// import '../../styles/_received.scss';
-
-export default function FeedbackReceived(reactionId) {
-  useEffect(() => {
-    console.log('66666핃백리시브 입성');
-    return () => console.log('핃백리시브 바이바이');
-  }, [reactionId]);
-  // const emojiList = [angelCnt, heartCnt, judgeCnt];
-  const emojiList = ['💗', '😇', '👩🏻‍🎓'];
+export default function FeedbackReceived(setIsReactionActive, reactionId): any {
+  const emojiList = ['😇', '💗', '👩🏻‍🎓'];
   const [emojiRender, setEmojiRender] = useState([{ key: 0, emoji: '', offset: 0 }]);
 
   useInterval(() => {
@@ -25,7 +15,7 @@ export default function FeedbackReceived(reactionId) {
     console.log('오프셋', offset);
     const key = offset + Math.random() * 1000000;
     let emoji = emojiList[0];
-    if (reactionId) {
+    if (reactionId > 0) {
       emoji = emojiList[reactionId - 1];
     }
     emojiRender.push({ key, emoji, offset });
