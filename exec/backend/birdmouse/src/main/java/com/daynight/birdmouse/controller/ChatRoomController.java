@@ -101,9 +101,12 @@ public class ChatRoomController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/testing/")
-    public void test() {
-        chatRoomRepository.getAllChatRoom();
+    @ApiOperation(value = "피드백 테스트용 api. 받은 사람의 feedback_id를 0으로 변경 가능")
+    @PatchMapping("/test")
+    public Object changeFeedbackId(@RequestParam long room_id, @RequestParam String sender_id, @RequestParam String receiver_id) {
+        String tmp = feedbackRepository.changeFeedback(room_id, sender_id, receiver_id);
+        Response result = Response.builder().status(true).message(tmp).data(tmp).build();
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 

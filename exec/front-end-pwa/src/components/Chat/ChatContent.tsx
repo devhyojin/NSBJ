@@ -10,9 +10,9 @@ interface ChatContentProps {
   mode: string;
   user_id: number;
   region_id: number;
+  sendFeedback: any;
   deleteAnnounce(chat: msgProps): any;
   addNull(): void;
-
 }
 
 interface msgProps {
@@ -29,7 +29,7 @@ interface msgProps {
   profile_img: number;
 }
 
-export default function ChatContent({ data, mode, user_id, region_id, deleteAnnounce, addNull }: ChatContentProps): any {
+export default function ChatContent({ data, mode, user_id, region_id, sendFeedback, deleteAnnounce, addNull }: ChatContentProps): any {
   const chatContent = React.useRef() as React.MutableRefObject<HTMLInputElement>;
   const superChat = data ? data.find((msg: msgProps) => msg.type === 'ANNOUNCE') : undefined
 
@@ -41,7 +41,6 @@ export default function ChatContent({ data, mode, user_id, region_id, deleteAnno
       addNull()
     }, 3000);
   }
-
   let cnt = -1;
 
 
