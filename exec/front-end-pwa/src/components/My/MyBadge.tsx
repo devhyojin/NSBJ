@@ -49,6 +49,8 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
         tempBadges[response.badge.id - 1].picked = true;
       }
       setBadges(tempBadges);
+      console.log('템프뱃지상황보자', tempBadges);
+      console.log('그냥뱃지상황보자', badges);
     });
   }, []);
 
@@ -230,8 +232,10 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
       for (let i = idx; i < idx + 2; i += 1) {
         tempBadges[i].status = true;
       }
-    } else {
-      tempBadges[idx].status = true;
+    } else if (feedbackCnt >= 10) {
+      for (let i = idx; i < idx + 1; i += 1) {
+        tempBadges[i].status = true;
+      }
     }
     setBadges(tempBadges);
   };
@@ -251,16 +255,16 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
           />
         )}
       </div>
-
       <div className="badge-container">
-        {badges.map((badge) => {
-          console.log('화아악인', badge);
-          return badge.status ? (
-            <ActiveBadge key={badge.id} b={badge} />
-          ) : (
-            <InactiveBadge key={badge.id} b={badge} />
-          );
-        })}
+        <div className="badge-grid">
+          {badges.map((badge) => {
+            return badge.status ? (
+              <ActiveBadge key={badge.id} b={badge} />
+            ) : (
+              <InactiveBadge key={badge.id} b={badge} />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

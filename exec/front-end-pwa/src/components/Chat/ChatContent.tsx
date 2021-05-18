@@ -57,6 +57,8 @@ export default function ChatContent({
   }
   let cnt = -1;
 
+
+
   React.useEffect(() => {
     const target = chatContent.current;
     if (!target) return;

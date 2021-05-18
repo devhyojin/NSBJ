@@ -26,8 +26,6 @@ export default function MegaPhone(chat: megaPhoneProps, mode: string) {
 
   TextToSpeech(chat.message)
 
-
-
   const nick = mode === 'light' ? chat.bird_name : chat.mouse_name;
 
 
@@ -37,12 +35,12 @@ export default function MegaPhone(chat: megaPhoneProps, mode: string) {
   const iconDiv = document.createElement('div')
   const nickDiv = document.createElement('div')
   const messageDiv = document.createElement('div')
-  // div className 부여
 
 
   superChatDiv.classList.add(`mega__cover`)
   superChatDiv.classList.add(`cover__${mode}`)
-  superChatDiv.innerText = 'icon'
+
+  iconDiv.className = 'mega__icon'
   nickDiv.innerText = nick
   messageDiv.innerText = chat.message
 

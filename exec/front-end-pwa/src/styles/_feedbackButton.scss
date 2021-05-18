@@ -47,7 +47,18 @@ feedback-button {
   align-items: center;
   animation: 0.3s linear guide_show;
 }
-
+.send-message {
+  div {
+    .receiver-name {
+      font-weight: bold;
+      font-size: 3vw;
+    }
+    .feedback-title {
+      font-weight: bold;
+      font-size: 2.8vw;
+    }
+  }
+}
 @keyframes guide_show {
   0% {
     top: -15%;

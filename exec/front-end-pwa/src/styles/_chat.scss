@@ -109,7 +109,43 @@ $chat_input_height: 10vh;
     height: 60%;
     border-radius: 10px;
   }
+  .mega__phone__btn{
+    position: relative;
+    background-image: url('../assets/message/megaphone.png');
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+    
+    .mega__phone__cnt {
+      width: 3.5vw;
+      height:3.5vw;
+      
+      position:absolute;
+      font-size: .5rem;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      bottom: 0%;
+      right: 0%;
+    }
+  }
 }
+
+.light__mega__btn {
+  background-color: rgb(197, 248, 252) !important;
+}
+.light__mega__cnt {
+  background-color: rgb(66, 182, 211);
+}
+
+.dark__mega__btn {
+  background-color: rgb(246, 182, 252) !important;
+}
+.dark__mega__cnt {
+  background-color: rgb(211, 66, 192);
+}
+
+
 
 .welcome__text {
   width: 100%;
