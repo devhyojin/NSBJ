@@ -9,7 +9,9 @@ import birdBasic from '../assets/characters/bird/bird_basic.gif';
 import mouseBasic from '../assets/characters/mouse/mouse_basic.gif';
 
 const SERVER_URL = process.env.REACT_APP_URL;
-const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID ? process.env.REACT_APP_GOOGLE_CLIENT_ID : ''
+const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID
+  ? process.env.REACT_APP_GOOGLE_CLIENT_ID
+  : '';
 
 export default function LadingPage() {
   let landingBgMode = 'bg landing__dark__bg';
@@ -64,6 +66,14 @@ export default function LadingPage() {
           onFailure={responseFail}
           className="google__login__btn"
         />
+      </div>
+      <div className="license">
+        <p>
+          Background by <strong>Yuuta Toyoi</strong> (@1041uuu)
+        </p>
+        <p>
+          Icon made by <strong>Freepik</strong> from www.flaticon.com
+        </p>
       </div>
     </div>
   );
