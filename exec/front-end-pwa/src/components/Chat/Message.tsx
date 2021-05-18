@@ -1,16 +1,39 @@
 import React, { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
-import ChatButton from './ChatButton';
-
+import FeedbackButton from './FeedbackButton';
 import '../../styles/_message.scss';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function Message({ msg, user_id, region_id, mode, skipProfile }: any) {
-  const [feedbackModalStatus, setFeedbackModalStatus] = useState<boolean>(false);
-  const changeFeedbackModalStatus = (): void => {
-    setFeedbackModalStatus(!feedbackModalStatus);
+export default function Message({ msg, user_id, region_id, mode, skipProfile, sendFeedback }: any) {
+  useEffect(() => {
+    // reset();
+  }, [user_id]);
+
+  // 리셋용
+  const reset = () => {
+    axios
+      .patch(
+        `${SERVER_URL}/chat/test`,
+        {},
+        {
+          params: {
+            receiver_bird: msg.bird_name,
+            receiver_id: msg.sender_id,
+            room_id: msg.room_id,
+            sender_id: user_id,
+          },
+        },
+      )
+      .then((res) => {
+        console.log('초기화성공', res);
+      });
   };
+  const [isFeedbackActive, setIsFeedbackActive] = useState<boolean>(false);
+  // const changeIsFeedbackActive = (): void => {
+  //   setIsFeedbackActive(!isFeedbackActive);
+  // };
+
 
   let coverClassName = 'message__content__cover ';
   let profileClassName = 'message__profile ';
@@ -20,10 +43,11 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile }: 
   const messageCoverName = `message__cover profile__${mode}`;
   const messageRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  if (msg.sender_id === 1) {
+  if (msg.sender_id === user_id) {
     messageClassName += 'my__message ';
     profileClassName = '';
     coverClassName += 'my__cover ';
+    timeClassName += 'display__none';
   } else if (!skipProfile) {
     profileClassName += `img__${msg.profile_img}`;
     messageClassName += 'other__message ';
@@ -34,6 +58,13 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile }: 
 
   messageClassName += `message__${mode} `;
 
+  // 남의 것 클릭했을 때만 열리기
+  const openFeedbackComponent = () => {
+    if (user_id !== msg.sender_id) {
+      setIsFeedbackActive(true);
+    }
+  };
+
   return (
     <div>
       <div className={messageCoverName} ref={messageRef}>
@@ -41,12 +72,20 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile }: 
           role="button"
           tabIndex={0}
           onKeyDown={() => null}
-          onClick={() => changeFeedbackModalStatus()}
+          onClick={() => openFeedbackComponent()}
           className={profileClassName}
         >
           <span className={timeClassName}>{msg.sent_at}</span>
         </div>
-        {feedbackModalStatus && <ChatButton msg={msg} user_id={user_id} region_id={region_id} />}
+        {isFeedbackActive && (
+          <FeedbackButton
+            msg={msg}
+            setIsFeedbackActive={setIsFeedbackActive}
+            sendFeedback={sendFeedback}
+            region_id={region_id}
+            user_id={user_id}
+          />
+        )}
         <div className={coverClassName}>
           <div className={badgeClassName}>
             {null} <br /> {mode === 'light' ? msg.bird_name : msg.mouse_name}

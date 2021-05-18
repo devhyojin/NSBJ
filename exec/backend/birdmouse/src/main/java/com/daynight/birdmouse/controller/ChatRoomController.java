@@ -2,6 +2,7 @@ package com.daynight.birdmouse.controller;
 
 import com.daynight.birdmouse.domain.Region;
 import com.daynight.birdmouse.dto.Response;
+import com.daynight.birdmouse.repository.RedisChatRoomRepository;
 import com.daynight.birdmouse.repository.RedisFeedbackRepository;
 import com.daynight.birdmouse.repository.RegionRepository;
 import com.daynight.birdmouse.service.ChatRoomService;
@@ -26,12 +27,13 @@ public class ChatRoomController {
     private final ChatRoomService chatRoomService;
     private final RegionRepository regionRepository;
     private final RedisFeedbackRepository feedbackRepository;
+    private final RedisChatRoomRepository chatRoomRepository;
 
     /**
      * 현재 지역에 유저 등록 및 채팅방의 사용자 리스트 조회
-     * @param region_id
-     * @param user_id
-     * @return
+     * @param region_id : 지역 채팅방 번호
+     * @param user_id : 입장하는 유저 아이디
+     * @return : 해당 지역의 유저 명단
      */
     @ApiOperation(value = "현재 지역 채팅방에 유저 등록")
     @PostMapping("/roar/{region_id}")
@@ -52,7 +54,7 @@ public class ChatRoomController {
         List<HashMap<String, Object>> user_list = chatRoomService.findAllUser(region_id);
 
         // 유저 등록
-        chatRoomService.registerUser(region_id, user_id);
+        int registeredStatus = chatRoomService.registerUser(region_id, user_id);
 
         // return data 포맷에 맞게 가공하기
         HashMap<String, Object> data = new HashMap<>();
@@ -60,6 +62,7 @@ public class ChatRoomController {
         data.put("region_id", region_id);
         data.put("region_name", region_name);
         data.put("count", user_list.size());
+        data.put("entered", registeredStatus);  // 0 = have not entered & 1 = have entered
 
         Response result = Response.builder()
                 .status(true)
@@ -95,6 +98,14 @@ public class ChatRoomController {
                 .data(map)
                 .build();
 
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "피드백 테스트용 api. 받은 사람의 feedback_id를 0으로 변경 가능")
+    @PatchMapping("/test")
+    public Object changeFeedbackId(@RequestParam long room_id, @RequestParam String sender_id, @RequestParam String receiver_id) {
+        String tmp = feedbackRepository.changeFeedback(room_id, sender_id, receiver_id);
+        Response result = Response.builder().status(true).message(tmp).data(tmp).build();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

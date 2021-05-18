@@ -1,97 +1,99 @@
-$chat_light_btn_bg_color:#93C9C7;
-$chat_light_bg_color:#FFFFFF;
-$chat_light_font_color:#000000;
-$chat_light_border_color :#9EEBBD;
-$chat_light_input_color : #EDF5F6;
+$chat_light_btn_bg_color: #93c9c7;
+$chat_light_bg_color: #ffffff;
+$chat_light_font_color: #000000;
+$chat_light_border_color: #9eebbd;
+$chat_light_input_color: #edf5f6;
 
-$chat_dark_btn_bg_color:#9F3D47;
-$chat_dark_bg_color:#323232;
-$chat_dark_font_color:#FFFFFF;
-$chat_dark_border_color :#D3505D;
-$chat_dark_input_color : #FF707E;
+$chat_dark_btn_bg_color: #9f3d47;
+$chat_dark_bg_color: #323232;
+$chat_dark_font_color: #ffffff;
+$chat_dark_border_color: #d3505d;
+$chat_dark_input_color: #ff707e;
 
 $chat_nav_height: 10vh;
 $chat_content_max_height: 80%;
 $chat_input_height: 10vh;
 
-
 .chat__dark__mode {
-  color:$chat_dark_font_color;
+  color: $chat_dark_font_color;
   background-color: $chat_dark_bg_color;
   border-color: $chat_dark_border_color;
   button {
     background-color: $chat_dark_btn_bg_color;
-    border:none;outline: none;     
-    color: $chat_dark_font_color
+    border: none;
+    outline: none;
+    color: $chat_dark_font_color;
   }
   input {
     background-color: $chat_dark_input_color;
     color: inherit;
-  
   }
   .chat__input__cover {
-    background-color: #D3505D;
+    background-color: #d3505d;
   }
 }
 
 .chat__light__mode {
-  color:$chat_light_font_color;
+  color: $chat_light_font_color;
   background-color: $chat_light_bg_color;
   border-color: $chat_light_border_color;
   button {
     background-color: $chat_light_btn_bg_color;
-    border:none;outline: none;
-    color: $chat_dark_font_color
+    border: none;
+    outline: none;
+    color: $chat_dark_font_color;
   }
   input {
     background-color: $chat_light_input_color;
   }
   .chat__input__cover {
-    background-color:#9EEBBD;
+    background-color: #9eebbd;
   }
 }
 
 .chat {
-  display:flex;
+  display: flex;
   flex-direction: column;
-  justify-content: space-between;  
-  width:100vw; height:100vh;
+  justify-content: space-between;
+  width: 100vw;
+  height: 100vh;
 }
 
 .chat__nav {
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  height:$chat_nav_height;      
-  border-bottom: 2px solid;  
-  border-bottom-color: inherit;  
-  padding: 3% 5%; 
+  height: $chat_nav_height;
+  border-bottom: 2px solid;
+  border-bottom-color: inherit;
+  padding: 3% 5%;
   .chat__back__btn {
-    width: 4vh; height: 4vh;
+    width: 4vh;
+    height: 4vh;
     border-radius: 50%;
-    color:$chat_dark_font_color;
+    color: $chat_dark_font_color;
   }
 }
 
-.chat__content {  
-  padding: 3% 5%; 
+.chat__content {
+  padding: 3% 5%;
   height: $chat_content_max_height;
-  overflow: auto; 
+  overflow: auto;
 }
-
 
 .chat__input__cover {
   display: flex;
-  position:relative;
+  position: relative;
   justify-content: space-around;
   align-items: center;
-  height: $chat_input_height; 
+  height: $chat_input_height;
 
-  input,button {  
+  input,
+  button {
     height: 60%;
   }
   input {
-    outline:none;
+    outline: none;
     border-radius: 10px;
     width: 60%;
   }
@@ -100,36 +102,34 @@ $chat_input_height: 10vh;
     width: calc(10vh * 0.6);
     border-radius: 50%;
   }
-  
+
   div {
-    position:absolute;
-    width:60%;
-    height:60%;
+    position: absolute;
+    width: 60%;
+    height: 60%;
     border-radius: 10px;
   }
 }
 
 .welcome__text {
-  width:100%;
-  font-size: .5rem;
+  width: 100%;
+  font-size: 0.5rem;
   font-weight: bolder;
   text-align: center;
   margin: 4% 0;
 }
 
-
 // .mega__activate {
 //   span {
 //     display:block;
 //     position:absolute;
-//     width:10px; 
+//     width:10px;
 //     height: 2px;
 //     background: black;
 //     &:nth-child(1) {
 //     }
 //   }
 // }
-
 
 .mega__activate {
   // border-top: white;
@@ -138,5 +138,27 @@ $chat_input_height: 10vh;
 }
 
 .mega__deactivate {
-  border:none;
+  border: none;
+}
+
+//피드백
+.received-container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.chat__neighbor__cnt {
+  width: 5vw;
+  height: 5vw;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  // margin-right: 5vw;
+  span {
+    margin-left: 4vw;
+    font-size: 0.5rem;
+  }
 }

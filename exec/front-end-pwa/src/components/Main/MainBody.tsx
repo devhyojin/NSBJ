@@ -14,12 +14,15 @@ export default function MainBody({ btnActivate, mode }: MainBodyProps) {
 
   const activateHandler = () => {
     const target = myIcon.current;
+    const targetX = target.getBoundingClientRect().x + target.offsetWidth / 2
+    const targetY = target.getBoundingClientRect().y + target.offsetHeight / 2
+
     waveEffect(
-      target.getBoundingClientRect().x + target.offsetWidth / 2,
-      target.getBoundingClientRect().y + target.offsetHeight / 2,
+      targetX,
+      targetY,
       mode,
     );
-    btnActivate();
+    btnActivate(targetX, targetY);
   };
 
   let imgClass = '';

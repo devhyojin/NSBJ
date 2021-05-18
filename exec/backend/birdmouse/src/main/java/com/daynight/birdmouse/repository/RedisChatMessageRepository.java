@@ -24,9 +24,11 @@ public class RedisChatMessageRepository {
     final Logger logger = LoggerFactory.getLogger(RedisChatRoomRepository.class);
 
     private final ListOperations<String, String> listOperations;
+    private final StringRedisTemplate redisTemplate;
 
     public RedisChatMessageRepository(StringRedisTemplate redisTemplate) {
         this.listOperations = redisTemplate.opsForList();
+        this.redisTemplate = redisTemplate;
     }
 
     /**
@@ -78,5 +80,10 @@ public class RedisChatMessageRepository {
         }
 
         return returning_log;
+    }
+
+    public void deleteChatLog(long region_id) {
+        redisTemplate.delete("LOG" + region_id);
+        logger.info("{} 지역 채팅방의 오늘자 로그를 삭제했습니다.", region_id);
     }
 }
