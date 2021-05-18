@@ -49,7 +49,6 @@ export default function ChatContent({
       addNull();
     }, 3000);
   }
-
   let cnt = -1;
 
   React.useEffect(() => {
