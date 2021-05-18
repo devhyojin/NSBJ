@@ -10,7 +10,13 @@ interface ChatContentProps {
   mode: string;
   user_id: number;
   region_id: number;
-  sendFeedback: any;
+  sendFeedback(
+    id: number,
+    receiverId: string,
+    receiverBird: string,
+    receiverMouse: string,
+    receiverMode: string,
+  ): void;
   deleteAnnounce(chat: msgProps): any;
   addNull(): void;
 }
@@ -29,31 +35,33 @@ interface msgProps {
   profile_img: number;
 }
 
-export default function ChatContent({ data, mode, user_id, region_id, sendFeedback, deleteAnnounce, addNull }: ChatContentProps): any {
+export default function ChatContent({
+  data,
+  mode,
+  user_id,
+  region_id,
+  sendFeedback,
+  deleteAnnounce,
+  addNull,
+}: ChatContentProps): any {
   const chatContent = React.useRef() as React.MutableRefObject<HTMLInputElement>;
-  const superChat = data ? data.find((msg: msgProps) => msg.type === 'ANNOUNCE') : undefined
+  const superChat = data ? data.find((msg: msgProps) => msg.type === 'ANNOUNCE') : undefined;
 
   if (!document.body.contains(document.querySelector('.mega__cover')) && superChat !== undefined) {
-    deleteAnnounce(superChat) // 로그에서 삭제
-    MegaPhone(superChat, mode)
+    deleteAnnounce(superChat); // 로그에서 삭제
+    MegaPhone(superChat, mode);
   } else if (superChat !== undefined) {
     setTimeout(() => {
-      addNull()
+      addNull();
     }, 3000);
   }
   let cnt = -1;
-
-
-
-
 
   React.useEffect(() => {
     const target = chatContent.current;
     if (!target) return;
     target.scrollTop = target.scrollHeight;
   }, [data]);
-
-
 
   if (!data) {
     return <div>{null}</div>;
@@ -68,13 +76,27 @@ export default function ChatContent({ data, mode, user_id, region_id, sendFeedba
         }
 
         if (msg.type === 'TALK') {
-          let skipProfile = false
-          if (cnt && data[cnt - 1].sender_id === msg.sender_id && data[cnt - 1].sent_at === msg.sent_at) {
-            skipProfile = true
+          let skipProfile = false;
+          if (
+            cnt &&
+            data[cnt - 1].sender_id === msg.sender_id &&
+            data[cnt - 1].sent_at === msg.sent_at
+          ) {
+            skipProfile = true;
           }
-          return <Message key={uuidv4()} msg={msg} user_id={user_id} mode={mode} skipProfile={skipProfile} />
+          return (
+            <Message
+              key={uuidv4()}
+              msg={msg}
+              user_id={user_id}
+              region_id={region_id}
+              mode={mode}
+              sendFeedback={sendFeedback}
+              skipProfile={skipProfile}
+            />
+          );
         }
-        return <div key={uuidv4()}>{null}</div>
+        return <div key={uuidv4()}>{null}</div>;
       })}
     </div>
   );
