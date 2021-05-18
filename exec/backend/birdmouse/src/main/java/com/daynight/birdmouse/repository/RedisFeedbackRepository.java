@@ -99,4 +99,29 @@ public class RedisFeedbackRepository {
         return feedback_id;
     }
 
+    public String changeFeedback(long region_id, String sender_id, String receiver_id) {
+        boolean checkStatus = hashOperations.hasKey("room" + region_id + ";" + sender_id, receiver_id);
+        if (checkStatus) {
+            Optional<User> found_user = userRepository.findById(receiver_id);
+            if (found_user.isPresent()) {
+                User receiver = found_user.get();
+                HashMap<String, Object> receiver_info = new HashMap<>();
+                receiver_info.put("receiver_bird", receiver.getBird_name());
+                receiver_info.put("receiver_mouse", receiver.getMouse_name());
+                receiver_info.put("feedback_id", 0);
+
+                try {
+                    String saveReceiver = objectMapper.writeValueAsString(receiver_info);
+                    hashOperations.put("room" + String.valueOf(region_id) + ";" + sender_id, String.valueOf(receiver_id), saveReceiver);
+                    logger.info(String.format("[%d 지역]에서 [유저%s]가 [유저%s]에게 피드백", region_id, sender_id, receiver_id));
+
+                    return "0으로 변경 완료";
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+        return "receiver_id의 정보를 찾을 수 없음";
+    }
 }
