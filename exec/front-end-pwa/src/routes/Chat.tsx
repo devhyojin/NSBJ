@@ -96,6 +96,7 @@ export default function Chat() {
     console.log('33333보낸놈', typeof feedback.sender_id);
     console.log('44444받는놈', typeof feedback.receiver_id);
     // feedback.receiver_id로 바꿔주기
+    // if (String(user_id) === String(feedback.receiver_id)) {
     if (String(user_id) === String(feedback.sender_id)) {
       console.log('55555나에게 온 메시지?');
       setReactionId(feedback.feedback_id);

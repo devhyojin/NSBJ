@@ -53,6 +53,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
   } else {
     badgeClassName += 'display__none';
     timeClassName += 'display__none';
+    profileClassName += 'display__none';
   }
 
   messageClassName += `message__${mode} `;

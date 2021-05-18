@@ -94,7 +94,7 @@ export default function FeedbackButton({
     return classValue;
   };
   const reflectResult = (id: number): void => {
-    console.log('11리플렉트 리절트 돌입');
+    console.log('11리플렉트 리절트 돌입', id);
     const tempFeedback = [...feedback];
     for (let i = 0; i < 3; i += 1) {
       if (i === id - 1) {
@@ -117,12 +117,15 @@ export default function FeedbackButton({
     setIsSendActive(true);
     console.log('77 액티브 했나?', isSendActive);
     setTimeout(() => setIsSendActive(false), setIsFeedbackActive(false), 6000);
+    // setTimeout(() => setIsSendActive(false), 6000);
+    // setTimeout(() => setIsFeedbackActive(false), 6050);
   };
 
   const cannotAlert = () => {
     alert('이미 피드백한 상태입니다! 피드백은 하루에 한 번만 가능합니다.');
   };
   const CanFeedback = ({ f }: any, key: any) => {
+    console.log('f다아앙캔', f.id);
     return (
       <div
         key={key}
@@ -137,6 +140,7 @@ export default function FeedbackButton({
     );
   };
   const CannotFeedback = ({ f }: any, key: any) => {
+    console.log('f다아앙캔트', f.id);
     return (
       <div
         key={key}

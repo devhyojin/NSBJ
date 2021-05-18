@@ -6,6 +6,7 @@ export default function FeedbackReceived(setIsReactionActive, reactionId): any {
   const emojiList = ['😇', '💗', '👩🏻‍🎓'];
   const [emojiRender, setEmojiRender] = useState([{ key: 0, emoji: '', offset: 0 }]);
 
+  console.log('핃백리시브드 안이야', reactionId);
   useInterval(() => {
     if (emojiRender.length > 20) {
       emojiRender.shift();
