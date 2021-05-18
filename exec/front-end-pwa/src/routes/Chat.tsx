@@ -58,6 +58,9 @@ export default function Chat() {
     readChat();
     sockJS.close();
     connect();
+  }, []);
+
+  React.useEffect(() => {
     console.log('리액션아이디', reactionId);
     openReaction();
   }, [reactionId]);
@@ -91,15 +94,9 @@ export default function Chat() {
   };
 
   const recvFeedback = (feedback: feedbackProps) => {
-    console.log('11111리시브피드백', feedback);
-    console.log('22222나', typeof user_id);
-    console.log('33333보낸놈', typeof feedback.sender_id);
-    console.log('44444받는놈', typeof feedback.receiver_id);
-    // feedback.receiver_id로 바꿔주기
-    if (String(user_id) === String(feedback.sender_id)) {
+    if (String(user_id) === String(feedback.receiver_id)) {
       console.log('55555나에게 온 메시지?');
       setReactionId(feedback.feedback_id);
-      openReaction();
     }
   };
 
@@ -192,7 +189,6 @@ export default function Chat() {
     receiverMouse: string,
     receiverMode: string,
   ): void => {
-    console.log('44센드피드백 돌입');
     ws.send(
       `/pub/chat/feedback`,
       {},
@@ -206,7 +202,6 @@ export default function Chat() {
         mode: receiverMode,
       }),
     );
-    console.log('55보냈다잉');
   };
 
   const setMegaPhone = (): void => {

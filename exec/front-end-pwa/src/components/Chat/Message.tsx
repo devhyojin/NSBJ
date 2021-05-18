@@ -8,7 +8,7 @@ const SERVER_URL = process.env.REACT_APP_URL;
 export default function Message({ msg, user_id, region_id, mode, skipProfile, sendFeedback }: any) {
   useEffect(() => {
     // reset();
-  }, [user_id]);
+  }, []);
 
   // 리셋용
   const reset = () => {
@@ -29,10 +29,6 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
         console.log('초기화성공', res);
       });
   };
-  const [isFeedbackActive, setIsFeedbackActive] = useState<boolean>(false);
-  // const changeIsFeedbackActive = (): void => {
-  //   setIsFeedbackActive(!isFeedbackActive);
-  // };
 
   let coverClassName = 'message__content__cover ';
   let profileClassName = 'message__profile ';
@@ -53,14 +49,18 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
   } else {
     badgeClassName += 'display__none';
     timeClassName += 'display__none';
+    profileClassName += 'display__none';
   }
-
   messageClassName += `message__${mode} `;
 
+  const [isFeedbackActive, setIsFeedbackActive] = useState<boolean>(false);
+  const changeIsFeedbackActive = (): void => {
+    setIsFeedbackActive(!isFeedbackActive);
+  };
   // 남의 것 클릭했을 때만 열리기
   const openFeedbackComponent = () => {
     if (user_id !== msg.sender_id) {
-      setIsFeedbackActive(true);
+      changeIsFeedbackActive();
     }
   };
 
