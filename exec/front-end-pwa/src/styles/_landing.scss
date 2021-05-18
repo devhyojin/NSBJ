@@ -24,9 +24,9 @@ $kakao_btn_symbol_color: #000000 85%;
   text-align: center;
   .bg__title {
     display: block;
-    margin: 30% 0 10%;
+    margin: 42% 0 0;
     text-align: center;
-    font-size: 3rem;
+    font-size: 3.3rem;
     font-weight: bolder;
   }
 }
@@ -35,13 +35,13 @@ $kakao_btn_symbol_color: #000000 85%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 10%;
+  margin-bottom: 17%;
   .landing__img {
     display: block;
     width: 30vw;
   }
   .top__img {
-    margin-bottom: -10%;
+    margin-bottom: -15%;
     margin-right: 20%;
   }
   .bottom__img {
@@ -49,19 +49,10 @@ $kakao_btn_symbol_color: #000000 85%;
   }
 }
 
-.kakao__login__btn {
-  display: block;
-  background-color: transparent;
-  outline: none;
-  border: none;
-  border-radius: $kakao_btn_border_radius;
-  margin: 0 auto;
-}
-
 .google__login__btn {
   width: 50%;
   height: 100%;
-  font-size: 1px;
+  font-size: 0.5rem !important;
   font-weight: 0;
 }
 
@@ -70,17 +61,14 @@ $kakao_btn_symbol_color: #000000 85%;
   width: 100%;
   height: 6%;
   // overflow: hidden;
-  margin-top: 15%;
+  margin-bottom: 23%;
 }
 
 .license {
   display: flex;
-  height: 17%;
   flex-direction: column;
-  justify-content: flex-end;
-  color: #aca9a9;
-  padding-bottom: 1.5%;
+  color: #c2c2c2a6;
   p {
-    font-size: 2.2vw;
+    font-size: 2vw !important;
   }
 }
