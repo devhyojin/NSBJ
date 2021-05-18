@@ -34,11 +34,10 @@ $aka: #aca9a9;
   .body {
     width: 100%;
     height: 95%;
-    padding: 2.5% 5% 0%;
+    padding: 2% 5% 0%;
     .my-profile {
       width: 100%;
-      height: 39%;
-      margin-bottom: 1%;
+      height: 35%;
       .character-zone {
         width: 100%;
         height: 50%;
@@ -66,27 +65,31 @@ $aka: #aca9a9;
       }
       .nickname-zone {
         width: 100%;
-        height: 44%;
+        height: 49%;
         margin-top: 1%;
         * {
           text-align: center;
         }
         .location {
-          height: 25%;
+          visibility: visible;
+          height: 23%;
           font-size: 4vw;
           font-weight: bold;
         }
         .aka {
+          visibility: visible;
+          height: 15%;
           font-size: 3.5vw;
           font-weight: bolder;
           color: #aca9a9;
         }
         .nickname {
-          margin-bottom: 2%;
+          height: 26%;
           font-size: 5vw;
           font-weight: bolder;
         }
         div {
+          height: 36%;
           .nicknameBtn {
             --width: 40vw;
             --height: calc(var(--width) / 4.5);
@@ -115,12 +118,12 @@ $aka: #aca9a9;
     }
     .my-badge {
       width: 100%;
-      height: 49%;
+      height: 53%; // 49.2%부터 풀화면에서 안 덜컹거림, 모바일에서는 덜컹거림
       .badge-title-zone {
-        height: 10.5%;
-        margin-top: 1.5%;
+        height: 8%;
         display: grid;
         grid-template-columns: 90% 10%;
+        margin: 3% 0 4%;
         .badge-title {
           height: 10%;
           text-align: end;
@@ -138,24 +141,30 @@ $aka: #aca9a9;
       }
       .badge-container {
         width: 100%;
-        height: 88%;
-        margin-top: 1%;
-        display: grid;
-        grid-template-rows: repeat(3, 33%);
-        grid-template-columns: repeat(3, 33%);
-        text-align: center;
-        .badge-item {
-          text-align: center;
-          vertical-align: center;
-          padding-bottom: 1%;
-          .badge-icon {
-            width: 65%;
-            height: 80%;
-          }
-          .badge-name {
+        height: 84%;
+        .badge-grid {
+          width: 100%;
+          height: 100%;
+          display: grid;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          grid-template-rows: repeat(3, 33%);
+          grid-template-columns: repeat(3, 33%);
+
+          .badge-item {
             text-align: center;
-            font-size: 2.6vw;
-            font-weight: bolder;
+            vertical-align: center;
+            padding-bottom: 1%;
+            .badge-icon {
+              width: 65%;
+              height: 80%;
+            }
+            .badge-name {
+              text-align: center;
+              font-size: 2.6vw;
+              font-weight: bolder;
+            }
           }
         }
       }

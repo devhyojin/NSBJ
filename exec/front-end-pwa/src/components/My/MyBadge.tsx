@@ -232,8 +232,10 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
       for (let i = idx; i < idx + 2; i += 1) {
         tempBadges[i].status = true;
       }
-    } else {
-      tempBadges[idx].status = true;
+    } else if (feedbackCnt >= 10) {
+      for (let i = idx; i < idx + 1; i += 1) {
+        tempBadges[i].status = true;
+      }
     }
     setBadges(tempBadges);
   };
@@ -253,15 +255,16 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
           />
         )}
       </div>
-
       <div className="badge-container">
-        {badges.map((badge) => {
-          return badge.status ? (
-            <ActiveBadge key={badge.id} b={badge} />
-          ) : (
-            <InactiveBadge key={badge.id} b={badge} />
-          );
-        })}
+        <div className="badge-grid">
+          {badges.map((badge) => {
+            return badge.status ? (
+              <ActiveBadge key={badge.id} b={badge} />
+            ) : (
+              <InactiveBadge key={badge.id} b={badge} />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
