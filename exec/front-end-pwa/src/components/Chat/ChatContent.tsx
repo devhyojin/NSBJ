@@ -10,7 +10,13 @@ interface ChatContentProps {
   mode: string;
   user_id: number;
   region_id: number;
-  sendFeedback: any;
+  sendFeedback(
+    id: number,
+    receiverId: string,
+    receiverBird: string,
+    receiverMouse: string,
+    receiverMode: string,
+  ): void;
   deleteAnnounce(chat: msgProps): any;
   addNull(): void;
 }
@@ -83,7 +89,9 @@ export default function ChatContent({
               key={uuidv4()}
               msg={msg}
               user_id={user_id}
+              region_id={region_id}
               mode={mode}
+              sendFeedback={sendFeedback}
               skipProfile={skipProfile}
             />
           );
