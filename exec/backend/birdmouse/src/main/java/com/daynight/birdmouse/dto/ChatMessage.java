@@ -26,5 +26,7 @@ public class ChatMessage {
     private String mode;
     
     private int entered;    // 입장 여부
+    
+    private int count;      // 현재 채팅방의 실시간 인원 수
 
 }
