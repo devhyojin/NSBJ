@@ -200,10 +200,10 @@ $aka: #aca9a9;
 
 //(보더 색)
 .light__ch__border {
-  border-color: $light_mint;
+  border-color: $light_mint !important;
 }
 .dark__ch__border {
-  border-color: $dark_red;
+  border-color: $dark_red !important;
 }
 .light__bs__charcter__border {
   border-color: $light_blue1;

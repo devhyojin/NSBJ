@@ -49,6 +49,8 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
         tempBadges[response.badge.id - 1].picked = true;
       }
       setBadges(tempBadges);
+      console.log('템프뱃지상황보자', tempBadges);
+      console.log('그냥뱃지상황보자', badges);
     });
   }, []);
 
@@ -254,7 +256,6 @@ export default function MyBadge({ MODE, userId, setMyAKA }: ModalConfirmWithdraw
 
       <div className="badge-container">
         {badges.map((badge) => {
-          console.log('화아악인', badge);
           return badge.status ? (
             <ActiveBadge key={badge.id} b={badge} />
           ) : (
