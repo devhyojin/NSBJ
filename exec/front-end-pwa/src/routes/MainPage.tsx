@@ -97,7 +97,7 @@ export default function MainPage() {
       .then(res => {
         const { data: { data: { count, entered } } } = res
 
-        setNeighborCnt(count)
+        setNeighborCnt(count - 1)
         setActivate(true)
         localStorage.setItem('nsbjEntered', entered)
         OtherUser(targetX, targetY, count, MODE)
@@ -111,7 +111,7 @@ export default function MainPage() {
   const routerToChat = () => {
     const bCode = localStorage.getItem('b_code');
     if (!bCode) { return; };
-    history.push(`/chat/${bCode}/${region}/${neighborCnt}`)
+    history.push(`/chat/${bCode}/${region}`)
   }
 
 

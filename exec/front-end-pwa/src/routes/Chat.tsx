@@ -10,6 +10,7 @@ import ChatContent from '../components/Chat/ChatContent';
 import ChatInput from '../components/Chat/ChatInput';
 import FeedbackReceived from '../components/Chat/FeedbackReceived';
 import ModeCheck from '../utils/ModeCheck';
+import RemoveEffect from '../utils/RemoveEffect';
 
 import '../styles/_chat.scss';
 
@@ -24,6 +25,7 @@ interface msgProps {
   badge: any;
   profile_img: number;
   mode: string;
+  count: number;
 }
 interface feedbackProps {
   feedback_id: number;
@@ -46,26 +48,39 @@ export default function Chat() {
   const [isReactionActive, setIsReactionActive] = React.useState<boolean>(false);
   const [reactionId, setReactionId] = React.useState(0);
   const [megaPhoneState, setMegaPhoneState] = React.useState(false);
+  const [neighborCnt, setNeighborCnt] = React.useState(0);
+  const [megaphoneCnt, setMegaphoneCnt] = React.useState(0)
+  const userInfoString = localStorage.getItem('userInfo')
+
   const mode = ModeCheck();
   const history = useHistory();
-  const { regionId, bName, neighborCnt }: any = useParams();
+  const { regionId, bName }: any = useParams();
   const userInfo = localStorage.getItem('userInfo');
   const entered = localStorage.getItem('nsbjEntered') ? localStorage.getItem('nsbjEntered') : false;
   let user_id = 0;
 
+
   React.useEffect(() => {
-    console.log('다시마운트');
+    RemoveEffect()
     readChat();
     sockJS.close();
     connect();
+    if (userInfoString !== null) {
+      const userInfoObject = JSON.parse(userInfoString)
+      const { megaphone_count } = userInfoObject
+      setMegaphoneCnt(megaphone_count)
+    }
   }, []);
 
   React.useEffect(() => {
-    console.log('리액션아이디', reactionId);
     openReaction();
-  }, [reactionId]);
+  }, [reactionId])
+
 
   const recvMessage = (msg: msgProps) => {
+    const { count } = msg
+    setNeighborCnt(count)
+
     setData((prevData) => {
       if (!prevData) {
         return [msg];
@@ -180,6 +195,18 @@ export default function Chat() {
         sent_at: sentAt,
       }),
     );
+
+    if (type === 'ANNOUNCE') {
+      if (userInfoString !== null) {
+        const userInfoObject = JSON.parse(userInfoString)
+        userInfoObject.megaphone_count -= 1
+        localStorage.setItem('userInfo', JSON.stringify(userInfoObject))
+      }
+      setMegaphoneCnt(megaphoneCnt - 1)
+
+    }
+
+
   };
 
   const sendFeedback = (
@@ -237,6 +264,8 @@ export default function Chat() {
         sendMessage={sendMessage}
         setMegaPhone={setMegaPhone}
         megaPhoneState={megaPhoneState}
+        megaPhoneCnt={megaphoneCnt}
+        mode={mode}
       />
       {isReactionActive && (
         <FeedbackReceived setIsReactionActive={setIsReactionActive} reactionId={reactionId} />
