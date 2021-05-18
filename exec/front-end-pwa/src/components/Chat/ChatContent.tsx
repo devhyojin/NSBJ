@@ -45,8 +45,6 @@ export default function ChatContent({ data, mode, user_id, region_id, sendFeedba
 
 
 
-
-
   React.useEffect(() => {
     const target = chatContent.current;
     if (!target) return;

@@ -4,14 +4,17 @@ interface ChatInputProps {
   sendMessage(content: string, type: string): any;
   setMegaPhone(): void;
   megaPhoneState: boolean;
+  megaPhoneCnt: number;
+  mode: string;
 }
 
 
-export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState }: ChatInputProps) {
+export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState, megaPhoneCnt, mode }: ChatInputProps) {
   const inputRef = React.useRef() as React.MutableRefObject<HTMLInputElement>
   const [placeHolderMessage, setPlaceHolderMessage] = React.useState('')
   const [sendType, setSendType] = React.useState('TALK')
-
+  const btnClassName = `mega__phone__btn ${mode}__mega__btn`
+  const cntClassName = `mega__phone__cnt ${mode}__mega__cnt`
 
   React.useEffect(() => {
     if (megaPhoneState) {
@@ -22,7 +25,6 @@ export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState }:
       setPlaceHolderMessage('')
     }
   }, [megaPhoneState])
-
 
   const sendMessageHandler = (): any => {
     const inputValue = inputRef.current.value
@@ -35,24 +37,29 @@ export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState }:
   }
 
   const setMegaPhoneHandler = () => {
-    setMegaPhone()
+    if (megaPhoneCnt === 0) {
+      alert('메가폰다씀!')
+    } else {
+      setMegaPhone()
+    }
   }
+
+
 
   return (
     <div className='chat__input__cover'>
-      <button type='button' onClick={setMegaPhoneHandler}>확</button>
+      <button className={btnClassName} type='button' onClick={setMegaPhoneHandler}>
+
+        <div className={cntClassName}>
+          <span>{megaPhoneCnt}</span>
+        </div>
+      </button>
       <input
         className={megaPhoneState ? 'mega__activate' : 'mega__deactivate'}
         type="text"
         ref={inputRef}
         placeholder={placeHolderMessage}
       />
-      {/* <div className={megaPhoneState ? 'mega__activate' : 'mega__deactivate'}>
-        <span>{null}</span>
-        <span>{null}</span>
-        <span>{null}</span>
-        <span>{null}</span>
-      </div> */}
       <button type='button' onClick={sendMessageHandler} >
         <i className="fas fa-paper-plane">{null}</i>
       </button>

@@ -13,13 +13,12 @@ export default function OtherUser(X: number, Y: number, count: number, MODE: str
 
 
   const { availWidth } = window.screen
-  for (let i = 0; i < 5; i += 1) {
+  for (let i = 0; i < (count - 1); i += 1) {
     const otherDiv = document.createElement('div')
     const randomIdx = Math.floor(Math.random() * randomArray.length)
     const randomDict = randomArray[randomIdx]
 
     randomArray.filter(arr => arr.radius !== randomDict.radius && arr.xy !== randomDict.xy)
-    console.log(randomDict)
     const randomHeight = Y + Math.sin(randomDict.xy) * randomDict.radius * availWidth
     const randomWidth = X + Math.cos(randomDict.xy) * randomDict.radius * availWidth
 
