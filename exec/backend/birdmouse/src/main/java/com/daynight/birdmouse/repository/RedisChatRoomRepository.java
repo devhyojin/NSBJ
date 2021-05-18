@@ -146,4 +146,8 @@ public class RedisChatRoomRepository {
         return room_id_list;
     }
 
+    public int getCount(long region_id) {
+        Map<Object, Object> user_list = hashOperations.entries("room" + region_id);
+        return user_list.size();
+    }
 }
