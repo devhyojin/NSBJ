@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import React from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
@@ -23,7 +23,7 @@ interface msgProps {
   mouse_name: string;
   badge: any;
   profile_img: number;
-  mode: string
+  mode: string;
 }
 interface feedbackProps {
   feedback_id: number;
@@ -43,7 +43,7 @@ let reconnect = 0;
 
 export default function Chat() {
   const [data, setData] = React.useState<Array<msgProps>>();
-  const [isReactionActive, setIsReactionActive] = useState(false);
+  const [isReactionActive, setIsReactionActive] = React.useState<boolean>(false);
   const [reactionId, setReactionId] = React.useState(0);
   const [megaPhoneState, setMegaPhoneState] = React.useState(false);
   const mode = ModeCheck();
@@ -75,7 +75,7 @@ export default function Chat() {
     axios.get(`${SERVER_URL}/chat/region/${regionId}`).then((res) => {
       const chat = res.data.data;
       setData(chat);
-      console.log(res)
+      console.log(res);
     });
   };
 
@@ -134,7 +134,7 @@ export default function Chat() {
             sender_id: user_id,
             message: '',
             sent_at: '2021-05-11',
-            entered
+            entered,
           }),
         );
         // 피드백 용
@@ -166,7 +166,10 @@ export default function Chat() {
 
   const sendMessage = (content: string, type: string) => {
     const date = new Date();
-    const min = date.getMinutes().toString().length === 2 ? date.getMinutes().toString() : `0${date.getMinutes().toString()}`
+    const min =
+      date.getMinutes().toString().length === 2
+        ? date.getMinutes().toString()
+        : `0${date.getMinutes().toString()}`;
     const sentAt = `${date.getHours().toString()}:${min}`;
     ws.send(
       `/pub/chat/message`,
@@ -207,33 +210,25 @@ export default function Chat() {
   };
 
   const setMegaPhone = (): void => {
-    setMegaPhoneState(!megaPhoneState)
-  }
+    setMegaPhoneState(!megaPhoneState);
+  };
 
-
-  const deleteAnnounce = ((chat: any) => {
+  const deleteAnnounce = (chat: any) => {
     if (data) {
-      setData(data.filter(msg => msg !== chat))
+      setData(data.filter((msg) => msg !== chat));
     }
-  })
+  };
 
   const addNull = () => {
-
     setData((prevData): any => {
       if (prevData === undefined) return {};
-      return [...prevData]
-    })
-  }
-
+      return [...prevData];
+    });
+  };
 
   return (
     <div className={mode === 'light' ? 'chat chat__light__mode' : 'chat chat__dark__mode'}>
-      <ChatNav
-        backHandler={backHandler}
-        bName={bName}
-        neighborCnt={neighborCnt}
-        mode={mode}
-      />
+      <ChatNav backHandler={backHandler} bName={bName} neighborCnt={neighborCnt} mode={mode} />
       <ChatContent
         data={data}
         mode={mode}
