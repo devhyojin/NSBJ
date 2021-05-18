@@ -2,12 +2,14 @@ package com.daynight.birdmouse.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
+@DynamicUpdate
 public class User {
 
     @Id
@@ -37,7 +39,7 @@ public class User {
     @Column(columnDefinition = "boolean default false")
     private boolean has_left;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(columnDefinition = "integer default 0")
     private Region region;
 

@@ -49,7 +49,6 @@ dependencies {
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.3'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.12.3'
 
-
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
