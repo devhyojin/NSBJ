@@ -75,8 +75,10 @@ export default function MainPage() {
   const getGeoCoder = async () => {
     await geoCode()
       .then((res: any) => {
-        latitude = res.coords.latitude;
-        longitude = res.coords.longitude;
+        // latitude = res.coords.latitude;
+        // longitude = res.coords.longitude;
+        latitude = 37.30283
+        longitude = 127.21279
       });
 
     axios.get(`${KAKAO_SERVER_URL}.json?x=${longitude}&y=${latitude}`, {
