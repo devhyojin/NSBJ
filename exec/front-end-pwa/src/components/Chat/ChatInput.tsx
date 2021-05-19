@@ -21,7 +21,7 @@ export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState, m
   React.useEffect(() => {
     if (megaPhoneState) {
       setSendType('ANNOUNCE')
-      setPlaceHolderMessage('확성기가 활성화 되었슴둥')
+      setPlaceHolderMessage('확성기가 활성화 되었습니다.')
     } else {
       setSendType('TALK')
       setPlaceHolderMessage('')
@@ -111,7 +111,7 @@ export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState, m
         placeholder={placeHolderMessage}
         onKeyUp={sendMessageHandler}
       />
-      <button type='button' onClick={sendMessageHandler} >
+      <button className='input__btn' type='button' onClick={sendMessageHandler} >
         <i className="fas fa-paper-plane">{null}</i>
       </button>
     </div>

@@ -19,10 +19,12 @@ $chat_input_height: 10vh;
   background-color: $chat_dark_bg_color;
   border-color: $chat_dark_border_color;
   button {
-    background-color: $chat_dark_btn_bg_color;
     border: none;
     outline: none;
     color: $chat_dark_font_color;
+  }
+  button.input__btn {
+    background-color: $chat_dark_btn_bg_color;
   }
   input {
     background-color: $chat_dark_input_color;
@@ -38,10 +40,12 @@ $chat_input_height: 10vh;
   background-color: $chat_light_bg_color;
   border-color: $chat_light_border_color;
   button {
-    background-color: $chat_light_btn_bg_color;
     border: none;
     outline: none;
     color: $chat_dark_font_color;
+  }
+  button.input__btn {
+    background-color: $chat_light_btn_bg_color;
   }
   input {
     background-color: $chat_light_input_color;
@@ -96,6 +100,7 @@ $chat_input_height: 10vh;
     outline: none;
     border-radius: 10px;
     width: 60%;
+    padding: 0 2%;
   }
 
   button {
@@ -155,22 +160,10 @@ $chat_input_height: 10vh;
   margin: 4% 0;
 }
 
-// .mega__activate {
-//   span {
-//     display:block;
-//     position:absolute;
-//     width:10px;
-//     height: 2px;
-//     background: black;
-//     &:nth-child(1) {
-//     }
-//   }
-// }
-
 .mega__activate {
   // border-top: white;
   // border-right: #1d124e;
-  border: 1px solid rgb(32, 170, 62);
+  border: 2px solid rgb(143, 145, 143);
 }
 
 .mega__deactivate {
@@ -188,15 +181,21 @@ $chat_input_height: 10vh;
 
 .chat__neighbor__cnt {
   display: flex;
-  align-items: center;
+  align-items: center;  
   width: 7vw;
   height: 7vw;
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;  
-  // margin-right: 5vw;
+
+  margin-right: 2vw;
   span {
     margin-left: 6.5vw;
+    // margin-right: 10vw;
     font-size: 0.8rem;
   }
+}
+
+.chat__title {
+  margin-left: 2vw;
 }
