@@ -52,6 +52,7 @@ $message_dark_color: #ffffff;
     font-size: 0.4rem;
     line-height: 110%;
     font-weight: bold;
+    margin-top: 5%;
   }
 }
 
@@ -103,9 +104,12 @@ $message_dark_color: #ffffff;
   max-width: 60%;
   border-radius: 10px;
   margin: 2% 1%;
-  padding: 2%;
-  font-size: 0.6rem;
+  padding: 3%;
+  font-size: 0.7rem;  
+  word-break: break-all;
+  line-height: 160%;
 }
+
 
 .other__message:before {
   border-left: 12px solid transparent;
@@ -135,3 +139,12 @@ $message_dark_color: #ffffff;
 }
 
 .display__none{display: none;}
+
+.visibility_none {
+  visibility: hidden;
+}
+
+.badge__class {
+  font-size: .5rem;
+  opacity: .5;
+}

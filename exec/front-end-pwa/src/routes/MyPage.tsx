@@ -5,9 +5,12 @@ import MyProfile from '../components/My/MyProfile';
 import MyStat from '../components/My/MyStat';
 import MyBadge from '../components/My/MyBadge';
 
+import RemoveEffect from '../utils/RemoveEffect'
+
 import '../styles/_mypage.scss';
 
 export default function MyPage({ history }: any) {
+  RemoveEffect()
   // 로그인한 유저 아이디 가져오기
   const fetchUserId = () => {
     const uId = JSON.parse(localStorage.getItem('userInfo') || '{}').id;
