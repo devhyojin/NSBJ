@@ -50,6 +50,7 @@ export default function Chat() {
   const [megaPhoneState, setMegaPhoneState] = React.useState(false);
   const [neighborCnt, setNeighborCnt] = React.useState(0);
   const [megaphoneCnt, setMegaphoneCnt] = React.useState(0)
+  const [badgeId, setBadgeId] = React.useState(0)
   const userInfoString = localStorage.getItem('userInfo')
 
   const mode = ModeCheck();
@@ -68,7 +69,9 @@ export default function Chat() {
     if (userInfoString !== null) {
       const userInfoObject = JSON.parse(userInfoString)
       const { megaphone_count } = userInfoObject
+      const { badge: { id } } = userInfoObject
       setMegaphoneCnt(megaphone_count)
+      setBadgeId(id)
     }
   }, []);
 
@@ -259,6 +262,7 @@ export default function Chat() {
         sendFeedback={sendFeedback}
         deleteAnnounce={deleteAnnounce}
         addNull={addNull}
+        badgeId={badgeId}
       />
       <ChatInput
         sendMessage={sendMessage}

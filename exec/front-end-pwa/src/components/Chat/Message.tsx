@@ -5,11 +5,10 @@ import '../../styles/_message.scss';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function Message({ msg, user_id, region_id, mode, skipProfile, sendFeedback }: any) {
+export default function Message({ msg, user_id, region_id, mode, skipProfile, sendFeedback, badgeId }: any) {
   useEffect(() => {
     // reset();
   }, []);
-
   // 리셋용
   const reset = () => {
     axios
@@ -38,7 +37,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
   const messageCoverName = `message__cover profile__${mode}`;
   const messageRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  if (msg.sender_id === user_id) {
+  if (msg.sender_id === '1') {
     messageClassName += 'my__message ';
     profileClassName = '';
     coverClassName += 'my__cover ';
@@ -48,8 +47,9 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
     messageClassName += 'other__message ';
   } else {
     badgeClassName += 'display__none';
-    timeClassName += 'display__none';
-    profileClassName += 'display__none';
+    timeClassName += 'visibility_none';
+    profileClassName += 'display__none2';
+    // messageClassName += 'other__message ';
   }
   messageClassName += `message__${mode} `;
 
@@ -87,7 +87,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
         )}
         <div className={coverClassName}>
           <div className={badgeClassName}>
-            {null} <br /> {mode === 'light' ? msg.bird_name : msg.mouse_name}
+            <span className='badge__class'>{msg.badge}</span><br /> {mode === 'light' ? msg.bird_name : msg.mouse_name}
           </div>
           <div className={messageClassName}>
             <span>{msg.message}</span>
