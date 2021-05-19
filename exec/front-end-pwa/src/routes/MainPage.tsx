@@ -77,8 +77,8 @@ export default function MainPage() {
       .then((res: any) => {
         // latitude = res.coords.latitude;
         // longitude = res.coords.longitude;
-        latitude = 37.30283
-        longitude = 127.21279
+        latitude = 37.4979278
+        longitude = 127.0275833
       });
 
     axios.get(`${KAKAO_SERVER_URL}.json?x=${longitude}&y=${latitude}`, {
