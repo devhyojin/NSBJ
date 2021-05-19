@@ -70,7 +70,9 @@ public class ChatRoomServiceImpl implements ChatRoomService {
                 if (!bird_name.equals(nicknames[0])) {
                     bird_name = nicknames[0];
                     mouse_name = nicknames[1];
-
+                    
+                    // 닉네임 재등록
+                    redisChatRoomRepository.registerUser(region_id, user_id, bird_name, mouse_name);
                     entered = 0;
                 } else {
                     entered = 1;
