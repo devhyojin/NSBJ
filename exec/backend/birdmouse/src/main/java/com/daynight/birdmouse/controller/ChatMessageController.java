@@ -58,8 +58,8 @@ public class ChatMessageController {
             else if (ChatMessage.MessageType.ANNOUNCE.equals(message.getType())) {
                 int current_megaphone = user.getMegaphone_count();
                 user.setMegaphone_count(current_megaphone - 1);
-
                 message.setMessage(message.getMessage());
+                userRepository.save(user);
             }
 
             // 일반 채팅 입력
