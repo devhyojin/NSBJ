@@ -9,6 +9,7 @@ const SERVER_URL = process.env.REACT_APP_URL;
 
 export default function FeedbackButton({
   msg,
+  mode,
   setIsFeedbackActive,
   sendFeedback,
   region_id,
@@ -18,10 +19,10 @@ export default function FeedbackButton({
   let modeFeedbackModal = 'dark__bg__red2 feedback-modal';
   let modeGuideModal = 'dark__bg__red3 guide-modal';
   let modeSendModal = 'dark__bg__red3 send-message guide-modal';
-  if (msg.mode === 'light') {
+  if (mode === 'light') {
     modeFeedbackModal = 'light__bg__mint2 feedback-modal';
-    modeGuideModal = 'dark__bg__mint3 guide-modal';
-    modeSendModal = 'dark__bg__mint3 send-message guide-modal';
+    modeGuideModal = 'light__bg__mint3 guide-modal';
+    modeSendModal = 'light__bg__mint3 send-message guide-modal';
   }
   const initFeedback = [
     { id: 1, title: '리액션 포인트', path: angelCnt, status: false },
@@ -154,7 +155,9 @@ export default function FeedbackButton({
     }, []);
     return (
       <div className={modeGuideModal}>
-        <p>피드백은 각 유저에게 1일 1회만 보낼 수 있습니다.</p>
+        <p>
+          피드백은 각 유저에게 <strong>1일 1회</strong> 만 보낼 수 있습니다.
+        </p>
         <p>선택 후 수정 불가하오니, 신중하게 선택하세요!</p>
       </div>
     );

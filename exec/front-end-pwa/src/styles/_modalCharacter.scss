@@ -1,6 +1,6 @@
 .character-modal-mask {
   position: fixed;
-  z-index: 9998;
+  z-index: 2;
   top: 0;
   left: 0;
   width: 100%;
@@ -25,10 +25,43 @@
     .character-modal-header {
       width: 100%;
       height: 10%;
-      font-size: 5.5vw;
-      font-weight: bolder;
-      padding: 0;
       margin-bottom: 8%;
+      .header-group {
+        display: grid;
+        grid-template-columns: 95% 5%;
+        padding: 0 13% 0 13%;
+        .character-modal-title {
+          font-size: 5.5vw;
+          font-weight: bolder;
+        }
+        .character-info-btn {
+          margin-left: 0%;
+          --x: 4vw;
+          width: var(--x);
+          height: var(--x);
+          font-size: 0.6rem;
+          font-weight: bolder;
+          background-color: rgb(184, 184, 184);
+        }
+      }
+      .modal-character-info {
+        position: fixed;
+        width: 48%;
+        top: 30.5%;
+        right: 11.5%;
+        padding: 3%;
+        z-index: 500;
+        border-radius: 10px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.096);
+        .info-header {
+          font-size: 3.8vw;
+          font-weight: bold;
+          margin-bottom: 1%;
+        }
+        .info-body {
+          font-size: 3vw;
+        }
+      }
     }
     .character-modal-body {
       width: 100%;
@@ -39,7 +72,6 @@
       .character-select-zone {
         background: none;
         cursor: pointer;
-        z-index: 10;
         img {
           width: 21vw;
           height: 21vw;
@@ -63,11 +95,4 @@
       }
     }
   }
-}
-
-.btnRed {
-  background: #f96868;
-}
-.btnBlue {
-  background: #7ed8d8;
 }

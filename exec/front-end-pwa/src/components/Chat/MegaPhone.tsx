@@ -1,6 +1,5 @@
 import React from 'react'
 
-import TextToSpeech from '../../utils/TextToSpeech'
 
 import '../../styles/_megaPhone.scss'
 
@@ -24,7 +23,6 @@ export default function MegaPhone(chat: megaPhoneProps, mode: string) {
     target.appendChild(superChatDiv)
   }
 
-  TextToSpeech(chat.message)
 
   const nick = mode === 'light' ? chat.bird_name : chat.mouse_name;
 
@@ -35,14 +33,16 @@ export default function MegaPhone(chat: megaPhoneProps, mode: string) {
   const iconDiv = document.createElement('div')
   const nickDiv = document.createElement('div')
   const messageDiv = document.createElement('div')
+  const messageSpan = document.createElement('span')
 
-
+  messageDiv.appendChild(messageSpan)
   superChatDiv.classList.add(`mega__cover`)
   superChatDiv.classList.add(`cover__${mode}`)
 
   iconDiv.className = 'mega__icon'
+  messageDiv.className = 'mega__message'
   nickDiv.innerText = nick
-  messageDiv.innerText = chat.message
+  messageSpan.innerText = chat.message
 
   superChatDiv.addEventListener('animationend', () => {
     target.removeChild(superChatDiv)

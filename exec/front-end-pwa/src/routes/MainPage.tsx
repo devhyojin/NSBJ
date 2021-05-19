@@ -9,6 +9,7 @@ import MainMessage from '../components/Main/MainMessage';
 import MainBottom from '../components/Main/MainBottom';
 import waveRandom from '../utils/WaveRandom';
 import OtherUser from '../utils/OtherUser'
+import UpdateUserInfo from '../utils/UpdateUserInfo'
 import '../styles/_main.scss';
 
 
@@ -23,12 +24,15 @@ export default function MainPage() {
   const [region, setRegion] = useState('');
   const [cnt, setCnt] = useState(0);
   const [neighborCnt, setNeighborCnt] = useState(0);
+  const [profileIdx, setProfileIdx] = useState(0);
 
   const MODE = ModeCheck();
   const history = useHistory();
-  const userInfo = localStorage.getItem('userInfo');
+  const userInfo = localStorage.getItem('userInfo') ? localStorage.getItem('userInfo') : null;
   const target = document.body
   const checkTarget = document.querySelector('.other__user')
+
+  UpdateUserInfo(MODE)
 
   let modeName = 'dark__mode bg';
   let latitude = 0;
@@ -52,6 +56,10 @@ export default function MainPage() {
 
   useEffect(() => {
     getGeoCoder()
+    if (userInfo !== null) {
+      const userInfoObject = JSON.parse(userInfo)
+      setProfileIdx(userInfoObject.profile_img)
+    }
   }, [])
 
   if (!userInfo) { history.push('/') }
@@ -119,7 +127,7 @@ export default function MainPage() {
   return (
     <div className={modeName}>
       <MainTop mode={MODE} activate={activate} neighborCnt={neighborCnt} region={region} />
-      <MainBody btnActivate={btnActivate} mode={MODE} />
+      <MainBody btnActivate={btnActivate} mode={MODE} profile_image={profileIdx} />
       <MainMessage activate={activate} mode={MODE} routerToChat={routerToChat} />
       <MainBottom mode={MODE} />
     </div>
