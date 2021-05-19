@@ -187,14 +187,16 @@ $chat_input_height: 10vh;
 }
 
 .chat__neighbor__cnt {
-  width: 5vw;
-  height: 5vw;
+  display: flex;
+  align-items: center;
+  width: 7vw;
+  height: 7vw;
   background-size: 100%;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center;  
   // margin-right: 5vw;
   span {
-    margin-left: 4vw;
-    font-size: 0.5rem;
+    margin-left: 6.5vw;
+    font-size: 0.8rem;
   }
 }

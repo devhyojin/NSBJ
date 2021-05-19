@@ -9,6 +9,7 @@ import MainMessage from '../components/Main/MainMessage';
 import MainBottom from '../components/Main/MainBottom';
 import waveRandom from '../utils/WaveRandom';
 import OtherUser from '../utils/OtherUser'
+import UpdateUserInfo from '../utils/UpdateUserInfo'
 import '../styles/_main.scss';
 
 
@@ -29,6 +30,8 @@ export default function MainPage() {
   const userInfo = localStorage.getItem('userInfo');
   const target = document.body
   const checkTarget = document.querySelector('.other__user')
+
+  UpdateUserInfo(MODE)
 
   let modeName = 'dark__mode bg';
   let latitude = 0;

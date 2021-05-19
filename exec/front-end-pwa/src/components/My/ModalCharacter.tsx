@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import axios from 'axios';
 import '../../styles/_modalCharacter.scss';
 
@@ -19,8 +20,13 @@ export default function CharacterModal({
   setMyCharacter,
   changeCharacterModalStatus,
 }: MyProfileProps) {
+  const [isInfoCharacterActive, setIsInfoCharacterActive] = useState(false);
+  const changeIsInfoCharacterActive = () => {
+    setIsInfoCharacterActive(!isInfoCharacterActive);
+  };
   // 모드 별 색상 전환
   let modeCharacterModal = 'dark__bg__purple character-modal-container';
+  let modeCharacterInfo = 'dark__bg__red modal-character-info';
   let modeCheckedBorder = 'dark__ch__border';
   let modeBasicBorder = 'dark__bs__character__border';
 
@@ -28,6 +34,7 @@ export default function CharacterModal({
   if (MODE === 'light') {
     tempCharacters.splice(4, 4); // 모드 별 캐릭터 슬라이싱
     modeCharacterModal = 'light__bg__blue character-modal-container';
+    modeCharacterInfo = 'light__bg__mint modal-character-info';
     modeCheckedBorder = 'light__ch__border';
     modeBasicBorder = 'light__bs__character__border';
   } else {
@@ -98,20 +105,40 @@ export default function CharacterModal({
       {},
       { params: { profile_img: characterId, user_id: userId } },
     );
+    setTimeout(() => changeCharacterModalStatus(), 300);
+  };
+  const ModalCharacterInfo = () => {
+    return (
+      <div className={modeCharacterInfo}>
+        <div className="info-header">
+          <p className="guide-name">캐릭터 가이드</p>
+        </div>
+        <div className="info-body">
+          <p>각 포인트를 50점 이상 얻으면</p>
+          <p>해당 카테고리의 캐릭터에</p>
+          <p>접근할 수 있습니다!</p>
+        </div>
+      </div>
+    );
   };
 
   return (
     <div className="character-modal-mask">
-      <div
-        role="button"
-        tabIndex={0}
-        onKeyDown={() => null}
-        onClick={() => changeCharacterModalStatus()}
-        className={modeCharacterModal}
-      >
+      <div role="button" tabIndex={0} onKeyDown={() => null} className={modeCharacterModal}>
         <div className="character-modal-header">
-          <p>프로필 캐릭터 선택</p>
+          <div className="header-group">
+            <p className="character-modal-title">프로필 캐릭터 선택</p>
+            <button
+              onClick={() => changeIsInfoCharacterActive()}
+              className="character-info-btn circle"
+              type="submit"
+            >
+              <span>?</span>
+            </button>
+          </div>
+          {isInfoCharacterActive && <ModalCharacterInfo />}
         </div>
+
         <div className="character-modal-body">
           {tempCharacters.map((character) => {
             return character.status ? (

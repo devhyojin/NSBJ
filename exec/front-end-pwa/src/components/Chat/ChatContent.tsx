@@ -10,6 +10,7 @@ interface ChatContentProps {
   mode: string;
   user_id: number;
   region_id: number;
+  badgeId: number;
   sendFeedback(
     id: number,
     receiverId: string,
@@ -43,6 +44,7 @@ export default function ChatContent({
   sendFeedback,
   deleteAnnounce,
   addNull,
+  badgeId
 }: ChatContentProps): any {
   const chatContent = React.useRef() as React.MutableRefObject<HTMLInputElement>;
   const superChat = data ? data.find((msg: msgProps) => msg.type === 'ANNOUNCE') : undefined;
@@ -95,6 +97,7 @@ export default function ChatContent({
               mode={mode}
               sendFeedback={sendFeedback}
               skipProfile={skipProfile}
+              badgeId={badgeId}
             />
           );
         }
