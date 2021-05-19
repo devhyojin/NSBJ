@@ -106,7 +106,16 @@ export default function CharacterModal({
       { params: { profile_img: characterId, user_id: userId } },
     );
     setTimeout(() => changeCharacterModalStatus(), 300);
+
+    // 3. localStorage 내용 바꿔주기
+    const userInfo = localStorage.getItem('userInfo');
+    if (userInfo !== null) {
+      const userInfoObject = JSON.parse(userInfo);
+      userInfoObject.profile_img = characterId;
+      localStorage.setItem('userInfo', JSON.stringify(userInfoObject));
+    }
   };
+
   const ModalCharacterInfo = () => {
     return (
       <div className={modeCharacterInfo}>

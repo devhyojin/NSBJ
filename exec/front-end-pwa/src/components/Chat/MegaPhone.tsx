@@ -1,6 +1,5 @@
 import React from 'react'
 
-import TextToSpeech from '../../utils/TextToSpeech'
 
 import '../../styles/_megaPhone.scss'
 
@@ -24,7 +23,6 @@ export default function MegaPhone(chat: megaPhoneProps, mode: string) {
     target.appendChild(superChatDiv)
   }
 
-  TextToSpeech(chat.message)
 
   const nick = mode === 'light' ? chat.bird_name : chat.mouse_name;
 
