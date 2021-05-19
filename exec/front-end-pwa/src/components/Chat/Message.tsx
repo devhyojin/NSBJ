@@ -5,7 +5,15 @@ import '../../styles/_message.scss';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function Message({ msg, user_id, region_id, mode, skipProfile, sendFeedback, badgeId }: any) {
+export default function Message({
+  msg,
+  user_id,
+  region_id,
+  mode,
+  skipProfile,
+  sendFeedback,
+  badgeId,
+}: any) {
   useEffect(() => {
     // reset();
   }, []);
@@ -64,16 +72,11 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
     }
   };
 
-
   const feedbackOpenHandler = (event) => {
     if (!event.target.classList.contains('display__none2')) {
-      openFeedbackComponent()
+      openFeedbackComponent();
     }
-  }
-
-
-
-
+  };
 
   return (
     <div>
@@ -90,6 +93,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
         {isFeedbackActive && (
           <FeedbackButton
             msg={msg}
+            mode={mode}
             setIsFeedbackActive={setIsFeedbackActive}
             sendFeedback={sendFeedback}
             region_id={region_id}
@@ -98,7 +102,8 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
         )}
         <div className={coverClassName}>
           <div className={badgeClassName}>
-            <span className='badge__class'>{msg.badge}</span><br /> {mode === 'light' ? msg.bird_name : msg.mouse_name}
+            <span className="badge__class">{msg.badge}</span>
+            <br /> {mode === 'light' ? msg.bird_name : msg.mouse_name}
           </div>
           <div className={messageClassName}>
             <span>{msg.message}</span>
