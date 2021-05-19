@@ -150,4 +150,9 @@ public class RedisChatRoomRepository {
         Map<Object, Object> user_list = hashOperations.entries("room" + region_id);
         return user_list.size();
     }
+
+    public String getUserNickname(long region_id, String user_id) {
+        String nickname = (String) hashOperations.get("room" + region_id, user_id);
+        return nickname;
+    }
 }

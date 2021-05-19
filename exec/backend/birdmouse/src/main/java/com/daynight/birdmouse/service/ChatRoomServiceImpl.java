@@ -59,9 +59,22 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
             // 먼저 다른 지역에 등록돼 있는지 확인
             long currentRegion = redisChatRoomRepository.getUser(region_id, user_id);
+
             // 기존 지역인 경우
             if ((int) currentRegion == 1) {
-                entered = 1;
+
+                // 닉네임 변경 여부 확인
+                String nickname = redisChatRoomRepository.getUserNickname(region_id, user_id);
+                String[] nicknames = nickname.split(";");
+
+                if (!bird_name.equals(nicknames[0])) {
+                    bird_name = nicknames[0];
+                    mouse_name = nicknames[1];
+
+                    entered = 0;
+                } else {
+                    entered = 1;
+                }
             }
             // 다른 지역에 있으면 해당 지역 채팅방에서 유저 정보 삭제
             else if (currentRegion > 2L) {
