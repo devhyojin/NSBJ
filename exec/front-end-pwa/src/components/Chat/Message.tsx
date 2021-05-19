@@ -37,7 +37,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
   const messageCoverName = `message__cover profile__${mode}`;
   const messageRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  if (msg.sender_id === '1') {
+  if (msg.sender_id === user_id) {
     messageClassName += 'my__message ';
     profileClassName = '';
     coverClassName += 'my__cover ';
