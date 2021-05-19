@@ -8,12 +8,12 @@ export default function PageNotFound() {
   const MODE = ModeCheck();
   let character = mouseBasic;
   let characterName = '노말찍';
-  let bgColor = 'dark__bg container';
+  let bgColor = 'dark__bg__404 container__404';
   let textColor = 'black';
   if (MODE === 'light') {
     character = birdBasic;
     characterName = '노말짹';
-    bgColor = 'light__bg container';
+    bgColor = 'light__bg__404 container__404';
     textColor = 'white';
   }
   return (

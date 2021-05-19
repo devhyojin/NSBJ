@@ -12,6 +12,7 @@
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   color: rgba(255, 255, 255, 0.76);
   .characters {
     img {
@@ -19,7 +20,7 @@
       margin: 0;
     }
   }
-  p {
+  p {    
     margin: 0;
     font-size: 2vw;
     font-weight: bold;

@@ -52,11 +52,12 @@ $aka: #aca9a9;
             margin-left: 2.5%;
           }
         }
-        .character-change {
+        .character-change {          
+          padding-top: 2%;
           width: 10vw;
           height: 10vw;
           position: relative;
-          z-index: 10;
+          z-index: 2;
           bottom: 30%;
           left: 58%;
           font-size: 6vw;
@@ -132,7 +133,7 @@ $aka: #aca9a9;
           font-weight: bolder;
         }
         button {
-          --x: 4vw;
+          --x: 4vw;          
           width: var(--x);
           height: var(--x);
           margin-left: 10%;

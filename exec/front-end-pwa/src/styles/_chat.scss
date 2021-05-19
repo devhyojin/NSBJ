@@ -42,9 +42,10 @@ $chat_input_height: 10vh;
   button {
     border: none;
     outline: none;
-    color: $chat_dark_font_color;
+    color: $chat_light_font_color;
   }
   button.input__btn {
+    color: $chat_dark_font_color;
     background-color: $chat_light_btn_bg_color;
   }
   input {
@@ -74,8 +75,7 @@ $chat_input_height: 10vh;
   .chat__back__btn {
     width: 4vh;
     height: 4vh;
-    border-radius: 50%;
-    color: $chat_dark_font_color;
+    border-radius: 50%;    
   }
 }
 
