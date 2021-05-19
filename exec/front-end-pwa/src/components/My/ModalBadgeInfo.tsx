@@ -33,7 +33,7 @@ export default function CharacterModal({
           <div key={badge.badgeTitle} className="info-line">
             <img className="info-icon" src={badge.cntPath} alt={badge.cntTitle} />
             <span>×</span>
-            <span>{badge.cntStat}</span>
+            <span>{badge.condition}</span>
             <span>=</span>
             <img className="info-icon" src={badge.badgePath} alt={badge.badgeTitle} />
           </div>
