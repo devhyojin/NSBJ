@@ -5,7 +5,15 @@ import '../../styles/_message.scss';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
-export default function Message({ msg, user_id, region_id, mode, skipProfile, sendFeedback, badgeId }: any) {
+export default function Message({
+  msg,
+  user_id,
+  region_id,
+  mode,
+  skipProfile,
+  sendFeedback,
+  badgeId,
+}: any) {
   useEffect(() => {
     // reset();
   }, []);
@@ -37,7 +45,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
   const messageCoverName = `message__cover profile__${mode}`;
   const messageRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  if (msg.sender_id === '1') {
+  if (msg.sender_id === user_id) {
     messageClassName += 'my__message ';
     profileClassName = '';
     coverClassName += 'my__cover ';
@@ -64,6 +72,12 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
     }
   };
 
+  const feedbackOpenHandler = (event) => {
+    if (!event.target.classList.contains('display__none2')) {
+      openFeedbackComponent();
+    }
+  };
+
   return (
     <div>
       <div className={messageCoverName} ref={messageRef}>
@@ -71,7 +85,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
           role="button"
           tabIndex={0}
           onKeyDown={() => null}
-          onClick={() => openFeedbackComponent()}
+          onClick={feedbackOpenHandler}
           className={profileClassName}
         >
           <span className={timeClassName}>{msg.sent_at}</span>
@@ -79,6 +93,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
         {isFeedbackActive && (
           <FeedbackButton
             msg={msg}
+            mode={mode}
             setIsFeedbackActive={setIsFeedbackActive}
             sendFeedback={sendFeedback}
             region_id={region_id}
@@ -87,7 +102,8 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
         )}
         <div className={coverClassName}>
           <div className={badgeClassName}>
-            <span className='badge__class'>{msg.badge}</span><br /> {mode === 'light' ? msg.bird_name : msg.mouse_name}
+            <span className="badge__class">{msg.badge}</span>
+            <br /> {mode === 'light' ? msg.bird_name : msg.mouse_name}
           </div>
           <div className={messageClassName}>
             <span>{msg.message}</span>

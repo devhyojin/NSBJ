@@ -30,6 +30,7 @@ export default function ModeCheck(): string {
     return 'light'
   }
   return 'dark'
+  // return 'dark'
 
 }
 

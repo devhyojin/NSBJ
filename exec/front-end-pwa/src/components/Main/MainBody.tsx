@@ -5,13 +5,13 @@ import waveEffect from '../../utils/WaveEffect';
 interface MainBodyProps {
   btnActivate: any;
   mode: string;
+  profile_image: number;
 }
 
-export default function MainBody({ btnActivate, mode }: MainBodyProps) {
+export default function MainBody({ btnActivate, mode, profile_image }: MainBodyProps) {
 
   const baseClassName = 'my__icon absolute__center ';
   const myIcon = React.useRef() as React.MutableRefObject<HTMLInputElement>;
-
   const activateHandler = () => {
     const target = myIcon.current;
     const targetX = target.getBoundingClientRect().x + target.offsetWidth / 2
@@ -27,9 +27,9 @@ export default function MainBody({ btnActivate, mode }: MainBodyProps) {
 
   let imgClass = '';
   if (mode === 'light') {
-    imgClass = 'light__basic__img';
+    imgClass = `light__img__${profile_image}`;
   } else {
-    imgClass = 'dark__basic__img';
+    imgClass = `dark__img__${profile_image}`;
   }
 
   return (

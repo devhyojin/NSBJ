@@ -1,4 +1,4 @@
-div {
+.container__404 {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -14,12 +14,12 @@ div {
   }
 }
 
-.light__bg {
+.light__bg__404 {
   background: white;
   color: #61acf1;
 }
 
-.dark__bg {
+.dark__bg__404 {
   background: #323232;
   color: #bf5963;
 }

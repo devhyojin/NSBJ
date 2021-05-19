@@ -1,5 +1,11 @@
 $main_light_basic_img: url(../assets/characters/bird/bird_basic.gif);
 $main_dark_basic_img: url(../assets/characters/mouse/mouse_basic.gif);
+$main_light_angel_img: url(../assets/characters/bird/bird_angel.gif);
+$main_dark_angel_img: url(../assets/characters/mouse/mouse_angel.gif);
+$main_light_heart_img: url(../assets/characters/bird/bird_heart.gif);
+$main_dark_heart_img: url(../assets/characters/mouse/mouse_heart.gif);
+$main_light_judge_img: url(../assets/characters/bird/bird_judge.gif);
+$main_dark_judge_img: url(../assets/characters/mouse/mouse_judge.gif);
 
 $light_btn : #133AC5;
 $dark_btn : #7613C5;
@@ -76,11 +82,29 @@ $dark_btn : #7613C5;
   transform:translate(-50%,-150%)
 } 
 
-.light__basic__img {
+.light__img__0 {
   background-image: $main_light_basic_img;
 }
-.dark__basic__img {
+.dark__img__0 {
   background-image: $main_dark_basic_img;
+}
+.light__img__1{
+  background-image: $main_light_angel_img;
+}
+.dark__img__1 {
+  background-image: $main_dark_angel_img;
+}
+.light__img__2 {
+  background-image: $main_light_heart_img;
+}
+.dark__img__2 {
+  background-image: $main_dark_heart_img;
+}
+.light__img__3 {
+  background-image: $main_light_judge_img;
+}
+.dark__img__3 {
+  background-image: $main_dark_judge_img;
 }
 
 
@@ -105,8 +129,8 @@ $dark_btn : #7613C5;
 
 .main__message {
   position:fixed;
-  bottom: 15vw;
-  right: 5vw;
+  bottom: 9vw;
+  right: 6vw;
   width: 12vw;
   height: 12vw;
   border-radius: 50%; 

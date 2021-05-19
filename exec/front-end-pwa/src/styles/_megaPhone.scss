@@ -31,12 +31,12 @@ $megaphone_image:url('../assets/message/megaphone.png');
   align-items: center;
   position:fixed;
   top:12%;      
-  max-width:80%;
+  width:75%;
   padding:2% 5%;
   left:50%;
   transform: translateX(-50%);
   border-radius: 10px;
-  font-size: .5rem;  
+  font-size: .8rem;  
   line-height: 150%;
   transition: .3s;
   animation: animate 3s forwards;
@@ -45,11 +45,18 @@ $megaphone_image:url('../assets/message/megaphone.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: 80%;
-    width: 4vw;
-    height: 4vw;
+    width: 7vw;
+    height: 7vw;
     margin: 2% 0 5%;
     background-color: white;
     border-radius: 100%;
+  }
+  .mega__message {    
+    text-align: center;    
+    width: 100%;    
+    word-break: break-all;      
+      
+      
   }
 }
 
@@ -57,10 +64,16 @@ $megaphone_image:url('../assets/message/megaphone.png');
 .cover__dark {
   background-color: $chat_dark_border_color;
   color: $chat_dark_font_color;
+  .mega__icon {
+    background-color:chat_dark_border_color ;
+  }
 }
 .cover__light {
   background-color: $chat_light_border_color;
   color: $chat_light_font_color;
+  .mega__icon {
+    background-color:rgb(199, 247, 255);
+  }
 }
 
 .confirm__modal__bg {
