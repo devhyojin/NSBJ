@@ -3,11 +3,11 @@ import React from 'react'
 export default function TextToSpeech(message: string): void {
   console.log(message)
 
-  let voices = []
+  // let voices = []
 
-  const setVoiceList = () => {
-    voices = window.speechSynthesis.getVoices()
-  }
+  // const setVoiceList = () => {
+  //   voices = window.speechSynthesis.getVoices()
+  // }
 
 
   // if (window.speechSynthesis.onvoiceschanged !== undefined) {

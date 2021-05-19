@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import React from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
@@ -10,6 +10,7 @@ import ChatContent from '../components/Chat/ChatContent';
 import ChatInput from '../components/Chat/ChatInput';
 import FeedbackReceived from '../components/Chat/FeedbackReceived';
 import ModeCheck from '../utils/ModeCheck';
+import RemoveEffect from '../utils/RemoveEffect';
 
 import '../styles/_chat.scss';
 
@@ -23,7 +24,8 @@ interface msgProps {
   mouse_name: string;
   badge: any;
   profile_img: number;
-  mode: string
+  mode: string;
+  count: number;
 }
 interface feedbackProps {
   feedback_id: number;
@@ -43,26 +45,42 @@ let reconnect = 0;
 
 export default function Chat() {
   const [data, setData] = React.useState<Array<msgProps>>();
-  const [isReactionActive, setIsReactionActive] = useState(false);
+  const [isReactionActive, setIsReactionActive] = React.useState<boolean>(false);
   const [reactionId, setReactionId] = React.useState(0);
   const [megaPhoneState, setMegaPhoneState] = React.useState(false);
+  const [neighborCnt, setNeighborCnt] = React.useState(0);
+  const [megaphoneCnt, setMegaphoneCnt] = React.useState(0)
+  const userInfoString = localStorage.getItem('userInfo')
+
   const mode = ModeCheck();
   const history = useHistory();
-  const { regionId, bName, neighborCnt }: any = useParams();
+  const { regionId, bName }: any = useParams();
   const userInfo = localStorage.getItem('userInfo');
   const entered = localStorage.getItem('nsbjEntered') ? localStorage.getItem('nsbjEntered') : false;
   let user_id = 0;
 
+
   React.useEffect(() => {
-    console.log('다시마운트');
+    RemoveEffect()
     readChat();
     sockJS.close();
     connect();
-    console.log('리액션아이디', reactionId);
+    if (userInfoString !== null) {
+      const userInfoObject = JSON.parse(userInfoString)
+      const { megaphone_count } = userInfoObject
+      setMegaphoneCnt(megaphone_count)
+    }
+  }, []);
+
+  React.useEffect(() => {
     openReaction();
-  }, [reactionId]);
+  }, [reactionId])
+
 
   const recvMessage = (msg: msgProps) => {
+    const { count } = msg
+    setNeighborCnt(count)
+
     setData((prevData) => {
       if (!prevData) {
         return [msg];
@@ -75,7 +93,7 @@ export default function Chat() {
     axios.get(`${SERVER_URL}/chat/region/${regionId}`).then((res) => {
       const chat = res.data.data;
       setData(chat);
-      console.log(res)
+      console.log(res);
     });
   };
 
@@ -91,15 +109,9 @@ export default function Chat() {
   };
 
   const recvFeedback = (feedback: feedbackProps) => {
-    console.log('11111리시브피드백', feedback);
-    console.log('22222나', typeof user_id);
-    console.log('33333보낸놈', typeof feedback.sender_id);
-    console.log('44444받는놈', typeof feedback.receiver_id);
-    // feedback.receiver_id로 바꿔주기
-    if (String(user_id) === String(feedback.sender_id)) {
+    if (String(user_id) === String(feedback.receiver_id)) {
       console.log('55555나에게 온 메시지?');
       setReactionId(feedback.feedback_id);
-      openReaction();
     }
   };
 
@@ -134,7 +146,7 @@ export default function Chat() {
             sender_id: user_id,
             message: '',
             sent_at: '2021-05-11',
-            entered
+            entered,
           }),
         );
         // 피드백 용
@@ -166,7 +178,10 @@ export default function Chat() {
 
   const sendMessage = (content: string, type: string) => {
     const date = new Date();
-    const min = date.getMinutes().toString().length === 2 ? date.getMinutes().toString() : `0${date.getMinutes().toString()}`
+    const min =
+      date.getMinutes().toString().length === 2
+        ? date.getMinutes().toString()
+        : `0${date.getMinutes().toString()}`;
     const sentAt = `${date.getHours().toString()}:${min}`;
     ws.send(
       `/pub/chat/message`,
@@ -180,6 +195,18 @@ export default function Chat() {
         sent_at: sentAt,
       }),
     );
+
+    if (type === 'ANNOUNCE') {
+      if (userInfoString !== null) {
+        const userInfoObject = JSON.parse(userInfoString)
+        userInfoObject.megaphone_count -= 1
+        localStorage.setItem('userInfo', JSON.stringify(userInfoObject))
+      }
+      setMegaphoneCnt(megaphoneCnt - 1)
+
+    }
+
+
   };
 
   const sendFeedback = (
@@ -189,7 +216,6 @@ export default function Chat() {
     receiverMouse: string,
     receiverMode: string,
   ): void => {
-    console.log('44센드피드백 돌입');
     ws.send(
       `/pub/chat/feedback`,
       {},
@@ -203,37 +229,28 @@ export default function Chat() {
         mode: receiverMode,
       }),
     );
-    console.log('55보냈다잉');
   };
 
   const setMegaPhone = (): void => {
-    setMegaPhoneState(!megaPhoneState)
-  }
+    setMegaPhoneState(!megaPhoneState);
+  };
 
-
-  const deleteAnnounce = ((chat: any) => {
+  const deleteAnnounce = (chat: any) => {
     if (data) {
-      setData(data.filter(msg => msg !== chat))
+      setData(data.filter((msg) => msg !== chat));
     }
-  })
+  };
 
   const addNull = () => {
-
     setData((prevData): any => {
       if (prevData === undefined) return {};
-      return [...prevData]
-    })
-  }
-
+      return [...prevData];
+    });
+  };
 
   return (
     <div className={mode === 'light' ? 'chat chat__light__mode' : 'chat chat__dark__mode'}>
-      <ChatNav
-        backHandler={backHandler}
-        bName={bName}
-        neighborCnt={neighborCnt}
-        mode={mode}
-      />
+      <ChatNav backHandler={backHandler} bName={bName} neighborCnt={neighborCnt} mode={mode} />
       <ChatContent
         data={data}
         mode={mode}
@@ -247,6 +264,8 @@ export default function Chat() {
         sendMessage={sendMessage}
         setMegaPhone={setMegaPhone}
         megaPhoneState={megaPhoneState}
+        megaPhoneCnt={megaphoneCnt}
+        mode={mode}
       />
       {isReactionActive && (
         <FeedbackReceived setIsReactionActive={setIsReactionActive} reactionId={reactionId} />

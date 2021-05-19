@@ -23,7 +23,6 @@ export default function MainPage() {
   const [region, setRegion] = useState('');
   const [cnt, setCnt] = useState(0);
   const [neighborCnt, setNeighborCnt] = useState(0);
-  const [otherShow, setOtherShow] = useState(false);
 
   const MODE = ModeCheck();
   const history = useHistory();
@@ -98,24 +97,21 @@ export default function MainPage() {
       .then(res => {
         const { data: { data: { count, entered } } } = res
 
-        setNeighborCnt(count)
+        setNeighborCnt(count - 1)
         setActivate(true)
         localStorage.setItem('nsbjEntered', entered)
-        OtherUser(targetX, targetY, count, otherShow, MODE)
+        OtherUser(targetX, targetY, count, MODE)
       })
       .catch(err => {
         alert(err)
       })
-    if (!target.contains(checkTarget)) {
-      setOtherShow(false)
-    } else { setOtherShow(true) }
   }
 
 
   const routerToChat = () => {
     const bCode = localStorage.getItem('b_code');
     if (!bCode) { return; };
-    history.push(`/chat/${bCode}/${region}/${neighborCnt}`)
+    history.push(`/chat/${bCode}/${region}`)
   }
 
 

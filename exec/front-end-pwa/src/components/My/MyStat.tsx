@@ -12,7 +12,7 @@ interface MyStatProps {
 }
 export default function MyStat({ userId }: MyStatProps) {
   useEffect(() => {
-    axios.get(`${SERVER_URL}/mypage`, { params: { id: userId } }).then((res) => {
+    axios.get(`${SERVER_URL}/mypage`, { params: { user_id: userId } }).then((res) => {
       const response = res.data.data;
       const tempStat = [...initStat];
       tempStat[0].cnt = response.feedback.angel_count;

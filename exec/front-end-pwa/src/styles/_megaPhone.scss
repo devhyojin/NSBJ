@@ -4,6 +4,8 @@ $chat_light_border_color :#93C9C7;
 $chat_dark_border_color :#9F3D47;
 $chat_dark_font_color:#FFFFFF;
 
+$megaphone_image:url('../assets/message/megaphone.png');
+
 @keyframes animate {
   0%{
     opacity: 0%;
@@ -35,6 +37,17 @@ $chat_dark_font_color:#FFFFFF;
   line-height: 150%;
   transition: .3s;
   animation: animate 3s forwards;
+  .mega__icon {
+    background-image: $megaphone_image;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+    width: 4vw;
+    height: 4vw;
+    margin: 2% 0 5%;
+    background-color: white;
+    border-radius: 100%;
+  }
 }
 
 
