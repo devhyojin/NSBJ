@@ -20,9 +20,9 @@ export default function ChatNav({ backHandler, bName, neighborCnt, mode }: ChatN
       <button type='button' className='chat__back__btn' onClick={backHandler}>
         <i className="fas fa-chevron-left">{null}</i>
       </button>
-      <div>{bName} 채팅방 </div>
+      <div className='chat__title'>{bName} 채팅방 </div>
       <div >
-        <div className={cntClassName}><span>x{neighborCnt}</span></div>
+        <div className={cntClassName}><span>×{neighborCnt}</span></div>
 
       </div>
     </div>
