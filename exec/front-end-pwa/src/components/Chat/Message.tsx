@@ -64,6 +64,17 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
     }
   };
 
+
+  const feedbackOpenHandler = (event) => {
+    if (!event.target.classList.contains('display__none2')) {
+      openFeedbackComponent()
+    }
+  }
+
+
+
+
+
   return (
     <div>
       <div className={messageCoverName} ref={messageRef}>
@@ -71,7 +82,7 @@ export default function Message({ msg, user_id, region_id, mode, skipProfile, se
           role="button"
           tabIndex={0}
           onKeyDown={() => null}
-          onClick={() => openFeedbackComponent()}
+          onClick={feedbackOpenHandler}
           className={profileClassName}
         >
           <span className={timeClassName}>{msg.sent_at}</span>

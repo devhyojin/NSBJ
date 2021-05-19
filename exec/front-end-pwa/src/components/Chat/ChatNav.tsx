@@ -13,7 +13,7 @@ interface ChatNavProps {
 
 
 export default function ChatNav({ backHandler, bName, neighborCnt, mode }: ChatNavProps) {
-  const cntClassName = `chat__neighbor__cnt ${mode}__basic__img`
+  const cntClassName = `chat__neighbor__cnt ${mode}__img__0`
 
   return (
     <div className='chat__nav'>
