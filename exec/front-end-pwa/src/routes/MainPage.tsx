@@ -66,20 +66,23 @@ export default function MainPage() {
 
   if (MODE === "light") { modeName = 'light__mode bg'; };
 
-  const geoCode = () => {
-    return new Promise((res, err) => {
-      navigator.geolocation.getCurrentPosition(res, err)
-    });
-  };
+  // const geoCode = () => {
+  //   // return new Promise((res, err) => {
+  //   //   navigator.geolocation.getCurrentPosition(res, err)
+  //   // });
+  //   return true
+  // };
 
-  const getGeoCoder = async () => {
-    await geoCode()
-      .then((res: any) => {
-        // latitude = res.coords.latitude;
-        // longitude = res.coords.longitude;
-        latitude = 37.4979278
-        longitude = 127.0275833
-      });
+  const getGeoCoder = () => {
+    // await geoCode()
+    // .then((res: any) => {
+    // latitude = res.coords.latitude;
+    // longitude = res.coords.longitude;
+    //   latitude = 37.4979278
+    //   longitude = 127.0275833
+    // });
+    latitude = 37.4979278
+    longitude = 127.0275833
 
     axios.get(`${KAKAO_SERVER_URL}.json?x=${longitude}&y=${latitude}`, {
       headers: {

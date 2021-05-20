@@ -1,6 +1,6 @@
 {
   "short_name": "낮새밤쥐",
-  "name": "이야기하기 힘든 이야기들>?",
+  "name": "내 말을 들어줄 새와 쥐가 필요한 현대인을 위한 서비스",
   "icons": [
     {
       "src": "favicon.ico",
@@ -21,5 +21,5 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#323232"
 }
