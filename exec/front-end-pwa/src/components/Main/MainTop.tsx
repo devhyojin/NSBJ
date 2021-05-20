@@ -1,6 +1,4 @@
-import React, { useMemo, useState } from 'react'
-// import { create } from 'node:domain';
-// import { createStore } from 'redux';
+import { useMemo, useState } from 'react'
 import '../../styles/_main.scss';
 
 interface MainTopProps {

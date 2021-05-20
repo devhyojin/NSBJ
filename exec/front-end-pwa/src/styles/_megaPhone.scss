@@ -1,6 +1,5 @@
 @import '_mainBottom.scss';
 
-
 $chat_light_font_color:#000000;
 $chat_light_border_color :#93C9C7;
 
@@ -55,8 +54,6 @@ $megaphone_image:url('../assets/message/megaphone.png');
     text-align: center;    
     width: 100%;    
     word-break: break-all;      
-      
-      
   }
 }
 
@@ -81,6 +78,7 @@ $megaphone_image:url('../assets/message/megaphone.png');
   top:0;left:0;
   width:100%;
   height:100%;
+  z-index: 2;
   .confirm__modal {
     display:flex;
     flex-direction: column;

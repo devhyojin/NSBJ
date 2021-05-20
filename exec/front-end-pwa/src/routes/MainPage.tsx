@@ -12,12 +12,9 @@ import OtherUser from '../utils/OtherUser'
 import UpdateUserInfo from '../utils/UpdateUserInfo'
 import '../styles/_main.scss';
 
-
 const SERVER_URL = process.env.REACT_APP_URL
 const KAKAO_SERVER_URL = process.env.REACT_APP_KAKAO_SERVER_URL;
 const KAKAO_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
-
-
 
 export default function MainPage() {
   const [activate, setActivate] = useState(false);
@@ -41,7 +38,7 @@ export default function MainPage() {
   // 랜덤웨이브 무한 생성
   useEffect(() => {
     const randomNum = Math.random()
-    const makeing = setTimeout(() => {
+    const making = setTimeout(() => {
       if (randomNum > 0.5) {
         waveRandom(MODE)
       } else {
@@ -50,7 +47,7 @@ export default function MainPage() {
       }
       setCnt(cnt + 1)
     }, 5000);
-    return () => clearTimeout(makeing)
+    return () => clearTimeout(making)
   }, [cnt])
 
 
@@ -131,7 +128,7 @@ export default function MainPage() {
       <MainTop mode={MODE} activate={activate} neighborCnt={neighborCnt} region={region} />
       <MainBody btnActivate={btnActivate} mode={MODE} profile_image={profileIdx} />
       <MainMessage activate={activate} mode={MODE} routerToChat={routerToChat} />
-      <MainBottom mode={MODE} />
+      <MainBottom />
     </div>
   )
 }

@@ -1,9 +1,5 @@
 $landing_light_img: url('../assets/background/day_bg.gif');
 $landing_dark_img: url('../assets/background/night_bg.gif');
-$kakao_btn_bg_color: #fee500;
-$kakao_btn_border_radius: 12px;
-$kakao_btn_font_color: #000000 85%;
-$kakao_btn_symbol_color: #000000 85%;
 
 .landing__light__bg {
   background-image: $landing_light_img;
@@ -69,6 +65,6 @@ $kakao_btn_symbol_color: #000000 85%;
   flex-direction: column;
   color: #c2c2c2a6;
   p {
-    font-size: 2vw !important;
+    font-size: 0.3rem;
   }
 }

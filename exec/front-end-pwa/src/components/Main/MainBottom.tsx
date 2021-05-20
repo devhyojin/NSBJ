@@ -1,15 +1,10 @@
-import { check } from 'prettier';
-import React, { useRef } from 'react';
+import { useRef, MutableRefObject } from 'react';
 import { useHistory } from 'react-router-dom';
 import '../../styles/_mainBottom.scss';
 
-interface MainBottomProps {
-  mode: string,
-}
-
-export default function MainBottom({ mode }: MainBottomProps) {
-  const modalRef = React.useRef() as React.MutableRefObject<HTMLInputElement>;
-  const coverRef = React.useRef() as React.MutableRefObject<HTMLInputElement>;
+export default function MainBottom() {
+  const modalRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const coverRef = useRef() as MutableRefObject<HTMLInputElement>;
   const minMoveLength = window.screen.height * 0.1
   const history = useHistory()
 

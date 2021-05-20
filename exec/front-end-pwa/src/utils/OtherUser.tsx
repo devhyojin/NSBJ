@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function OtherUser(X: number, Y: number, count: number, MODE: string) {
   if (document.body.contains(document.querySelector('.other__user'))) { return; }
 

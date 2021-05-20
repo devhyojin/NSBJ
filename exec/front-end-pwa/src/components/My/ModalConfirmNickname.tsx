@@ -11,7 +11,7 @@ export default function ModalConfirmNickname({
   changeNickname,
   changeNicknameModalStatus,
 }: ModalConfirmNicknameProps) {
-  // 모드 별 색상 전환
+
   let modeNicknameModal = 'dark__bg__purple modal-container';
   if (MODE === 'light') {
     modeNicknameModal = 'light__bg__blue modal-container';

@@ -1,6 +1,3 @@
-import React from 'react'
-
-
 import '../../styles/_megaPhone.scss'
 
 interface megaPhoneProps {
@@ -16,16 +13,13 @@ interface megaPhoneProps {
   type: string;
 }
 
-
 export default function MegaPhone(chat: megaPhoneProps, mode: string) {
 
   const showingChat = () => {
     target.appendChild(superChatDiv)
   }
 
-
   const nick = mode === 'light' ? chat.bird_name : chat.mouse_name;
-
 
   // div 생성
   const target = document.body

@@ -1,4 +1,3 @@
-import React from 'react'
 import axios from 'axios'
 
 const SERVER_URL = process.env.REACT_APP_URL
