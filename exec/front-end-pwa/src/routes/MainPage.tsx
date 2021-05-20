@@ -26,8 +26,8 @@ export default function MainPage() {
   const MODE = ModeCheck();
   const history = useHistory();
   const userInfo = localStorage.getItem('userInfo') ? localStorage.getItem('userInfo') : null;
-  const target = document.body
-  const checkTarget = document.querySelector('.other__user')
+  // const target = document.body
+  // const checkTarget = document.querySelector('.other__user')
 
   UpdateUserInfo(MODE)
 
@@ -74,6 +74,7 @@ export default function MainPage() {
       .then((res: any) => {
         // latitude = res.coords.latitude;
         // longitude = res.coords.longitude;
+        longitude = res.coords.longitude;
         latitude = 37.4979278
         longitude = 127.0275833
       });
@@ -110,7 +111,7 @@ export default function MainPage() {
         OtherUser(targetX, targetY, count, MODE)
       })
       .catch(err => {
-        alert(err)
+        console.log(err)
       })
   }
 

@@ -20,8 +20,6 @@ export default function OtherUser(X: number, Y: number, count: number, MODE: str
     const randomHeight = Y + Math.sin(randomDict.xy) * randomDict.radius * availWidth
     const randomWidth = X + Math.cos(randomDict.xy) * randomDict.radius * availWidth
 
-
-    console.log(randomHeight, randomWidth)
     const makeOtherUser = () => {
       otherDiv.style.top = `${randomHeight}px`
       otherDiv.style.left = `${randomWidth}px`
@@ -33,14 +31,5 @@ export default function OtherUser(X: number, Y: number, count: number, MODE: str
     }
 
     makeOtherUser()
-
-
-
-
   }
-
-
-
-
-
 }

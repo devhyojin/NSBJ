@@ -126,14 +126,14 @@ export default function Chat() {
   const connect = () => {
     ws.connect(
       {},
-      function () {
+      () => {
         ws.subscribe(
           `/sub/chat/room/${regionId}`,
-          function (message) {
+          (message) => {
             const recv = JSON.parse(message.body);
             recvMessage(recv);
           },
-          function () {
+          () => {
             console.log('err');
           },
         );
@@ -157,12 +157,12 @@ export default function Chat() {
             const recv = JSON.parse(message.body);
             recvFeedback(recv);
           },
-          function () {
+          () => {
             console.log('err');
           },
         );
       },
-      function () {
+      () => {
         if (reconnect <= 5) {
           reconnect += 1;
           setTimeout(() => {
@@ -183,6 +183,7 @@ export default function Chat() {
         ? date.getMinutes().toString()
         : `0${date.getMinutes().toString()}`;
     const sentAt = `${date.getHours().toString()}:${min}`;
+
     ws.send(
       `/pub/chat/message`,
       {},
