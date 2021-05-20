@@ -1,0 +1,43 @@
+.info-container {
+  position: fixed;
+  background-color: #cde8dd;
+  right: 2%;
+  top: 53%;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.096);
+  width: 30%;
+  max-height: 42%;
+  padding: 2% 2% 2.5%;
+  text-align: center;
+  z-index: 50;
+  color: black;
+  .info-header {
+    width: 100%;
+    vertical-align: center;
+    margin-bottom: 7%;
+    .guide-name {
+      font-size: 4.1vw;
+      font-weight: bolder;
+    }
+  }
+  .info-body {
+    .info-line {
+      vertical-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 3.5%;
+      img {
+        margin: 0 2%;
+      }
+      span {
+        margin: 0 1%;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.info-icon {
+  width: 23%;
+}
