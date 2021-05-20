@@ -1,9 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, MutableRefObject } from 'react';
 import '../../styles/_main.scss';
 import waveEffect from '../../utils/WaveEffect';
 
 interface MainBodyProps {
-  btnActivate: any;
+  btnActivate(targetX: number, targetY: number): void;
   mode: string;
   profile_image: number;
 }
@@ -11,7 +11,7 @@ interface MainBodyProps {
 export default function MainBody({ btnActivate, mode, profile_image }: MainBodyProps) {
 
   const baseClassName = 'my__icon absolute__center ';
-  const myIcon = React.useRef() as React.MutableRefObject<HTMLInputElement>;
+  const myIcon = useRef() as MutableRefObject<HTMLInputElement>;
   const activateHandler = () => {
     const target = myIcon.current;
     const targetX = target.getBoundingClientRect().x + target.offsetWidth / 2

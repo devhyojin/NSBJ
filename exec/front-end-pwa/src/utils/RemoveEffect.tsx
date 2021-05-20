@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function RemoveEffect() {
   const { body } = document
   const targetWave = document.querySelectorAll('.wave__effect')

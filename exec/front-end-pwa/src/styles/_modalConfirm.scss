@@ -11,14 +11,14 @@
   -webkit-backdrop-filter: blur(3.5px);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: auto 0 !important;
+  padding: auto 0;
   display: flex;
   align-items: center;
   .modal-container {
     width: 70vw;
     height: 40vw;
     padding: 3%;
-    margin: 0 auto !important;
+    margin: 0 auto;
     border-radius: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.356);
     color: black;

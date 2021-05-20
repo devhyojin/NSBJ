@@ -1,9 +1,21 @@
-import React, { useRef, useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useRef, MutableRefObject } from 'react';
 import FeedbackButton from './FeedbackButton';
 import '../../styles/_message.scss';
 
-const SERVER_URL = process.env.REACT_APP_URL;
+interface MessageProps {
+  msg: any;
+  mode: string;
+  user_id: number;
+  region_id: number;
+  skipProfile: boolean,
+  sendFeedback(
+    id: number,
+    receiverId: string,
+    receiverBird: string,
+    receiverMouse: string,
+    receiverMode: string,
+  ): void;
+}
 
 export default function Message({
   msg,
@@ -12,30 +24,7 @@ export default function Message({
   mode,
   skipProfile,
   sendFeedback,
-  badgeId,
-}: any) {
-  useEffect(() => {
-    // reset();
-  }, []);
-  // 리셋용
-  const reset = () => {
-    axios
-      .patch(
-        `${SERVER_URL}/chat/test`,
-        {},
-        {
-          params: {
-            receiver_bird: msg.bird_name,
-            receiver_id: msg.sender_id,
-            room_id: msg.room_id,
-            sender_id: user_id,
-          },
-        },
-      )
-      .then((res) => {
-        console.log('초기화성공', res);
-      });
-  };
+}: MessageProps) {
 
   let coverClassName = 'message__content__cover ';
   let profileClassName = 'message__profile ';
@@ -43,7 +32,7 @@ export default function Message({
   let badgeClassName = 'nick__badge ';
   let timeClassName = 'time__stamp ';
   const messageCoverName = `message__cover profile__${mode}`;
-  const messageRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+  const messageRef = useRef() as MutableRefObject<HTMLInputElement>;
 
   if (msg.sender_id === user_id) {
     messageClassName += 'my__message ';
@@ -57,7 +46,6 @@ export default function Message({
     badgeClassName += 'display__none';
     timeClassName += 'visibility_none';
     profileClassName += 'display__none2';
-    // messageClassName += 'other__message ';
   }
   messageClassName += `message__${mode} `;
 
@@ -94,10 +82,10 @@ export default function Message({
           <FeedbackButton
             msg={msg}
             mode={mode}
+            user_id={user_id}
+            region_id={region_id}
             setIsFeedbackActive={setIsFeedbackActive}
             sendFeedback={sendFeedback}
-            region_id={region_id}
-            user_id={user_id}
           />
         )}
         <div className={coverClassName}>

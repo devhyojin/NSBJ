@@ -24,7 +24,7 @@ export default function CharacterModal({
   const changeIsInfoCharacterActive = () => {
     setIsInfoCharacterActive(!isInfoCharacterActive);
   };
-  // 모드 별 색상 전환
+
   let modeCharacterModal = 'dark__bg__purple character-modal-container';
   let modeCharacterInfo = 'dark__bg__red modal-character-info';
   let modeCheckedBorder = 'dark__ch__border';
@@ -32,7 +32,7 @@ export default function CharacterModal({
 
   const tempCharacters = [...characters];
   if (MODE === 'light') {
-    tempCharacters.splice(4, 4); // 모드 별 캐릭터 슬라이싱
+    tempCharacters.splice(4, 4); 
     modeCharacterModal = 'light__bg__blue character-modal-container';
     modeCharacterInfo = 'light__bg__mint modal-character-info';
     modeCheckedBorder = 'light__ch__border';
@@ -41,7 +41,6 @@ export default function CharacterModal({
     tempCharacters.splice(0, 4);
   }
 
-  // 선택된 캐릭터
   const baseClassName = 'character-select-zone ';
   const inactive = 'inactive';
   const active = 'active ';
@@ -55,7 +54,6 @@ export default function CharacterModal({
     return classValue;
   };
 
-  // 활성화된 캐릭터, 비활성화된 캐릭터
   const ActiveCharacter = ({ c }: any, key: number) => {
     return (
       <div
@@ -71,6 +69,7 @@ export default function CharacterModal({
       </div>
     );
   };
+
   const InactiveCharacter = ({ c }: any, key: number) => {
     return (
       <div className={baseClassName + inactive} key={key}>
@@ -81,7 +80,6 @@ export default function CharacterModal({
   };
 
   const changeCharacter = (characterId: number): void => {
-    // 1. characters 상태 업데이트 해주기, myCharacter 바꿔주기
     let idx = characterId;
     let x = 0;
     if (MODE === 'dark') {
@@ -99,7 +97,6 @@ export default function CharacterModal({
     }
     setCharacters(tempCharacters);
 
-    // 2. back에 보내주기
     axios.patch(
       `${SERVER_URL}/mypage/img`,
       {},
@@ -107,7 +104,6 @@ export default function CharacterModal({
     );
     setTimeout(() => changeCharacterModalStatus(), 300);
 
-    // 3. localStorage 내용 바꿔주기
     const userInfo = localStorage.getItem('userInfo');
     if (userInfo !== null) {
       const userInfoObject = JSON.parse(userInfo);

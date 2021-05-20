@@ -15,7 +15,7 @@ export default function ModalConfirmWithdraw({
   userId,
   changeWithdrawModalStatus,
 }: ModalConfirmWithdrawProps) {
-  // 모드 별 색상 전환
+  
   let modeWithdrawModal = 'dark__bg__purple modal-container';
   if (MODE === 'light') {
     modeWithdrawModal = 'light__bg__blue modal-container';

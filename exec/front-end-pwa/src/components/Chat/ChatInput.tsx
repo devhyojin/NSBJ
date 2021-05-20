@@ -1,24 +1,23 @@
-import React from 'react'
+import { useState, useEffect, useRef, MutableRefObject } from 'react'
 
 import '../../styles/_megaPhone.scss'
 
 interface ChatInputProps {
-  sendMessage(content: string, type: string): any;
+  sendMessage(content: string, type: string): void;
   setMegaPhone(): void;
   megaPhoneState: boolean;
   megaPhoneCnt: number;
   mode: string;
 }
 
-
 export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState, megaPhoneCnt, mode }: ChatInputProps) {
-  const inputRef = React.useRef() as React.MutableRefObject<HTMLInputElement>
-  const [placeHolderMessage, setPlaceHolderMessage] = React.useState('')
-  const [sendType, setSendType] = React.useState('TALK')
+  const inputRef = useRef() as MutableRefObject<HTMLInputElement>
+  const [placeHolderMessage, setPlaceHolderMessage] = useState('')
+  const [sendType, setSendType] = useState('TALK')
   const btnClassName = `mega__phone__btn ${mode}__mega__btn`
   const cntClassName = `mega__phone__cnt ${mode}__mega__cnt`
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (megaPhoneState) {
       setSendType('ANNOUNCE')
       setPlaceHolderMessage('확성기가 활성화 되었습니다.')
@@ -28,7 +27,7 @@ export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState, m
     }
   }, [megaPhoneState])
 
-  const sendMessageHandler = (event): any => {
+  const sendMessageHandler = (event): void => {
     const { type } = event
 
     if (type === 'click' || event.code === 'Enter') {
@@ -44,7 +43,7 @@ export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState, m
 
   const setMegaPhoneHandler = () => {
     if (megaPhoneCnt === 0) {
-      alert('메가폰다씀!')
+      alert('잔여 확성기가 없습니다.')
     } else if (megaPhoneState === true) {
       setMegaPhone()
     } else {
@@ -60,7 +59,6 @@ export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState, m
     const yesBtn = document.createElement('button')
     const noBtn = document.createElement('button')
     const confirmSpan = document.createElement('span')
-
 
     confirmSpan.innerText = '확성기 기능을 사용하시겠습니까?\n사용한 후에는 하나 차감됩니다.'
     yesBtn.innerText = 'Yes'
@@ -88,14 +86,8 @@ export default function ChatInput({ sendMessage, setMegaPhone, megaPhoneState, m
 
     body.appendChild(confirmModalBg)
 
-
-
-
-
     return true
   }
-
-
 
   return (
     <div className='chat__input__cover'>

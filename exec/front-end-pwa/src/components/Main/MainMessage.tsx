@@ -1,11 +1,8 @@
-// import React from 'react'
-
 interface MainMessageProps {
   activate: boolean,
   mode: string,
   routerToChat(): any,
 }
-
 
 export default function MainMessage({ activate, mode, routerToChat }: MainMessageProps) {
   if (!activate) { return null }

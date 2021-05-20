@@ -1,6 +1,4 @@
-import React from 'react'
 import axios from 'axios'
-// import cheerio from 'cheerio'
 
 const SUNSET_URL = 'https://api.sunrise-sunset.org/json?lat=37.053745&lng=-4.4203400&date=today'
 

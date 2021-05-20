@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import SockJS from 'sockjs-client';
@@ -44,13 +44,13 @@ let ws = Stomp.over(sockJS);
 let reconnect = 0;
 
 export default function Chat() {
-  const [data, setData] = React.useState<Array<msgProps>>();
-  const [isReactionActive, setIsReactionActive] = React.useState<boolean>(false);
-  const [reactionId, setReactionId] = React.useState(0);
-  const [megaPhoneState, setMegaPhoneState] = React.useState(false);
-  const [neighborCnt, setNeighborCnt] = React.useState(0);
-  const [megaphoneCnt, setMegaphoneCnt] = React.useState(0)
-  const [badgeId, setBadgeId] = React.useState(0)
+  const [data, setData] = useState<Array<msgProps>>();
+  const [isReactionActive, setIsReactionActive] = useState<boolean>(false);
+  const [reactionId, setReactionId] = useState<number>(0);
+  const [megaPhoneState, setMegaPhoneState] = useState(false);
+  const [neighborCnt, setNeighborCnt] = useState(0);
+  const [megaphoneCnt, setMegaphoneCnt] = useState(0)
+  const [badgeId, setBadgeId] = useState(0)
   const userInfoString = localStorage.getItem('userInfo')
 
   const mode = ModeCheck();
@@ -61,7 +61,7 @@ export default function Chat() {
   let user_id = 0;
 
 
-  React.useEffect(() => {
+  useEffect(() => {
     RemoveEffect()
     readChat();
     sockJS.close();
@@ -75,7 +75,7 @@ export default function Chat() {
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     openReaction();
   }, [reactionId])
 
@@ -96,7 +96,6 @@ export default function Chat() {
     axios.get(`${SERVER_URL}/chat/region/${regionId}`).then((res) => {
       const chat = res.data.data;
       setData(chat);
-      console.log(res);
     });
   };
 
@@ -113,7 +112,6 @@ export default function Chat() {
 
   const recvFeedback = (feedback: feedbackProps) => {
     if (String(user_id) === String(feedback.receiver_id)) {
-      console.log('55555나에게 온 메시지?');
       setReactionId(feedback.feedback_id);
     }
   };
@@ -128,14 +126,14 @@ export default function Chat() {
   const connect = () => {
     ws.connect(
       {},
-      function () {
+      () => {
         ws.subscribe(
           `/sub/chat/room/${regionId}`,
-          function (message) {
+          (message) => {
             const recv = JSON.parse(message.body);
             recvMessage(recv);
           },
-          function () {
+          () => {
             console.log('err');
           },
         );
@@ -156,16 +154,15 @@ export default function Chat() {
         ws.subscribe(
           `/feedback/room/${regionId}`,
           function (message) {
-            console.log('00000바아아디요호우', message.body);
             const recv = JSON.parse(message.body);
             recvFeedback(recv);
           },
-          function () {
+          () => {
             console.log('err');
           },
         );
       },
-      function () {
+      () => {
         if (reconnect <= 5) {
           reconnect += 1;
           setTimeout(() => {
@@ -186,6 +183,7 @@ export default function Chat() {
         ? date.getMinutes().toString()
         : `0${date.getMinutes().toString()}`;
     const sentAt = `${date.getHours().toString()}:${min}`;
+
     ws.send(
       `/pub/chat/message`,
       {},
@@ -206,10 +204,7 @@ export default function Chat() {
         localStorage.setItem('userInfo', JSON.stringify(userInfoObject))
       }
       setMegaphoneCnt(megaphoneCnt - 1)
-
     }
-
-
   };
 
   const sendFeedback = (
@@ -262,17 +257,16 @@ export default function Chat() {
         sendFeedback={sendFeedback}
         deleteAnnounce={deleteAnnounce}
         addNull={addNull}
-        badgeId={badgeId}
       />
       <ChatInput
+        mode={mode}
         sendMessage={sendMessage}
         setMegaPhone={setMegaPhone}
         megaPhoneState={megaPhoneState}
         megaPhoneCnt={megaphoneCnt}
-        mode={mode}
       />
       {isReactionActive && (
-        <FeedbackReceived setIsReactionActive={setIsReactionActive} reactionId={reactionId} />
+        <FeedbackReceived reactionId={reactionId} />
       )}
     </div>
   );

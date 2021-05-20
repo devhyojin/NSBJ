@@ -124,7 +124,6 @@ $chat_input_height: 10vh;
     .mega__phone__cnt {
       width: 3.5vw;
       height:3.5vw;
-      
       position:absolute;
       font-size: .5rem;
       display:flex;
@@ -161,8 +160,6 @@ $chat_input_height: 10vh;
 }
 
 .mega__activate {
-  // border-top: white;
-  // border-right: #1d124e;
   border: 2px solid rgb(143, 145, 143);
 }
 
@@ -187,11 +184,9 @@ $chat_input_height: 10vh;
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;  
-
   margin-right: 2vw;
   span {
     margin-left: 6.5vw;
-    // margin-right: 10vw;
     font-size: 0.8rem;
   }
 }

@@ -42,19 +42,19 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
       } else {
         setMyNickName(response.nickname.dark);
       }
-      // 캐릭터 활성화 여부 판독하기
+      
       characterCalculator(tempCharacters, 1, response.feedback.angel_count);
       characterCalculator(tempCharacters, 2, response.feedback.heart_count);
       characterCalculator(tempCharacters, 3, response.feedback.judge_count);
     });
   }, []);
 
-  // 모드 별 색상 전환
+
   let modeProfile = 'dark__bg__red circle character-circle';
   let modeCharacterBtn = 'dark__bg__purple circle character-change';
   let modeRegion = 'dark__region location';
   let modeNicknameBtn = 'dark__nn__btn nicknameBtn';
-  let initIdx = 4; // 모드 별 기본 캐릭터(노말O) index
+  let initIdx = 4; 
   if (MODE === 'light') {
     modeProfile = 'light__bg__mint circle character-circle';
     modeCharacterBtn = 'light__bg__blue circle character-change';
@@ -81,7 +81,6 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
   const [characterModalStatus, setCharacterModalStatus] = useState<boolean>(false);
   const [nicknameModalStatus, setNicknameModalStatus] = useState<boolean>(false);
 
-  // 모달 여닫기
   const changeCharacterModalStatus = (): void => {
     setCharacterModalStatus(!characterModalStatus);
   };
@@ -89,7 +88,6 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
     setNicknameModalStatus(!nicknameModalStatus);
   };
 
-  // 캐릭터 활성화 판독하기
   const characterCalculator = (tempCharacters: Array<any>, idx: number, feedbackCnt: number) => {
     if (feedbackCnt >= 50) {
       tempCharacters[idx].status = true;
@@ -98,12 +96,10 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
     setCharacters(tempCharacters);
   };
 
-  // 백에서 바뀐 닉네임 가져오기
   const getNewNickname = (): void => {
     axios
       .get(`${SERVER_URL}/mypage`, { params: { user_id: userId } })
       .then((res) => {
-        console.log('닉네임 잘 가져왔음');
         const response = res.data.data;
         if (MODE === 'light') {
           setMyNickName(response.nickname.light);
@@ -116,7 +112,6 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
       });
   };
 
-  // 닉네임 바꾸는 요청 back에 보낸 후, 새로운 닉네임 업데이트 하기
   const changeNickname = (): void => {
     if (nicknameFlag) {
       alert('하루에 한 번만 변경 가능합니다.');
@@ -131,7 +126,6 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
 
   return (
     <div className="my-profile">
-      {/* 캐릭터 변경 존 */}
       <div className="character-zone">
         <div className={modeProfile}>
           <img className="my-character" src={characters[myCharacter].path} alt="character" />
@@ -154,7 +148,6 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
           />
         )}
       </div>
-      {/* 닉네임 존 */}
       <div className="nickname-zone">
         <p className={modeRegion}>{myRegion}</p>
         <p className="aka">{myAKA}</p>

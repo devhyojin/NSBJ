@@ -1,6 +1,3 @@
-// import React from 'react'
-
-
 import '../../styles/_chat.scss'
 import '../../styles/_main.scss'
 
@@ -10,7 +7,6 @@ interface ChatNavProps {
   neighborCnt: number;
   mode: string
 }
-
 
 export default function ChatNav({ backHandler, bName, neighborCnt, mode }: ChatNavProps) {
   const cntClassName = `chat__neighbor__cnt ${mode}__img__0`
@@ -23,7 +19,6 @@ export default function ChatNav({ backHandler, bName, neighborCnt, mode }: ChatN
       <div className='chat__title'>{bName} 채팅방 </div>
       <div >
         <div className={cntClassName}><span>×{neighborCnt}</span></div>
-
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useRef, MutableRefObject} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import Message from './Message';
@@ -10,7 +10,6 @@ interface ChatContentProps {
   mode: string;
   user_id: number;
   region_id: number;
-  badgeId: number;
   sendFeedback(
     id: number,
     receiverId: string,
@@ -18,7 +17,7 @@ interface ChatContentProps {
     receiverMouse: string,
     receiverMode: string,
   ): void;
-  deleteAnnounce(chat: msgProps): any;
+  deleteAnnounce(chat: msgProps): void;
   addNull(): void;
 }
 
@@ -44,9 +43,8 @@ export default function ChatContent({
   sendFeedback,
   deleteAnnounce,
   addNull,
-  badgeId
-}: ChatContentProps): any {
-  const chatContent = React.useRef() as React.MutableRefObject<HTMLInputElement>;
+}: ChatContentProps) {
+  const chatContent = useRef() as MutableRefObject<HTMLInputElement>;
   const superChat = data ? data.find((msg: msgProps) => msg.type === 'ANNOUNCE') : undefined;
 
   if (!document.body.contains(document.querySelector('.mega__cover')) && superChat !== undefined) {
@@ -60,8 +58,7 @@ export default function ChatContent({
   let cnt = -1;
 
 
-
-  React.useEffect(() => {
+  useEffect(() => {
     const target = chatContent.current;
     if (!target) return;
     target.scrollTop = target.scrollHeight;
@@ -92,12 +89,11 @@ export default function ChatContent({
             <Message
               key={uuidv4()}
               msg={msg}
+              mode={mode}
               user_id={user_id}
               region_id={region_id}
-              mode={mode}
-              sendFeedback={sendFeedback}
               skipProfile={skipProfile}
-              badgeId={badgeId}
+              sendFeedback={sendFeedback}
             />
           );
         }

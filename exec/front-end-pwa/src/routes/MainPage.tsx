@@ -12,12 +12,9 @@ import OtherUser from '../utils/OtherUser'
 import UpdateUserInfo from '../utils/UpdateUserInfo'
 import '../styles/_main.scss';
 
-
 const SERVER_URL = process.env.REACT_APP_URL
 const KAKAO_SERVER_URL = process.env.REACT_APP_KAKAO_SERVER_URL;
 const KAKAO_API_KEY = process.env.REACT_APP_KAKAO_API_KEY;
-
-
 
 export default function MainPage() {
   const [activate, setActivate] = useState(false);
@@ -29,8 +26,8 @@ export default function MainPage() {
   const MODE = ModeCheck();
   const history = useHistory();
   const userInfo = localStorage.getItem('userInfo') ? localStorage.getItem('userInfo') : null;
-  const target = document.body
-  const checkTarget = document.querySelector('.other__user')
+  // const target = document.body
+  // const checkTarget = document.querySelector('.other__user')
 
   UpdateUserInfo(MODE)
 
@@ -41,7 +38,7 @@ export default function MainPage() {
   // 랜덤웨이브 무한 생성
   useEffect(() => {
     const randomNum = Math.random()
-    const makeing = setTimeout(() => {
+    const making = setTimeout(() => {
       if (randomNum > 0.5) {
         waveRandom(MODE)
       } else {
@@ -50,7 +47,7 @@ export default function MainPage() {
       }
       setCnt(cnt + 1)
     }, 5000);
-    return () => clearTimeout(makeing)
+    return () => clearTimeout(making)
   }, [cnt])
 
 
@@ -77,6 +74,7 @@ export default function MainPage() {
       .then((res: any) => {
         // latitude = res.coords.latitude;
         // longitude = res.coords.longitude;
+        longitude = res.coords.longitude;
         latitude = 37.4979278
         longitude = 127.0275833
       });
@@ -113,7 +111,7 @@ export default function MainPage() {
         OtherUser(targetX, targetY, count, MODE)
       })
       .catch(err => {
-        alert(err)
+        console.log(err)
       })
   }
 
@@ -131,7 +129,7 @@ export default function MainPage() {
       <MainTop mode={MODE} activate={activate} neighborCnt={neighborCnt} region={region} />
       <MainBody btnActivate={btnActivate} mode={MODE} profile_image={profileIdx} />
       <MainMessage activate={activate} mode={MODE} routerToChat={routerToChat} />
-      <MainBottom mode={MODE} />
+      <MainBottom />
     </div>
   )
 }

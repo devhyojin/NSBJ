@@ -2,18 +2,16 @@ import { useState } from 'react';
 import { useInterval } from 'react-use';
 import styled from 'styled-components';
 
-export default function FeedbackReceived({ setIsReactionActive, reactionId }): any {
+export default function FeedbackReceived({ reactionId }) {
   const emojiList = ['😇', '💗', '👩🏻‍🎓'];
   const [emojiRender, setEmojiRender] = useState([{ key: 0, emoji: '', offset: 0 }]);
 
-  console.log('핃백리시브드 안이야', reactionId);
   useInterval(() => {
     if (emojiRender.length > 20) {
       emojiRender.shift();
     }
 
     const offset = Math.floor(Math.random() * 1000);
-    console.log('오프셋', offset);
     const key = offset + Math.random() * 1000000;
     let emoji = emojiList[0];
     if (reactionId > 0) {

@@ -7,15 +7,30 @@ import '../../styles/_feedbackButton.scss';
 
 const SERVER_URL = process.env.REACT_APP_URL;
 
+interface FeedbackButtonProps {
+  msg: any;
+  mode: string;
+  user_id: number;
+  region_id: number;
+  setIsFeedbackActive: any;
+  sendFeedback(
+    id: number,
+    receiverId: string,
+    receiverBird: string,
+    receiverMouse: string,
+    receiverMode: string,
+  ): void;
+}
+
 export default function FeedbackButton({
   msg,
   mode,
+  user_id,
+  region_id,
   setIsFeedbackActive,
   sendFeedback,
-  region_id,
-  user_id,
-}: any) {
-  // 모드 별 색상 전환
+}: FeedbackButtonProps) {
+
   let modeFeedbackModal = 'dark__bg__red2 feedback-modal';
   let modeGuideModal = 'dark__bg__red3 guide-modal';
   let modeSendModal = 'dark__bg__red3 send-message guide-modal';
@@ -24,6 +39,7 @@ export default function FeedbackButton({
     modeGuideModal = 'light__bg__mint3 guide-modal';
     modeSendModal = 'light__bg__mint3 send-message guide-modal';
   }
+
   const initFeedback = [
     { id: 1, title: '리액션 포인트', path: angelCnt, status: false },
     { id: 2, title: '마음 포인트', path: heartCnt, status: false },
@@ -46,6 +62,7 @@ export default function FeedbackButton({
     });
     return res.data.data.feedback_id;
   };
+
   const changeFeedbackColor = (id: number) => {
     const tempFeedback = [...feedback];
     for (let i = 0; i < 3; i += 1) {
@@ -57,6 +74,7 @@ export default function FeedbackButton({
     }
     setFeedback(tempFeedback);
   };
+  
   const cleanup = () => {
     const tempFeedback = [...feedback];
     for (let i = 0; i < 3; i += 1) {
@@ -93,6 +111,7 @@ export default function FeedbackButton({
     }
     return classValue;
   };
+
   const reflectResult = (id: number): void => {
     const tempFeedback = [...feedback];
     for (let i = 0; i < 3; i += 1) {
@@ -116,7 +135,8 @@ export default function FeedbackButton({
   const cannotAlert = () => {
     alert('이미 피드백한 상태입니다! 피드백은 하루에 한 번만 가능합니다.');
   };
-  const CanFeedback = ({ f }: any, key: any) => {
+
+  const CanFeedback = ({ f }: any, key: number) => {
     return (
       <div
         key={key}
@@ -130,7 +150,8 @@ export default function FeedbackButton({
       </div>
     );
   };
-  const CannotFeedback = ({ f }: any, key: any) => {
+
+  const CannotFeedback = ({ f }: any, key: number) => {
     return (
       <div
         key={key}
@@ -162,6 +183,7 @@ export default function FeedbackButton({
       </div>
     );
   };
+
   const FeedbackSend = () => {
     let receiver_nickname = msg.mouse_name;
     if (msg.mode === 'light') {
@@ -173,6 +195,7 @@ export default function FeedbackButton({
         whatFeedback = feedback[i].title;
       }
     }
+    
     return (
       <div className={modeSendModal}>
         <div>
