@@ -141,7 +141,7 @@ export default function MyProfile({ MODE, userId, myAKA, setMyAKA }: MyProfilePr
           onClick={() => changeCharacterModalStatus()}
           type="submit"
         >
-          +
+          <span>+</span>
         </button>
         {characterModalStatus && (
           <ModalCharacter

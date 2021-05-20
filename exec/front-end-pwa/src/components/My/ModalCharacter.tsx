@@ -12,6 +12,9 @@ interface MyProfileProps {
   setMyCharacter: any;
   changeCharacterModalStatus: () => void;
 }
+interface ModalCharacterInfoProps {
+  changeIsInfoCharacterActive: () => void;
+}
 export default function CharacterModal({
   MODE,
   userId,
@@ -116,9 +119,9 @@ export default function CharacterModal({
     }
   };
 
-  const ModalCharacterInfo = () => {
+  const ModalCharacterInfo = ({changeIsInfoCharacterActive}:ModalCharacterInfoProps) => {
     return (
-      <div className={modeCharacterInfo}>
+      <div role="button" tabIndex={0} onKeyDown={() => null} className={modeCharacterInfo} onClick={()=>changeIsInfoCharacterActive()}>
         <div className="info-header">
           <p className="guide-name">캐릭터 가이드</p>
         </div>
@@ -145,7 +148,7 @@ export default function CharacterModal({
               <span>?</span>
             </button>
           </div>
-          {isInfoCharacterActive && <ModalCharacterInfo />}
+          {isInfoCharacterActive && <ModalCharacterInfo changeIsInfoCharacterActive={changeIsInfoCharacterActive}/>}
         </div>
 
         <div className="character-modal-body">

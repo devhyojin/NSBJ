@@ -14,6 +14,7 @@
   display: flex;
   align-items: center;
   .character-modal-container {
+    position: relative;
     width: 80vw;
     height: 90vw;
     padding: 5% 4%;
@@ -36,23 +37,22 @@
         }
         .character-info-btn {
           margin-left: 0%;
-          --x: 4vw;
-          width: var(--x);
-          height: var(--x);
+          width: 4vw;
+          height: 4vw;
           font-size: 0.6rem;
           font-weight: bolder;
           background-color: rgb(184, 184, 184);
         }
       }
       .modal-character-info {
-        position: fixed;
-        width: 48%;
-        top: 30.5%;
-        right: 11.5%;
+        position: absolute;
+        width: 60%;
+        top: 11%;
+        right: 2%;
         padding: 3%;
         z-index: 500;
         border-radius: 10px;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.096);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.356);
         .info-header {
           font-size: 3.8vw;
           font-weight: bold;
