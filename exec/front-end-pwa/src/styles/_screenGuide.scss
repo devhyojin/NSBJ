@@ -20,10 +20,19 @@
       margin: 0;
     }
   }
-  p {    
-    margin: 0;
-    font-size: 2vw;
+  .guideText {    
+    font-size: 2.5rem;
     font-weight: bold;
+    span{
+      color: rgb(226, 161, 172);
+    }
+  }
+  .guideTextDetail {    
+    font-size: 1.5rem;
+    span{
+      color: rgb(118, 182, 207);
+      font-weight: bolder;
+    }
   }
 }
 

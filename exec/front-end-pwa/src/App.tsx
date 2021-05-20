@@ -18,7 +18,8 @@ function App() {
           <img src={birdBasic} alt="노말짹" />
           <img src={mouseBasic} alt="노말찍" />
         </div>
-        <p>본 서비스는 모바일 환경에 최적화되어있습니다! <br /> 노트북 또는 데스크탑을 사용할경우 Mobile-Large Size로 이용해주세요! </p>
+        <p className="guideText">본 서비스는 <span>모바일 환경</span>에 최적화되어있습니다!</p>
+        <p className="guideTextDetail">❤ 노트북은 <span>Mobile-M</span>, 데스크탑은 <span>Mobile-L</span> 사이즈로 이용해주세요 ❤</p>
       </div>
       <Switch>
         <PublicRoute exact path="/" restricted component={LandingPage} />

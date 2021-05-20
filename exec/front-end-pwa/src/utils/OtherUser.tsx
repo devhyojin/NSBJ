@@ -27,7 +27,7 @@ export default function OtherUser(X: number, Y: number, count: number, MODE: str
     const makeOtherUser = () => {
       otherDiv.style.top = `${randomHeight}px`
       otherDiv.style.left = `${randomWidth}px`
-      otherDiv.className = `other__user ${MODE}__basic__img`
+      otherDiv.className = `other__user ${MODE}__img__0`
       otherDiv.addEventListener('animationend', () => {
         document.body.removeChild(otherDiv)
       })

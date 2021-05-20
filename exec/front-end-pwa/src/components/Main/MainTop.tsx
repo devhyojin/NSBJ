@@ -16,7 +16,7 @@ export default function MainTop({ mode, activate, neighborCnt, region }: MainTop
   const name = mode === 'light' ? '짹짹이' : '찍찍이';
   const species = mode === 'light' ? '새' : '쥐';
   const deactivateExplain = `중앙의 ${species}를 눌러,상태를 활성화시켜주세요!`
-  const activateExplain = `${region}에 ${neighborCnt}명의 ${name}가 있군요!`
+  const activateExplain = `${region}에 ${neighborCnt > 0 ? neighborCnt : 0}명의 ${name}가 있군요!`
   const [explain, setExplain] = useState(activateExplain)
 
   const changeActivate = () => {
