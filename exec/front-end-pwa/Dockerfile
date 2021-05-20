@@ -4,7 +4,6 @@ WORKDIR /app
 COPY ./package.json ./tsconfig.json ./.eslintrc.js ./alltypes.d.ts ./
 RUN yarn install
 COPY ./ ./
-EXPOSE 3000
 # CMD ["yarn","start"]
 RUN yarn build
 
@@ -18,5 +17,5 @@ FROM nginx:1.19.10-alpine
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
+EXPOSE 443
 CMD ["nginx", "-g", "daemon off;"]
