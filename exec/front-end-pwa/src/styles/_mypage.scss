@@ -1,0 +1,254 @@
+$light_bg: #ffffff;
+$light_blue1: #61acf1;
+$light_blue2: #8ec1f1;
+$light_mint: #cde8dd;
+$light_btn: #b9d3c97a;
+
+$dark_bg: #323232;
+$dark_purple1: #d298ff;
+$dark_purple2: #a574cc;
+$dark_red: #bf5963;
+$dark_btn: #bf596369;
+$dark_btn_text: #dbd4d4;
+
+$aka: #aca9a9;
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  padding: 2%;
+  overflow:hidden;
+  .header {
+    width: 100%;
+    height: 5%;
+    padding: 0 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    button {
+      .withdraw {
+        font-size: 3.3vw;
+        font-weight: bold;
+      }
+    }
+  }
+  .body {
+    width: 100%;
+    height: 95%;
+    padding: 2% 5% 0%;
+    .my-profile {
+      width: 100%;
+      height: 35%;
+      .character-zone {
+        width: 100%;
+        height: 50%;
+        .character-circle {
+          width: 30vw;
+          height: 30vw;
+          margin: 0 auto;
+          position: relative;
+          .my-character {
+            width: 29vw;
+            margin-left: 2.5%;
+          }
+        }
+        .character-change {          
+          padding-top: 2%;
+          width: 10vw;
+          height: 10vw;
+          position: relative;
+          z-index: 2;
+          bottom: 30%;
+          left: 58%;
+          font-size: 6vw;
+          color: white;
+          border: none;
+        }
+      }
+      .nickname-zone {
+        width: 100%;
+        height: 49%;
+        margin-top: 1%;
+        * {
+          text-align: center;
+        }
+        .location {
+          visibility: visible;
+          height: 23%;
+          padding-top: 1.52%;
+          font-size: 4vw;
+          font-weight: bold;
+        }
+        .aka {
+          visibility: visible;
+          height: 15%;
+          font-size: 3.5vw;
+          font-weight: bolder;
+          color: #aca9a9;
+        }
+        .nickname {
+          height: 26%;
+          font-size: 5vw;
+          font-weight: bolder;
+        }
+        div {
+          .nicknameBtn {
+            --width: 40vw;
+            --height: calc(var(--width) / 4.5);
+            width: var(--width);
+            height: var(--height);
+            font-size: calc(var(--height) / 2.1);
+            font-weight: bolder;
+            border-radius: 0.6em;
+          }
+        }
+      }
+    }
+    .my-stat {
+      width: 100%;
+      height: 10%;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      .icon {
+        width: 8.5vw;
+      }
+      .cnt {
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+    .my-badge {
+      width: 100%;
+      height: 53%;
+      .badge-title-zone {
+        height: 8%;
+        display: grid;
+        grid-template-columns: 90% 10%;
+        margin: 3% 0 4%;
+        .badge-title {
+          height: 10%;
+          text-align: end;
+          font-size: 5.7vw;
+          font-weight: bolder;
+        }
+        button {
+          --x: 4vw;          
+          width: var(--x);
+          height: var(--x);
+          margin-left: 10%;
+          font-size: 0.6rem;
+          font-weight: bolder;
+        }
+      }
+      .badge-container {
+        width: 100%;
+        height: 84%;
+        .badge-grid {
+          width: 100%;
+          height: 100%;
+          display: grid;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          grid-template-rows: repeat(3, 33%);
+          grid-template-columns: repeat(3, 33%);
+
+          .badge-item {
+            text-align: center;
+            vertical-align: center;
+            padding-bottom: 1%;
+            .badge-icon {
+              width: 65%;
+              height: 80%;
+            }
+            .badge-name {
+              text-align: center;
+              font-size: 2.6vw;
+              font-weight: bolder;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.border {
+  border: solid 7.5px;
+  border-radius: 1rem;
+}
+
+// 모드 별 색상 전환
+.light__withdraw {
+  color: $light_blue2;
+}
+.dark__withdraw {
+  color: $dark_purple2;
+}
+
+.light__region {
+  color: $light_mint;
+}
+.dark__region {
+  color: $dark_red;
+}
+
+.light__nn__btn {
+  background-color: $light_btn;
+}
+.dark__nn__btn {
+  background-color: $dark_btn;
+  color: white;
+}
+
+.light__i__btn {
+  background-color: $light_blue2;
+}
+.dark__i__btn {
+  background-color: $dark_purple2;
+}
+
+//(보더 색)
+.light__ch__border {
+  border-color: $light_mint !important;
+}
+.dark__ch__border {
+  border-color: $dark_red !important;
+}
+.light__bs__charcter__border {
+  border-color: $light_blue1;
+}
+.dark__bs__character__border {
+  border-color: $dark_purple1;
+}
+.light__bs__badge__border {
+  border-color: $light_bg;
+}
+.dark__bs__badge__border {
+  border-color: $dark_bg;
+}
+
+// (배경 색)
+.light__bg {
+  background: white;
+  color: black;
+}
+.dark__bg {
+  background-color: $dark_bg;
+  color: white;
+}
+
+.light__bg__blue {
+  background-color: $light_blue1;
+}
+.dark__bg__purple {
+  background-color: $dark_purple1;
+}
+
+.light__bg__mint {
+  background-color: $light_mint;
+}
+.dark__bg__red {
+  background-color: $dark_red;
+}

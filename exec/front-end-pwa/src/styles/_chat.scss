@@ -1,0 +1,196 @@
+$chat_light_btn_bg_color: #93c9c7;
+$chat_light_bg_color: #ffffff;
+$chat_light_font_color: #000000;
+$chat_light_border_color: #9eebbd;
+$chat_light_input_color: #edf5f6;
+
+$chat_dark_btn_bg_color: #9f3d47;
+$chat_dark_bg_color: #323232;
+$chat_dark_font_color: #ffffff;
+$chat_dark_border_color: #d3505d;
+$chat_dark_input_color: #ff707e;
+
+$chat_nav_height: 10vh;
+$chat_content_max_height: 80%;
+$chat_input_height: 10vh;
+
+.chat__dark__mode {
+  color: $chat_dark_font_color;
+  background-color: $chat_dark_bg_color;
+  border-color: $chat_dark_border_color;
+  button {
+    border: none;
+    outline: none;
+    color: $chat_dark_font_color;
+  }
+  button.input__btn {
+    background-color: $chat_dark_btn_bg_color;
+  }
+  input {
+    background-color: $chat_dark_input_color;
+    color: inherit;
+  }
+  .chat__input__cover {
+    background-color: #d3505d;
+  }
+}
+
+.chat__light__mode {
+  color: $chat_light_font_color;
+  background-color: $chat_light_bg_color;
+  border-color: $chat_light_border_color;
+  button {
+    border: none;
+    outline: none;
+    color: $chat_light_font_color;
+  }
+  button.input__btn {
+    color: $chat_dark_font_color;
+    background-color: $chat_light_btn_bg_color;
+  }
+  input {
+    background-color: $chat_light_input_color;
+  }
+  .chat__input__cover {
+    background-color: #9eebbd;
+  }
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100vw;
+  height: 100vh;
+}
+
+.chat__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: $chat_nav_height;
+  border-bottom: 2px solid;
+  border-bottom-color: inherit;
+  padding: 3% 5%;
+  .chat__back__btn {
+    width: 4vh;
+    height: 4vh;
+    border-radius: 50%;    
+  }
+}
+
+.chat__content {
+  padding: 3% 5%;
+  height: $chat_content_max_height;
+  overflow: auto;
+}
+
+.chat__input__cover {
+  display: flex;
+  position: relative;
+  justify-content: space-around;
+  align-items: center;
+  height: $chat_input_height;
+
+  input,
+  button {
+    height: 60%;
+  }
+  input {
+    outline: none;
+    border-radius: 10px;
+    width: 60%;
+    padding: 0 2%;
+  }
+
+  button {
+    width: calc(10vh * 0.6);
+    border-radius: 50%;
+  }
+
+  div {
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    border-radius: 10px;
+  }
+  .mega__phone__btn{
+    position: relative;
+    background-image: url('../assets/message/megaphone.png');
+    background-repeat: no-repeat;
+    background-size: 70%;
+    background-position: center;
+    
+    .mega__phone__cnt {
+      width: 3.5vw;
+      height:3.5vw;
+      position:absolute;
+      font-size: .5rem;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      bottom: 0%;
+      right: 0%;
+    }
+  }
+}
+
+.light__mega__btn {
+  background-color: rgb(197, 248, 252) !important;
+}
+.light__mega__cnt {
+  background-color: rgb(66, 182, 211);
+}
+
+.dark__mega__btn {
+  background-color: rgb(246, 182, 252) !important;
+}
+.dark__mega__cnt {
+  background-color: rgb(211, 66, 192);
+}
+
+
+
+.welcome__text {
+  width: 100%;
+  font-size: 0.5rem;
+  font-weight: bolder;
+  text-align: center;
+  margin: 4% 0;
+}
+
+.mega__activate {
+  border: 2px solid rgb(143, 145, 143);
+}
+
+.mega__deactivate {
+  border: none;
+}
+
+//피드백
+.received-container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.chat__neighbor__cnt {
+  display: flex;
+  align-items: center;  
+  width: 7vw;
+  height: 7vw;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;  
+  margin-right: 2vw;
+  span {
+    margin-left: 6.5vw;
+    font-size: 0.8rem;
+  }
+}
+
+.chat__title {
+  margin-left: 2vw;
+}

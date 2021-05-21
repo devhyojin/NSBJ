@@ -1,0 +1,25 @@
+.container__404 {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  img {
+    width: 18vw;
+    margin-left: 6%;
+  }
+  p {
+    font-size: 5vw;
+    font-weight: bold;
+    margin: 0;
+  }
+}
+
+.light__bg__404 {
+  background: white;
+  color: #61acf1;
+}
+
+.dark__bg__404 {
+  background: #323232;
+  color: #bf5963;
+}
